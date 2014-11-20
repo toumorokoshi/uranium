@@ -1,4 +1,4 @@
-#!python
+#!/usr/bin/env python
 # build should be added into everyone's root level repository. build will:
 # * download and set up a virtualenv
 # * install uranium
@@ -18,28 +18,31 @@ import tarfile
 import tempfile
 
 try:
-    import urllib2.urlopen as urlopen
+    from urllib2 import urlopen as urlopen
 except:
-    import urllib.request.urlopen as urlopen
+    from urllib.request import urlopen as urlopen
 
 LOGGER = logging.getLogger(__name__)
 
 
 def main(argv):
+    LOGGER.info("installing virtualenv...")
     _install_virtualenv()
 
 
 def _install_virtualenv():
     temp_dir = tempfile.mkdtemp()
-    current_dir = os.path.expand(os.curdir)
+    current_dir = os.path.abspath(os.curdir)
     try:
         _download_virtualenv(temp_dir)
         virtualenv_dir = os.path.join(temp_dir, "virtualenv-{major}.{minor}.{rev}".format(
             major=VENV_MAJOR, minor=VENV_MINOR, rev=VENV_REV
         ))
         virtualenv_executable = os.path.join(virtualenv_dir, 'virtualenv.py')
+        os.chdir(virtualenv_dir)  # virtualenv only works in the cwd it is installed in
         subprocess.call([sys.executable, virtualenv_executable,
                          '--no-site-packages', current_dir])
+        os.chdir(current_dir)
     finally:
         shutil.rmtree(temp_dir)
 
@@ -55,7 +58,7 @@ def _download_virtualenv(target_dir=None):
 def _extract_tar(url, target_dir):
     """ Return a bytesio object with a download bar """
     LOGGER.info("Downloading url: {0}".format(url))
-    fileobj = urlopen(url)
+    fileobj = io.BytesIO(urlopen(url).read())
     tf = tarfile.TarFile.open(fileobj=fileobj)
     LOGGER.info("extracting to {0}...".format(target_dir))
     tf.extractall(target_dir)
@@ -70,6 +73,6 @@ def _create_stdout_logger():
     log.addHandler(out_hdlr)
     log.setLevel(logging.INFO)
 
-if __name__ == "main":
+if __name__ == "__main__":
     _create_stdout_logger()
     main(sys.argv)
