@@ -1,7 +1,7 @@
 """Uranium, a build system for python
 
 Usage:
-  uranium [-v]
+  uranium [<uranium_file> -v]
   uranium (-h | --help)
 
 Options:
@@ -9,8 +9,14 @@ Options:
   -v, --verbose     show verbose output
 """
 from docopt import docopt
+from .uranium import Uranium
+import sys
+
+DEFAULT_URANIUM_FILE = "uranium.yaml"
 
 
-def main(argv):
+def main(argv=sys.argv[1:]):
     options = docopt(__doc__,  argv=argv)
-    print(options)
+    uranium_file = options.get('<uranium_file>', DEFAULT_URANIUM_FILE)
+    uranium = Uranium(uranium_file)
+    uranium.run()

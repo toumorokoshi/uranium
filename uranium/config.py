@@ -2,7 +2,8 @@ import yaml
 
 
 def load_config_from_yaml(file_handle):
-    pass
+    config_dict = yaml.load(file_handle.read())
+    return Config(config_dict)
 
 
 class Config(object):
@@ -26,6 +27,9 @@ class Config(object):
         _assert_condition(errors, isinstance(self.eggs, list),
                           "eggs must be a list! found {0} instead.".format(type(self.eggs)))
         return errors
+
+    def __getitem__(self, key):
+        return self._raw_options.get(key)
 
 
 def _assert_condition(error_list, result, message):
