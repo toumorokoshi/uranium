@@ -36,3 +36,13 @@ Uranium's main file is a uranium.yaml configuration file. It looks like this:
       - zmq >= 0.1
     parts:
       zeromq:
+
+
+# TODO
+
+* does develop-eggs to a bad egg directory raise an error?
+  * it should just warn
+* support buildout plugins
+* support buildout extensions?
+* support inheritance
+* make virtualenv relocatable at the end of the build process

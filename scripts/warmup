@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-# prebuild should be added into everyone's root level repository. prebuild will:
+# warmup should be added into everyone's root level repository. warmup will:
 # * download and set up a virtualenv
 # * install uranium
+# * run uranium
 
 VENV_URL = "https://pypi.python.org/packages/source/v/virtualenv/virtualenv-{major}.{minor}.{rev}.tar.gz"
 VENV_MAJOR = 1
@@ -34,6 +35,9 @@ def main(argv):
     LOGGER.info("installing uranium...")
     _install_uranium(install_dir)
 
+    LOGGER.info("running uranium...")
+    _run_uranium(install_dir)
+
 
 def _install_virtualenv(install_dir):
     temp_dir = tempfile.mkdtemp()
@@ -55,6 +59,11 @@ def _install_virtualenv(install_dir):
 def _install_uranium(virtualenv_dir):
     pip_executable = os.path.join(virtualenv_dir, 'bin', 'pip')
     subprocess.call([pip_executable, 'install', 'uranium'])
+
+
+def _run_uranium(virtualenv_dir):
+    uranium_executable = os.path.join(virtualenv_dir, 'bin', 'uranium')
+    subprocess.call([uranium_executable])
 
 
 def _download_virtualenv(target_dir=None):

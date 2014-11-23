@@ -6,7 +6,7 @@ except:
     from distutils.core import setup
 
 setup(name='uranium',
-      version='0.0.2',
+      version='0.0.4',
       description='a build system for python',
       long_description='a build system for python',
       author='Yusuke Tsutsumi',

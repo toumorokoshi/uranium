@@ -10,5 +10,15 @@ class Uranium(object):
         self._pip = PipManager()
 
     def run(self):
-        self._pip.add_eggs(self._config.eggs)
+        self._install_eggs()
+
+    def _install_eggs(self):
+        develop_eggs = self._config.get('develop-eggs')
+        if develop_eggs:
+            self._pip.add_develop_eggs(develop_eggs)
+        self._pip.install()
+
+        eggs = self._config.get('eggs')
+        if eggs:
+            self._pip.add_eggs(eggs)
         self._pip.install()

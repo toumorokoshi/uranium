@@ -1,2 +1,11 @@
+# this is an example uranium.yaml file.
+
+# develop-eggs is a list of directories containing eggs.
+# uranium will install any eggs it can find in these directories
+develop-eggs:
+  - ../sprinter/
+
+# eggs is a list of eggs to install. If an egg is already installed
+# via develop-eggs above, it will ignore the egg declaration here.
 eggs:
   sprinter: null
