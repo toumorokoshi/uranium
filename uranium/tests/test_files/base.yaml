@@ -1,0 +1,5 @@
+index: http://my-index.local
+inherits:
+  - "./zeromq.yaml"
+phases:
+  pre-build: zeromq

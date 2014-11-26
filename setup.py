@@ -5,6 +5,19 @@ try:
 except:
     from distutils.core import setup
 
+install_requires = [
+    'docopt>=0.6.2',
+    'pip>=1.4',
+    'pyyaml',
+    'requests',
+    'virtualenv>=1.11.6',
+]
+
+tests_require = [
+    'httpretty',
+    'nose',
+]
+
 setup(name='uranium',
       version='0.0.4',
       description='a build system for python',
@@ -13,12 +26,7 @@ setup(name='uranium',
       author_email='yusuke@yusuketsutsumi.com',
       url='http://toumorokoshi.github.io/uranium',
       packages=find_packages(),
-      install_requires=[
-          'docopt>=0.6.2',
-          'pip>=1.4',
-          'virtualenv>=1.11.6',
-          'pyyaml'
-      ],
+      install_requires=install_requires,
       classifiers=[
           'Development Status :: 1 - Planning',
           'Operating System :: MacOS',
@@ -36,5 +44,5 @@ setup(name='uranium',
               'uranium=uranium:main'
           ]
       },
-      tests_require=[]
+      tests_require=tests_require
 )
