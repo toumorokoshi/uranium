@@ -11,6 +11,7 @@ install_requires = [
     'pyyaml',
     'requests',
     'virtualenv>=1.11.6',
+    'zc.buildout'
 ]
 
 tests_require = [
@@ -34,7 +35,6 @@ setup(name='uranium',
           'Topic :: System :: Software Distribution',
           'License :: OSI Approved :: MIT License',
           'Programming Language :: Python',
-          'Programming Language :: Python :: 2.6',
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
           'Programming Language :: Python :: 3.3'

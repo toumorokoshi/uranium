@@ -13,6 +13,10 @@ class PipException(Exception):
     """ Pip exception """
 
 
+class PackageNotFound(PipException):
+    pass
+
+
 class PipManager(object):
     """
     a class to manage pip
@@ -54,7 +58,7 @@ class PipManager(object):
             self._requirement_set.install([], [])
             self._requirement_set.cleanup_files()
         except DistributionNotFound:
-            raise PipException()
+            raise PackageNotFound()
 
 
     @staticmethod
