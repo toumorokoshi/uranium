@@ -32,6 +32,9 @@ def main(argv):
     LOGGER.info("installing virtualenv...")
     _install_virtualenv(install_dir)
 
+    LOGGER.info("activating virtualenv...")
+    _activate_virtualenv(install_dir)
+
     LOGGER.info("installing uranium...")
     _install_uranium(install_dir)
 
@@ -81,6 +84,25 @@ def _extract_tar(url, target_dir):
     tf = tarfile.TarFile.open(fileobj=fileobj)
     LOGGER.info("extracting to {0}...".format(target_dir))
     tf.extractall(target_dir)
+
+
+def _activate_virtualenv(install_dir):
+    # if the pyvenv launcher environment variable is set, it causes the install directory
+    # to be that directory.
+    # we want the virtualenv directory to be the one we just created, so we remove
+    # this variable
+    if '__PYVENV_LAUNCHER__' in os.environ:
+        del os.environ['__PYVENV_LAUNCHER__']
+
+    # We don't need to do this... yet.
+    # venv_activate_file = os.path.join(install_dir, 'bin', 'activate_this.py')
+    # _execute_file(venv_activate_file)
+
+
+def _execute_file(path):
+    with open(path) as f:
+        code = compile(f.read(), path, 'exec')
+        exec(code, dict(__file__=path), {})
 
 
 def _create_stdout_logger():
