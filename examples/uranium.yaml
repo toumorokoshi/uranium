@@ -9,3 +9,7 @@ develop-eggs:
 # via develop-eggs above, it will ignore the egg declaration here.
 eggs:
   sprinter: null
+
+# passing a list index will make uranium use those indexes to find eggs,
+# instead of pypi
+index: ['http://myindex.dev/']

@@ -17,7 +17,7 @@ class Uranium(object):
     def __init__(self, file_path):
         self._classloader = ClassLoader()
         self._config = load_config_from_file(file_path)
-        self._pip = PipManager()
+        self._pip = PipManager(index_urls=self._config.indexes)
         self._root = os.path.abspath(os.curdir)
 
         self._buildout = BuildoutAdapter(self)

@@ -2,6 +2,7 @@ import requests
 import yaml
 
 EGGS_KEY = "eggs"
+INDEX_KEY = "index"
 INHERITANCE_KEY = "inherits"
 
 
@@ -38,6 +39,10 @@ class Config(dict):
             return load_config_from_url(path)
         return load_config_from_file(path)
 
+    @property
+    def indexes(self):
+        return self.get('indexes')
+
     def validate(self):
         """
         returns a list of validation errors with the schema
@@ -53,6 +58,10 @@ class Config(dict):
             inheritance = self[INHERITANCE_KEY]
             _assert_condition(errors, isinstance(inheritance, list),
                               "inheritance must be a list! found {0} instead".format(type(inheritance)))
+
+        if INDEX_KEY in self:
+            _assert_condition(errors, isinstance(self[INDEX_KEY], list),
+                              "indexes must be a list! found {0} instead".format(type(inheritance)))
 
         return errors
 
