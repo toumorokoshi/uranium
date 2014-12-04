@@ -4,6 +4,7 @@ from .classloader import ClassLoader
 from .config import load_config_from_file
 from .pip_manager import PipManager
 from .buildout_adapter import BuildoutAdapter
+from .phases import (AFTER_BUILD, BEFORE_EGGS)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -15,10 +16,11 @@ class UraniumException(Exception):
 class Uranium(object):
 
     def __init__(self, file_path):
-        self._classloader = ClassLoader()
-        self._config = load_config_from_file(file_path)
-        self._pip = PipManager(index_urls=self._config.indexes)
         self._root = os.path.abspath(os.curdir)
+        self._config = load_config_from_file(file_path)
+
+        self._pip = PipManager(index_urls=self._config.indexes)
+        self._classloader = ClassLoader(self._pip)
 
         self._buildout = BuildoutAdapter(self)
 
@@ -32,13 +34,17 @@ class Uranium(object):
     def root(self):
         return self._root
 
+    @property
+    def phases(self):
+        return self.config.get('phases', {})
+
     def run(self):
-        phases = self.config.get('phases', {})
-
+        self._run_phase(BEFORE_EGGS)
         self._install_eggs()
+        self._run_phase(AFTER_BUILD)
 
-        if phases.get('post_build'):
-            self._run_sections(phases.get('post_build'))
+    def run_phase(self, phase):
+        self._run_sections(self.phases.get(phase.key, []))
 
     def _install_eggs(self):
         develop_eggs = self._config.get('develop-eggs')

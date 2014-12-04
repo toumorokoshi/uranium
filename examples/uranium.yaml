@@ -13,3 +13,10 @@ eggs:
 # passing a list index will make uranium use those indexes to find eggs,
 # instead of pypi
 index: ['http://myindex.dev/']
+
+phases:
+  before-eggs: platform-versions
+
+parts:
+  platform-versions:
+    isotope: buildout_platform_versions:run

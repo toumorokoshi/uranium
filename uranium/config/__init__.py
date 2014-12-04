@@ -33,6 +33,9 @@ class Config(dict):
     def __init__(self, raw_options):
         self._set_values(raw_options)
 
+    def get_part(self, part_name):
+        pass
+
     @staticmethod
     def load_from_path(path):
         if path.startswith('http://'):
