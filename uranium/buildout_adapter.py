@@ -24,18 +24,18 @@ class BuildoutAdapter(DictMixin):
     """
 
     def __init__(self, uranium, classloader):
-        self._uranium = uranium # a Uranium instance
+        self._uranium = uranium  # a Uranium instance
         self._classloader = classloader
 
-    def get_section_instance(self, section):
-        """ get an instantiated plugin for the section name specified """
-        cls = self._get_recipe_class(section.get('recipe'))
-        return cls(self, section.name, section)
+    def get_part_instance(self, part):
+        """ get an instantiated plugin for the part name specified """
+        cls = self._get_recipe_class(part.get('recipe'))
+        return cls(self, part.name, part)
 
     @staticmethod
-    def install_section(self, section):
+    def install_part(self, part):
         try:
-            section.install()
+            part.install()
         except zc.buildout.UserError as e:
             LOGGER.error(str(e))
 

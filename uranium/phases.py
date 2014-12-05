@@ -7,4 +7,4 @@ from collection import namedtuple
 Phase = namedtuple('Phase', ['key'])
 
 BEFORE_EGGS = Phase('before-eggs')
-AFTER_BUILD = Phase('after-build')
+AFTER_EGGS = Phase('after-eggs')

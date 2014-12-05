@@ -4,7 +4,7 @@ from .classloader import ClassLoader
 from .config import load_config_from_file
 from .pip_manager import PipManager
 from .buildout_adapter import BuildoutAdapter
-from .phases import (AFTER_BUILD, BEFORE_EGGS)
+from .phases import (AFTER_EGGS, BEFORE_EGGS)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -41,10 +41,12 @@ class Uranium(object):
     def run(self):
         self._run_phase(BEFORE_EGGS)
         self._install_eggs()
-        self._run_phase(AFTER_BUILD)
+        self._run_phase(AFTER_EGGS)
 
     def run_phase(self, phase):
-        self._run_sections(self.phases.get(phase.key, []))
+        part_names = self.phases.get(phase.key, [])
+        for name in part_names:
+            self._run_part(name, phase)
 
     def _install_eggs(self):
         develop_eggs = self._config.get('develop-eggs')
@@ -57,12 +59,10 @@ class Uranium(object):
             self._pip.add_eggs(eggs)
         self._pip.install()
 
-    def _run_sections(self, section_names):
-        for name in section_names:
-            self._run_section(name)
-
-    def _run_section(self, name):
-        section = self.config.get_section(name)
-        if section.is_recipe:
-            section_instance = self._buildout.get_section_instance(section)
-            self._buildout.install_section(section_instance)
+    def _run_part(self, name, phase):
+        part = self.config.get_part(name)
+        if part.is_recipe:
+            section_instance = self._buildout.get_part_instance(part)
+            self._buildout.install_part(section_instance)
+        elif part.is_isotope:
+            pass

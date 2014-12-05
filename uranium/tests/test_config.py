@@ -1,13 +1,14 @@
 import httpretty
 import os
 from uranium import config as u_config
+from uranium.config import Config, Part
 from nose.tools import ok_, eq_
 
 FILEDIR = os.path.dirname(__file__)
 TEST_DIR = os.path.join(FILEDIR, "test_files")
 
 
-class TestConfig(object):
+class TestConfigInheritance(object):
 
     def setUp(self):
         self.old_dir = os.path.abspath(os.curdir)
@@ -48,3 +49,21 @@ inherits:
     config = u_config.load_config_from_string(INHERITS_YAML)
     eq_(config.get("index"), "http://localpypi.local",
         "index should have been loaded from base found online")
+
+
+def test_get_part():
+    config_dict = {
+        'phases': {
+            'after-eggs': ['unit', 'test']
+        },
+        'parts': {
+            'test': {
+                'recipe': 'yt.recipe.shell',
+                'script': './bin/nosetests',
+                'name': 'test'
+            }
+        }
+    }
+    config = u_config.Config(config_dict)
+    part = config.get_part('test')
+    eq_(part, Part('test', config_dict['parts']))

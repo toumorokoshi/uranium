@@ -1,5 +1,6 @@
 import requests
 import yaml
+from .part import Part
 
 EGGS_KEY = "eggs"
 INDEX_KEY = "index"
