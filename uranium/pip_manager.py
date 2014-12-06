@@ -51,8 +51,6 @@ class PipManager(object):
             self._requirement_set.prepare_files(self._finder)
             self._requirement_set.install([], [])
             self._requirement_set.cleanup_files()
-            rs = self._requirement_set
-            import pdb; pdb.set_trace()
         except DistributionNotFound:
             raise PackageNotFound()
 
