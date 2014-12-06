@@ -41,19 +41,18 @@ class ClassLoader(object):
         # look for module
         # if it doesn't exist, download from pip
         # return module or raise exception?
-        module = importlib.import_module(module_path)
-        if not module:
+        try:
+            return importlib.import_module(module_path)
+        except ImportError:
             try:
-                self._pip.add_eggs([module])
+                self._pip.add_eggs({module_path: None})
                 self._pip.install()
-                module = importlib.import_module(module_path)
-            except PackageNotFound:
+                return importlib.import_module(module_path)
+            except (PackageNotFound, ImportError):
                 raise ClassLoaderException(
                     "unable to find module or python package "
                     "{0}".format(module_path)
                 )
-
-        return module
 
 
 def _get_classes_from_module(module):

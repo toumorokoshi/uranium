@@ -8,12 +8,12 @@ class Part(dict):
     @property
     def is_recipe(self):
         """ returns true if this part is a buildout recipe """
-        return 'recipe' in self.options
+        return 'recipe' in self
 
     @property
     def is_isotope(self):
         """ returns true if this part is an isotope """
-        return 'isotope' in self.options
+        return 'isotope' in self
 
     def __eq__(self, other):
         if self.name != other.name:

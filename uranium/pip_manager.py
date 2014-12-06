@@ -33,6 +33,7 @@ class PipManager(object):
 
         self._finder = self._create_package_finder(index_urls)
         self._requirement_set = self._create_requirement_set()
+        self._develop_egg_original_paths = {}
 
     def add_eggs(self, egg_name_list):
         for egg_name, version in egg_name_list.items():
@@ -45,15 +46,16 @@ class PipManager(object):
             egg_path = _expand_dir(egg_path)
             egg_requirement = InstallRequirement.from_editable(egg_path)
             self._requirement_set.add_requirement(egg_requirement)
+            self._develop_egg_original_paths[egg_path] = egg_requirement
 
     def install(self):
         try:
             self._requirement_set.prepare_files(self._finder)
             self._requirement_set.install([], [])
+            self._restore_source_dirs_in_develop_eggs()
             self._requirement_set.cleanup_files()
         except DistributionNotFound:
             raise PackageNotFound()
-
 
     @staticmethod
     def _create_package_finder(index_urls):
@@ -69,11 +71,19 @@ class PipManager(object):
             session=PipSession()
         )
 
+    def _restore_source_dirs_in_develop_eggs(self):
+        """
+        a workaround for a bug in pip that resets the source_dir directory of
+        a develop egg after install
+        """
+        for source_dir, requirement in self._develop_egg_original_paths.items():
+            requirement.source_dir = source_dir
+
 
 def _expand_dir(directory):
     directory = os.path.expanduser(directory)
     directory = os.path.abspath(directory)
-    return directory
+    return "file:" + directory
 
 
 def _ensure_directory(directory):

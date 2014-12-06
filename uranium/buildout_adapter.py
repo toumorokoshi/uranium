@@ -33,7 +33,7 @@ class BuildoutAdapter(DictMixin):
         return cls(self, part.name, part)
 
     @staticmethod
-    def install_part(self, part):
+    def install_part(part):
         try:
             part.install()
         except zc.buildout.UserError as e:

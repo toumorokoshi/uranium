@@ -48,7 +48,11 @@ class Uranium(object):
         develop_eggs = self._config.get('develop-eggs')
         if develop_eggs:
             self._pip.add_develop_eggs(develop_eggs)
-        self._pip.install()
+        # for some reason install can only be run once
+        # it seems to be related to the packages being installed,
+        # then attempting to install them again with the same
+        # packagemanager
+        # self._pip.install()
 
         eggs = self._config.get('eggs')
         if eggs:
@@ -58,7 +62,7 @@ class Uranium(object):
     def _run_part(self, name, phase):
         part = self._config.get_part(name)
         if part.is_recipe:
-            section_instance = self._buildout.get_part_instance(part)
-            self._buildout.install_part(section_instance)
+            part_instance = self._buildout.get_part_instance(part)
+            self._buildout.install_part(part_instance)
         elif part.is_isotope:
             pass
