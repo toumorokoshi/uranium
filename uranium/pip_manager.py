@@ -83,7 +83,7 @@ class PipManager(object):
 def _expand_dir(directory):
     directory = os.path.expanduser(directory)
     directory = os.path.abspath(directory)
-    return "file:" + directory
+    return directory
 
 
 def _ensure_directory(directory):
