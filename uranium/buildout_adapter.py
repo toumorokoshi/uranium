@@ -39,6 +39,9 @@ class BuildoutAdapter(DictMixin):
         except zc.buildout.UserError as e:
             LOGGER.error(str(e))
 
+    def _get_recipe_class(self, recipe_name):
+        return self._classloader.get_class(recipe_name)
+
     def __getitem__(self, key):
         if key == "buildout":
             return self._buildout()
@@ -47,6 +50,12 @@ class BuildoutAdapter(DictMixin):
         pass
 
     def __delitem__(self, key):
+        pass
+
+    def __iter__(self):
+        pass
+
+    def __len__(self):
         pass
 
     def _buildout(self):

@@ -22,7 +22,7 @@ class Uranium(object):
         self._pip = PipManager(index_urls=self._config.indexes)
         self._classloader = ClassLoader(self._pip)
 
-        self._buildout = BuildoutAdapter(self)
+        self._buildout = BuildoutAdapter(self, self._classloader)
 
         errors = self._config.validate()
         if errors:
@@ -34,17 +34,13 @@ class Uranium(object):
     def root(self):
         return self._root
 
-    @property
-    def phases(self):
-        return self.config.get('phases', {})
-
     def run(self):
-        self._run_phase(BEFORE_EGGS)
+        self.run_phase(BEFORE_EGGS)
         self._install_eggs()
-        self._run_phase(AFTER_EGGS)
+        self.run_phase(AFTER_EGGS)
 
     def run_phase(self, phase):
-        part_names = self.phases.get(phase.key, [])
+        part_names = self._config.phases.get(phase.key, [])
         for name in part_names:
             self._run_part(name, phase)
 
@@ -60,7 +56,7 @@ class Uranium(object):
         self._pip.install()
 
     def _run_part(self, name, phase):
-        part = self.config.get_part(name)
+        part = self._config.get_part(name)
         if part.is_recipe:
             section_instance = self._buildout.get_part_instance(part)
             self._buildout.install_part(section_instance)

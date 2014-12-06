@@ -1,10 +1,9 @@
 import os
-import sys
 from pip.index import PackageFinder
 from pip.req import InstallRequirement, RequirementSet
 from pip.locations import build_prefix, src_prefix
 from pip.exceptions import DistributionNotFound
-from pip.log import logger
+from pip.download import PipSession
 
 DEFAULT_INDEX_URLS = ['https://pypi.python.org/simple/']
 
@@ -35,9 +34,6 @@ class PipManager(object):
         self._finder = self._create_package_finder(index_urls)
         self._requirement_set = self._create_requirement_set()
 
-        if verbose:
-            add_pip_log_messages()
-
     def add_eggs(self, egg_name_list):
         for egg_name, version in egg_name_list.items():
             if not self._requirement_set.has_requirement(egg_name):
@@ -52,11 +48,11 @@ class PipManager(object):
 
     def install(self):
         try:
-            self._requirement_set.prepare_files(self._finder,
-                                                force_root_egg_info=False,
-                                                bundle=False)
+            self._requirement_set.prepare_files(self._finder)
             self._requirement_set.install([], [])
             self._requirement_set.cleanup_files()
+            rs = self._requirement_set
+            import pdb; pdb.set_trace()
         except DistributionNotFound:
             raise PackageNotFound()
 
@@ -64,13 +60,15 @@ class PipManager(object):
     @staticmethod
     def _create_package_finder(index_urls):
         return PackageFinder(find_links=[],
-                             index_urls=index_urls)
+                             index_urls=index_urls,
+                             session=PipSession())
 
     @staticmethod
     def _create_requirement_set():
         return RequirementSet(
             build_dir=build_prefix, src_dir=src_prefix,
-            download_dir=None, upgrade=True
+            download_dir=None, upgrade=True,
+            session=PipSession()
         )
 
 
@@ -83,12 +81,3 @@ def _expand_dir(directory):
 def _ensure_directory(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
-
-
-def add_pip_log_messages():
-    complete_log = []
-    NOTIFY_LEVEL = logger.level_for_integer(4 - 1)
-    logger.add_consumers(
-        (NOTIFY_LEVEL, sys.stdout),
-        (logger.DEBUG, complete_log.append),
-    )

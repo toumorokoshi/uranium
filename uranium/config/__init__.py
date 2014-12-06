@@ -3,8 +3,9 @@ import yaml
 from .part import Part
 
 EGGS_KEY = "eggs"
-INDEX_KEY = "index"
+INDEX_KEY = "indexes"
 INHERITANCE_KEY = "inherits"
+PHASES_KEY = "phases"
 
 
 def load_config_from_string(string):
@@ -35,7 +36,7 @@ class Config(dict):
         self._set_values(raw_options)
 
     def get_part(self, part_name):
-        pass
+        return Part(part_name, self.parts[part_name])
 
     @staticmethod
     def load_from_path(path):
@@ -45,7 +46,15 @@ class Config(dict):
 
     @property
     def indexes(self):
-        return self.get('indexes')
+        return self.get(INDEX_KEY)
+
+    @property
+    def phases(self):
+        return self.get(PHASES_KEY)
+
+    @property
+    def parts(self):
+        return self.get('parts')
 
     def validate(self):
         """

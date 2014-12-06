@@ -2,7 +2,7 @@
 Contains core dependencies
 """
 from __future__ import unicode_literals
-from collection import namedtuple
+from collections import namedtuple
 
 Phase = namedtuple('Phase', ['key'])
 

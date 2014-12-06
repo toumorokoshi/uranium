@@ -66,4 +66,4 @@ def test_get_part():
     }
     config = u_config.Config(config_dict)
     part = config.get_part('test')
-    eq_(part, Part('test', config_dict['parts']))
+    eq_(part, Part('test', config_dict['parts']['test']))

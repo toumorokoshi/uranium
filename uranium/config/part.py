@@ -18,4 +18,4 @@ class Part(dict):
     def __eq__(self, other):
         if self.name != other.name:
             return False
-        return super(self).__eq__(other)
+        return super(Part, self).__eq__(other)
