@@ -7,8 +7,15 @@ plugins allow additional functionality to be added to uranium.
 
 class ExamplePlugin(object):
 
-    def __init__(self, uranium, name, options, phase=None, **ignore):
-        self.uranium, self.name, self.options = uranium, name, options
+    def __init__(self, uranium, part):
+        self.uranium = uranium
+        self.part = part
+        self.egg_spec = part['versions']
 
     def install(self):
-        pass
+        for egg, version in self.egg_spec.items():
+            if egg in self.uranium.config.versions:
+                continue
+            self.uranium.config.versions[egg] = version
+
+    update = install

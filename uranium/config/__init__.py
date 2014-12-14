@@ -1,11 +1,13 @@
 import requests
 import yaml
-from .part import Part
+from ..part import Part
 
+DEVELOP_EGGS_KEY = "develop-eggs"
 EGGS_KEY = "eggs"
 INDEX_KEY = "indexes"
 INHERITANCE_KEY = "inherits"
 PHASES_KEY = "phases"
+VERSIONS_KEY = "versions"
 
 
 def load_config_from_string(string):
@@ -45,6 +47,14 @@ class Config(dict):
         return load_config_from_file(path)
 
     @property
+    def eggs(self):
+        return self.get(EGGS_KEY, {})
+
+    @property
+    def develop_eggs(self):
+        return self.get(DEVELOP_EGGS_KEY, {})
+
+    @property
     def indexes(self):
         return self.get(INDEX_KEY)
 
@@ -55,6 +65,12 @@ class Config(dict):
     @property
     def parts(self):
         return self.get('parts')
+
+    @property
+    def versions(self):
+        if VERSIONS_KEY not in self:
+            self[VERSIONS_KEY] = {}
+        return self[VERSIONS_KEY]
 
     def validate(self):
         """

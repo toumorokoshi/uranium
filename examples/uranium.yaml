@@ -20,3 +20,9 @@ phases:
 parts:
   platform-versions:
     isotope: buildout_platform_versions:run
+
+# versions allows you to specify the version for an egg. this will not install the
+# egg. this is useful in the situation where you require a specific dependency to
+# be at a specific version, separate from a setup.py
+versions:
+  requests: 2.5.1

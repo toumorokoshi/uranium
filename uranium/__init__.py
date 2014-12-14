@@ -15,6 +15,8 @@ path to a <uranium_file>
 """
 from docopt import docopt
 from .uranium import Uranium
+from .config import load_config_from_file
+import os
 import sys
 
 DEFAULT_URANIUM_FILE = "uranium.yaml"
@@ -25,3 +27,9 @@ def main(argv=sys.argv[1:]):
     uranium_file = options['<uranium_file>'] or DEFAULT_URANIUM_FILE
     uranium = Uranium(uranium_file)
     uranium.run()
+
+
+def _get_uranium(uranium_file):
+    root = os.path.abspath(os.curdir)
+    config = load_config_from_file(uranium_file)
+    return Uranium(config, root)
