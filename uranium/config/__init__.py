@@ -1,6 +1,8 @@
 import requests
 import yaml
 from ..part import Part
+from .eggs import Eggs
+from .indexes import Indexes
 
 DEVELOP_EGGS_KEY = "develop-eggs"
 EGGS_KEY = "eggs"
@@ -36,6 +38,25 @@ class Config(dict):
 
     def __init__(self, raw_options):
         self._set_values(raw_options)
+        self._initialize()
+
+    def _initialize(self):
+        self._invoke_bases('_initialize')
+
+    def validate(self):
+        """
+        returns a list of validation errors with the schema
+        of the configuration
+        """
+        errors = []
+        self._invoke_bases('_validate', errors)
+        return errors
+
+    def _invoke_bases(self, method_name, *args):
+        bases = type(self).__bases__
+        for cls in bases:
+            if hasattr(cls, method_name):
+                getattr(cls, method_name)(self, *args)
 
     def get_part(self, part_name):
         return Part(part_name, self.parts[part_name])
@@ -47,16 +68,8 @@ class Config(dict):
         return load_config_from_file(path)
 
     @property
-    def eggs(self):
-        return self.get(EGGS_KEY, {})
-
-    @property
     def develop_eggs(self):
         return self.get(DEVELOP_EGGS_KEY, {})
-
-    @property
-    def indexes(self):
-        return self.get(INDEX_KEY)
 
     @property
     def phases(self):
@@ -71,28 +84,6 @@ class Config(dict):
         if VERSIONS_KEY not in self:
             self[VERSIONS_KEY] = {}
         return self[VERSIONS_KEY]
-
-    def validate(self):
-        """
-        returns a list of validation errors with the schema
-        of the configuration
-        """
-        errors = []
-        if EGGS_KEY in self:
-            eggs = self[EGGS_KEY]
-            _assert_condition(errors, isinstance(eggs, dict),
-                              "eggs must be a dict! found {0} instead.".format(type(eggs)))
-
-        if INHERITANCE_KEY in self:
-            inheritance = self[INHERITANCE_KEY]
-            _assert_condition(errors, isinstance(inheritance, list),
-                              "inheritance must be a list! found {0} instead".format(type(inheritance)))
-
-        if INDEX_KEY in self:
-            _assert_condition(errors, isinstance(self[INDEX_KEY], list),
-                              "indexes must be a list! found {0} instead".format(type(inheritance)))
-
-        return errors
 
     def _set_values(self, raw_options):
         """
@@ -112,14 +103,19 @@ class Config(dict):
         _recursive_merge(self, raw_options)
 
 
-def _assert_condition(error_list, result, message):
-    if not result:
-        error_list.append(message)
-
-
 def _recursive_merge(to_dict, from_dict):
     for key, value in from_dict.items():
         if key not in to_dict:
             to_dict[key] = value
         elif isinstance(to_dict[key], dict) and isinstance(value, dict):
             _recursive_merge(to_dict[key], value)
+
+
+def _fold_in_classes(cls, class_list):
+    # this is pretty hacky. it appends the class to the very end,
+    # so the MRO is invalid when cls inherits from a class that a
+    # class in class_list also inherits from.
+    for c in class_list:
+        cls.__bases__ += c,
+
+_fold_in_classes(Config, [Eggs, Indexes])
