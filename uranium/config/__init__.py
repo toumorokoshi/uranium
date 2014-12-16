@@ -1,15 +1,14 @@
 import requests
 import yaml
 from ..part import Part
+from .develop_eggs import DevelopEggs
 from .eggs import Eggs
 from .indexes import Indexes
+from .parts import Parts
+from .phases import Phases
+from .versions import Versions
 
-DEVELOP_EGGS_KEY = "develop-eggs"
-EGGS_KEY = "eggs"
-INDEX_KEY = "indexes"
 INHERITANCE_KEY = "inherits"
-PHASES_KEY = "phases"
-VERSIONS_KEY = "versions"
 
 
 def load_config_from_string(string):
@@ -31,17 +30,23 @@ def load_config_from_url(url):
     return load_config_from_string(content)
 
 
-class Config(dict):
+class Config(dict,
+             DevelopEggs, Eggs, Indexes,
+             Parts, Phases, Versions):
     """
     The config object that store configuration.
+
+    The general though behind the implementation is to subdivide
+    functionality regarding specific subattributes of the config to
+    mixins.
     """
 
     def __init__(self, raw_options):
         self._set_values(raw_options)
         self._initialize()
 
-    def _initialize(self):
-        self._invoke_bases('_initialize')
+    def get_part(self, part_name):
+        return Part(part_name, self.parts[part_name])
 
     def validate(self):
         """
@@ -52,38 +57,20 @@ class Config(dict):
         self._invoke_bases('_validate', errors)
         return errors
 
-    def _invoke_bases(self, method_name, *args):
-        bases = type(self).__bases__
-        for cls in bases:
-            if hasattr(cls, method_name):
-                getattr(cls, method_name)(self, *args)
-
-    def get_part(self, part_name):
-        return Part(part_name, self.parts[part_name])
-
     @staticmethod
     def load_from_path(path):
         if path.startswith('http://'):
             return load_config_from_url(path)
         return load_config_from_file(path)
 
-    @property
-    def develop_eggs(self):
-        return self.get(DEVELOP_EGGS_KEY, {})
+    def _initialize(self):
+        self._invoke_bases('_initialize')
 
-    @property
-    def phases(self):
-        return self.get(PHASES_KEY)
-
-    @property
-    def parts(self):
-        return self.get('parts')
-
-    @property
-    def versions(self):
-        if VERSIONS_KEY not in self:
-            self[VERSIONS_KEY] = {}
-        return self[VERSIONS_KEY]
+    def _invoke_bases(self, method_name, *args):
+        bases = type(self).__bases__
+        for cls in bases:
+            if hasattr(cls, method_name):
+                getattr(cls, method_name)(self, *args)
 
     def _set_values(self, raw_options):
         """
@@ -109,13 +96,3 @@ def _recursive_merge(to_dict, from_dict):
             to_dict[key] = value
         elif isinstance(to_dict[key], dict) and isinstance(value, dict):
             _recursive_merge(to_dict[key], value)
-
-
-def _fold_in_classes(cls, class_list):
-    # this is pretty hacky. it appends the class to the very end,
-    # so the MRO is invalid when cls inherits from a class that a
-    # class in class_list also inherits from.
-    for c in class_list:
-        cls.__bases__ += c,
-
-_fold_in_classes(Config, [Eggs, Indexes])
