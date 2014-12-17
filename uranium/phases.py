@@ -8,3 +8,6 @@ Phase = namedtuple('Phase', ['key'])
 
 BEFORE_EGGS = Phase('before-eggs')
 AFTER_EGGS = Phase('after-eggs')
+
+PHASES = [BEFORE_EGGS, AFTER_EGGS]
+PHASES_DICT = dict((p.key, p) for p in PHASES)

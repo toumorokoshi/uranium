@@ -53,9 +53,9 @@ class Config(dict,
         returns a list of validation errors with the schema
         of the configuration
         """
-        errors = []
-        self._invoke_bases('_validate', errors)
-        return errors
+        warnings, errors = [], []
+        self._invoke_bases('_validate', warnings, errors)
+        return warnings, errors
 
     @staticmethod
     def load_from_path(path):

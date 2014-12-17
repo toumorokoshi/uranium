@@ -24,7 +24,9 @@ class Uranium(object):
         self._buildout = BuildoutAdapter(self, self._classloader)
         self._isotope = IsotopeRunner(self, self._classloader)
 
-        errors = self._config.validate()
+        warnings, errors = self._config.validate()
+        for warning in warnings:
+            LOGGER.warn(warning)
         if errors:
             for error in errors:
                 LOGGER.error(error)
