@@ -3,17 +3,16 @@ from .utils import get_valid_config
 from nose.tools import eq_
 
 
-class TestPhases(object):
+class TestVersions(object):
 
     def setUp(self):
         config = get_valid_config()
-        config['phases'] = {
-            'before-eggs': []
-        }
         self.config_dict = config
         self.config = Config(config)
 
     def test_invalid_phase_name(self):
-        self.config_dict['phases']['oogabooga'] = []
+        self.config['eggs'] = {
+            'sprinter': "@!} whaat"
+        }
         warnings, errors = self.config.validate()
-        eq_(len(warnings), 1)
+        eq_(len(errors), 1)

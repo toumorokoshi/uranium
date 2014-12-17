@@ -1,4 +1,4 @@
-from .utils import assert_condition
+from .utils import assert_condition, validate_version_dict
 
 KEY = "eggs"
 
@@ -13,6 +13,8 @@ class Eggs(object):
             errors, isinstance(self[KEY], dict),
             "eggs must be a dict! found {0} instead.".format(type(self[KEY]))
         )
+
+        validate_version_dict(self.eggs, errors)
 
     @property
     def eggs(self):
