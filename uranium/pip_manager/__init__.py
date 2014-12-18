@@ -1,9 +1,10 @@
 import os
 from pip.index import PackageFinder
-from pip.req import InstallRequirement, RequirementSet
+from pip.req import InstallRequirement
 from pip.locations import build_prefix, src_prefix
 from pip.exceptions import DistributionNotFound
 from pip.download import PipSession
+from .req_set import UraniumRequirementSet
 
 DEFAULT_INDEX_URLS = ['https://pypi.python.org/simple/']
 
@@ -28,11 +29,11 @@ class PipManager(object):
     when uranium is running outside a sandbox.
     """
 
-    def __init__(self, index_urls=None, verbose=True):
+    def __init__(self, index_urls=None, verbose=True, versions=None):
         index_urls = index_urls or DEFAULT_INDEX_URLS
 
         self._finder = self._create_package_finder(index_urls)
-        self._requirement_set = self._create_requirement_set()
+        self._requirement_set = self._create_requirement_set(versions)
         self._develop_egg_original_paths = {}
 
     def add_eggs(self, egg_name_list):
@@ -64,12 +65,15 @@ class PipManager(object):
                              session=PipSession())
 
     @staticmethod
-    def _create_requirement_set():
-        return RequirementSet(
+    def _create_requirement_set(versions=None):
+        requirement_set = UraniumRequirementSet(
             build_dir=build_prefix, src_dir=src_prefix,
             download_dir=None, upgrade=True,
             session=PipSession()
         )
+        if versions:
+            requirement_set.uranium_versions = versions
+        return requirement_set
 
     def _restore_source_dirs_in_develop_eggs(self):
         """

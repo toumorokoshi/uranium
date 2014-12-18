@@ -18,19 +18,14 @@ class Uranium(object):
         self._root = root
         self._config = config
 
-        self._pip = PipManager(index_urls=self._config.indexes)
+        self._pip = PipManager(index_urls=self._config.indexes,
+                               versions=self.config.versions)
         self._classloader = ClassLoader(self._pip)
 
         self._buildout = BuildoutAdapter(self, self._classloader)
         self._isotope = IsotopeRunner(self, self._classloader)
 
-        warnings, errors = self._config.validate()
-        for warning in warnings:
-            LOGGER.warn(warning)
-        if errors:
-            for error in errors:
-                LOGGER.error(error)
-            raise UraniumException("uranium.yaml is not valid.")
+        self._validate_config()
 
     @property
     def config(self):
@@ -45,10 +40,18 @@ class Uranium(object):
         self._install_eggs()
         self.run_phase(AFTER_EGGS)
 
+    def run_part(self, name):
+        part = self._config.get_part(name)
+
+        runner = self._buildout if part.is_recipe else self._isotope
+
+        part_instance = runner.get_part_instance(part)
+        runner.install_part(part_instance)
+
     def run_phase(self, phase):
         part_names = self._config.phases.get(phase.key, [])
         for name in part_names:
-            self.run_part(name, phase)
+            self.run_part(name)
 
     def _install_eggs(self):
         develop_eggs = self._config.get('develop-eggs')
@@ -65,10 +68,11 @@ class Uranium(object):
             self._pip.add_eggs(eggs)
         self._pip.install()
 
-    def run_part(self, name):
-        part = self._config.get_part(name)
-
-        runner = self._buildout if part.is_recipe else self._isotope
-
-        part_instance = runner.get_part_instance(part)
-        runner.install_part(part_instance)
+    def _validate_config(self):
+        warnings, errors = self._config.validate()
+        for warning in warnings:
+            LOGGER.warn(warning)
+        if errors:
+            for error in errors:
+                LOGGER.error(error)
+            raise UraniumException("uranium.yaml is not valid.")

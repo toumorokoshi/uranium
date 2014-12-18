@@ -25,7 +25,7 @@ DEFAULT_URANIUM_FILE = "uranium.yaml"
 def main(argv=sys.argv[1:]):
     options = docopt(__doc__,  argv=argv)
     uranium_file = options['<uranium_file>'] or DEFAULT_URANIUM_FILE
-    uranium = Uranium(uranium_file)
+    uranium = _get_uranium(uranium_file)
     uranium.run()
 
 

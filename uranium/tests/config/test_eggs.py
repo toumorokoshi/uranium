@@ -10,7 +10,7 @@ class TestVersions(object):
         self.config_dict = config
         self.config = Config(config)
 
-    def test_invalid_phase_name(self):
+    def test_invalid_version_spec(self):
         self.config['eggs'] = {
             'sprinter': "@!} whaat"
         }

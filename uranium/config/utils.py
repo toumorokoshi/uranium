@@ -8,6 +8,9 @@ def assert_condition(error_list, result, message):
 
 def validate_version_dict(version_dict, errors):
     for egg, version in version_dict.items():
+        if not version:
+            continue
+
         requirement = "{0} {1}".format(egg, version)
         try:
             Requirement.parse(requirement)
