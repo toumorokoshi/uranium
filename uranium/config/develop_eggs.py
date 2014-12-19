@@ -6,7 +6,7 @@ KEY = "develop-eggs"
 class DevelopEggs(object):
 
     def _initialize(self):
-        self[KEY] = self.get(KEY, {})
+        self[KEY] = self.get(KEY, [])
 
     def _validate(self, warnings, errors):
         assert_condition(
