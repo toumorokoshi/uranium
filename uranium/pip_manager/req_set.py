@@ -13,7 +13,7 @@ class UraniumRequirementSet(RequirementSet):
     def add_requirement(self, install_req):
         if not install_req.editable:
             self._uranium_rectify_versions(install_req)
-        super(RequirementSet, self).add_requirement(install_req)
+        super(UraniumRequirementSet, self).add_requirement(install_req)
 
     def _uranium_rectify_versions(self, install_req):
         name = install_req.req.project_name
