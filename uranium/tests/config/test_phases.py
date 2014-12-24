@@ -1,5 +1,5 @@
 from uranium.config import Config
-from .utils import get_valid_config
+from uranium.tests.utils import get_valid_config
 from nose.tools import eq_
 
 
