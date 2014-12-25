@@ -25,6 +25,7 @@ bin/
 lib64
 pyvenv.cfg
 venv
+include/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

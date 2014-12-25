@@ -1,0 +1,12 @@
+phases:
+  after-eggs: ['unit']
+eggs:
+  coverage: null
+  httpretty: null
+  mock: null
+  nose: null
+parts:
+  unit:
+    recipe: yt.recipe.shell
+    script: "./bin/nosetests -a '!full' --with-coverage --cover-package=uranium"
+    name: unit

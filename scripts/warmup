@@ -9,6 +9,7 @@ VENV_MAJOR = 1
 VENV_MINOR = 11
 VENV_REV = 6
 
+import argparse
 import io
 import logging
 import os
@@ -25,8 +26,14 @@ except:
 
 LOGGER = logging.getLogger(__name__)
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--no-uranium", help="don't install uranium.",
+                    action="store_false", dest="with_uranium")
+
 
 def main(argv):
+    args = parser.parse_args(argv)
+
     install_dir = os.path.abspath(os.curdir)
 
     LOGGER.info("installing virtualenv...")
@@ -35,11 +42,12 @@ def main(argv):
     LOGGER.info("activating virtualenv...")
     _activate_virtualenv(install_dir)
 
-    LOGGER.info("installing uranium...")
-    _install_uranium(install_dir)
+    if args.with_uranium:
+        LOGGER.info("installing uranium...")
+        _install_uranium(install_dir)
 
-    LOGGER.info("running uranium...")
-    _run_uranium(install_dir)
+        LOGGER.info("running uranium...")
+        _run_uranium(install_dir)
 
 
 def _install_virtualenv(install_dir):
@@ -116,4 +124,4 @@ def _create_stdout_logger():
 
 if __name__ == "__main__":
     _create_stdout_logger()
-    main(sys.argv)
+    main(sys.argv[1:])
