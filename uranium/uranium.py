@@ -1,4 +1,5 @@
 import logging
+import os
 from .classloader import ClassLoader
 from .pip_manager import PipManager
 from .buildout_adapter import BuildoutAdapter
@@ -36,6 +37,7 @@ class Uranium(object):
         return self._root
 
     def run(self):
+        self._create_bin_directory()
         self.run_phase(BEFORE_EGGS)
         self._install_eggs()
         self.run_phase(AFTER_EGGS)
@@ -52,6 +54,11 @@ class Uranium(object):
         part_names = self._config.phases.get(phase.key, [])
         for name in part_names:
             self.run_part(name)
+
+    def _create_bin_directory(self):
+        bin_directory = os.path.join(self._root, 'bin')
+        if not os.path.exists(bin_directory):
+            os.makedirs(bin_directory)
 
     def _install_eggs(self):
         develop_eggs = self._config.get('develop-eggs')

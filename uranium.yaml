@@ -8,9 +8,9 @@ eggs:
 parts:
   unit:
     recipe: yt.recipe.shell
-    script: "./bin/nosetests -a '!full' --with-coverage --cover-package=uranium"
+    script: "./bin/nosetests -a '!full' --with-coverage --cover-package=uranium $1"
     name: unit
   test:
     recipe: yt.recipe.shell
-    script: "./bin/nosetests --with-coverage --cover-package=uranium"
+    script: "./bin/nosetests --with-coverage --cover-package=uranium $1"
     name: test
