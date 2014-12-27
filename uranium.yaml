@@ -1,5 +1,5 @@
 phases:
-  after-eggs: ['unit']
+  after-eggs: ['unit', 'test']
 eggs:
   coverage: null
   httpretty: null
@@ -10,3 +10,7 @@ parts:
     recipe: yt.recipe.shell
     script: "./bin/nosetests -a '!full' --with-coverage --cover-package=uranium"
     name: unit
+  test:
+    recipe: yt.recipe.shell
+    script: "./bin/nosetests --with-coverage --cover-package=uranium"
+    name: test
