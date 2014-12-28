@@ -5,6 +5,7 @@ from nose.tools import ok_
 
 BUILDOUT_SCRIPT_TEXT = "./bin/nosetests -a '!full' --with-coverage --cover-package=sprinter"
 
+
 @attr(full=True)
 class TestBuildoutRecipe(BaseBuildoutTest):
 

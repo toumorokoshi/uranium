@@ -23,5 +23,5 @@ class IsotopeRunner(object):
     def remove_part(isotope):
         pass
 
-    def _get_isotope_class(self, recipe_name):
-        return self._classloader.get_class(recipe_name)
+    def _get_isotope_class(self, isotope_name):
+        return self._classloader.get_class_from_spec(isotope_name)
