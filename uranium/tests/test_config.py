@@ -1,7 +1,7 @@
 import httpretty
 import os
 from uranium import config as u_config
-from uranium.config import Config, Part
+from uranium.config import Part
 from nose.tools import ok_, eq_
 
 FILEDIR = os.path.dirname(__file__)

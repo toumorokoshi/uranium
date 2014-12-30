@@ -1,3 +1,4 @@
+import copy
 import requests
 import yaml
 from ..part import Part
@@ -56,6 +57,12 @@ class Config(dict,
         warnings, errors = [], []
         self._invoke_bases('_validate', warnings, errors)
         return warnings, errors
+
+    @property
+    def resolved_versions(self):
+        versions = copy.copy(self.versions)
+        versions.update(self.eggs)
+        return versions
 
     @staticmethod
     def load_from_path(path):

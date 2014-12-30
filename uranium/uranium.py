@@ -20,7 +20,7 @@ class Uranium(object):
         self._config = config
 
         self._pip = PipManager(index_urls=self._config.indexes,
-                               versions=self.config.versions)
+                               versions=self.config.resolved_versions)
         self._classloader = ClassLoader(self._pip)
 
         self._buildout = BuildoutAdapter(self, self._classloader)
