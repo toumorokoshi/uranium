@@ -22,4 +22,5 @@ class UraniumRequirementSet(RequirementSet):
             new_spec = self.uranium_versions[name]
             # new_spec is a string, but it works
             # because the & operator accepts string
-            install_req.req.specifier = old_specifier & new_spec
+            if new_spec:
+                install_req.req.specifier = old_specifier & new_spec

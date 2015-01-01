@@ -7,7 +7,7 @@ except:
 
 install_requires = [
     'docopt>=0.6.2',
-    'pip>=1.4',
+    'pip>=6',
     'pyyaml',
     'requests',
     'virtualenv>=1.11.6',
@@ -20,7 +20,7 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.0.16',
+      version='0.0.17',
       description='a build system for python',
       long_description='a build system for python',
       author='Yusuke Tsutsumi',

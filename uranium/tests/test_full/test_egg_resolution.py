@@ -29,4 +29,4 @@ class TestEggResolution(WarmupBaseTest):
         ensure that develop eggs take precedence over
         regular specs or version specs
         """
-        # ok_(not subprocess.call([self.warmup_file_path], cwd=self.root))
+        ok_(not subprocess.call([self.warmup_file_path], cwd=self.root))
