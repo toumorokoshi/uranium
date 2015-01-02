@@ -28,14 +28,14 @@ class ClassLoader(object):
         <module>
         """
         egg_name = None
-        module = class_spec
+        module_path = class_spec
         if ':' in class_spec:
-            egg_name, module = class_spec.split(':')
+            egg_name, module_path = class_spec.split(':')
 
-        if egg_name:
+        if not importlib.import_module(module_path) and egg_name:
             self._install_egg(egg_name)
 
-        return self.get_class(module)
+        return self.get_module(module_path)
 
     def get_class(self, class_module_path):
         """
@@ -83,4 +83,8 @@ class ClassLoader(object):
 
 def _get_classes_from_module(module):
     member_dict = dict(inspect.getmembers(module))
-    return [v for v in member_dict.values() if inspect.isclass(v)]
+
+    def is_class_from_module(cls):
+        return inspect.isclass(cls) and inspect.getmodule(cls) == module
+
+    return [v for v in member_dict.values() if is_class_from_module(v)]
