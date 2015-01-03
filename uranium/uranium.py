@@ -2,6 +2,7 @@ import logging
 import os
 from .classloader import ClassLoader
 from .pip_manager import PipManager
+from .config import Config
 from .buildout_adapter import BuildoutAdapter
 from .isotope_runner import IsotopeRunner
 from .phases import (AFTER_EGGS, BEFORE_EGGS)
@@ -16,6 +17,11 @@ class UraniumException(Exception):
 class Uranium(object):
 
     def __init__(self, config, root):
+        # well cast the dict to a config for people
+        # to make it easier
+        if type(config) == dict:
+            config = Config(config)
+
         self._root = root
         self._config = config
 

@@ -61,6 +61,7 @@ def _install_virtualenv(install_dir):
         os.chdir(virtualenv_dir)  # virtualenv only works in the cwd it is installed in
         subprocess.call([sys.executable, virtualenv_executable,
                          '--no-site-packages',
+                         '--always-copy',
                          install_dir])
         os.chdir(install_dir)
     finally:

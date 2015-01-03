@@ -7,6 +7,7 @@ except:
 
 install_requires = [
     'docopt>=0.6.2',
+    'jinja2',
     'pip>=6',
     'pyyaml',
     'requests',
