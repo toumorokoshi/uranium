@@ -13,6 +13,7 @@ file in the current directory uranium was
 invoked in. this can be overridden by passing in a
 path to a <uranium_file>
 """
+import logging
 from contextlib import contextmanager
 from docopt import docopt
 from virtualenv import make_environment_relocatable
@@ -25,7 +26,7 @@ DEFAULT_URANIUM_FILE = "uranium.yaml"
 
 
 def main(argv=sys.argv[1:]):
-
+    _create_stdout_logger()
     options = docopt(__doc__,  argv=argv)
     uranium_dir = os.path.abspath(os.curdir)
     uranium_file = options['<uranium_file>'] or DEFAULT_URANIUM_FILE
@@ -61,3 +62,12 @@ def _activate_virtualenv(uranium_dir):
 
     # we modify the executable directly, because pip invokes this to install packages.
     sys.executable = os.path.join(uranium_dir, 'bin', 'python')
+
+def _create_stdout_logger():
+    """ create a logger to stdout """
+    log = logging.getLogger(__name__)
+    out_hdlr = logging.StreamHandler(sys.stdout)
+    out_hdlr.setFormatter(logging.Formatter('%(message)s'))
+    out_hdlr.setLevel(logging.INFO)
+    log.addHandler(out_hdlr)
+    log.setLevel(logging.INFO)

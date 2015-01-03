@@ -35,7 +35,7 @@ class ClassLoader(object):
         if not importlib.import_module(module_path) and egg_name:
             self._install_egg(egg_name)
 
-        return self.get_module(module_path)
+        return self.get_class(module_path)
 
     def get_class(self, class_module_path):
         """
