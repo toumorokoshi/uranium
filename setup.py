@@ -11,6 +11,7 @@ install_requires = [
     'pip>=6',
     'pyyaml',
     'requests',
+    'six',
     'virtualenv>=1.11.6',
     'zc.buildout'
 ]
