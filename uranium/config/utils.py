@@ -1,4 +1,5 @@
 from pkg_resources import Requirement
+from .resolve_dict import ResolveDict
 
 
 def assert_condition(error_list, result, message):
@@ -18,3 +19,5 @@ def validate_version_dict(version_dict, errors):
             errors.append("unable to parse egg requirement {0}".format(
                 requirement
             ))
+
+dict_types = (dict, ResolveDict)

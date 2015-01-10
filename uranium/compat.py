@@ -9,3 +9,9 @@ try:
     from UserDict import DictMixin
 except ImportError:
     from collections import MutableMapping as DictMixin
+
+
+try:
+    from UserDict import IterableUserDict as UserDict
+except ImportError:
+    from collections import UserDict

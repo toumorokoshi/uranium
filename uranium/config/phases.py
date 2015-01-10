@@ -1,4 +1,4 @@
-from .utils import assert_condition
+from .utils import assert_condition, dict_types
 from ..phases import PHASES_DICT
 
 KEY = "phases"
@@ -11,7 +11,7 @@ class Phases(object):
 
     def _validate(self, warnings, errors):
         assert_condition(
-            errors, isinstance(self.phases, dict),
+            errors, isinstance(self.phases, dict_types),
             "{0} must be a dict! found {1} instead".format(KEY, type(self.phases))
         )
         for phase in self.phases:

@@ -2,12 +2,14 @@ import copy
 import requests
 import yaml
 from ..part import Part
+from uranium.compat import DictMixin
 from .develop_eggs import DevelopEggs
 from .eggs import Eggs
 from .indexes import Indexes
 from .parts import Parts
 from .phases import Phases
 from .versions import Versions
+from .resolve_dict import ResolveDict
 
 INHERITANCE_KEY = "inherits"
 
@@ -31,7 +33,7 @@ def load_config_from_url(url):
     return load_config_from_string(content)
 
 
-class Config(dict,
+class Config(ResolveDict,
              DevelopEggs, Eggs, Indexes,
              Parts, Phases, Versions):
     """
@@ -43,7 +45,9 @@ class Config(dict,
     """
 
     def __init__(self, raw_options):
-        self._set_values(raw_options)
+        raw_values = {}
+        _set_values(raw_values, raw_options)
+        super(Config, self).__init__(raw_values, raw_values)
         self._initialize()
 
     def get_part(self, part_name):
@@ -79,22 +83,23 @@ class Config(dict,
             if hasattr(cls, method_name):
                 getattr(cls, method_name)(self, *args)
 
-    def _set_values(self, raw_options):
-        """
-        from a raw_options object:
 
-        * find the inheritance list
-        * download all values from the inheritance list
-        * fold those values into the raw_options dictionary
-        """
-        inheritance_list = raw_options.get(INHERITANCE_KEY)
-        if inheritance_list:
+def _set_values(to_dict, raw_options):
+    """
+    from a raw_options object:
 
-            for inherited_path in inheritance_list:
-                inherited_values = Config.load_from_path(inherited_path)
-                _recursive_merge(self, inherited_values)
+    * find the inheritance list
+    * download all values from the inheritance list
+    * fold those values into the raw_options dictionary
+    """
+    inheritance_list = raw_options.get(INHERITANCE_KEY)
+    if inheritance_list:
 
-        _recursive_merge(self, raw_options)
+        for inherited_path in inheritance_list:
+            inherited_values = Config.load_from_path(inherited_path)
+            _recursive_merge(to_dict, inherited_values.data)
+
+    _recursive_merge(to_dict, raw_options)
 
 
 def _recursive_merge(to_dict, from_dict):

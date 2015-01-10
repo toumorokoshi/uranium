@@ -1,4 +1,4 @@
-from .utils import assert_condition
+from .utils import assert_condition, dict_types
 
 KEY = "parts"
 
@@ -10,7 +10,7 @@ class Parts(object):
 
     def _validate(self, warnings, errors):
         assert_condition(
-            errors, isinstance(self[KEY], dict),
+            errors, isinstance(self[KEY], dict_types),
             "parts must be a dict! found {0} instead".format(type(self[KEY]))
         )
 
