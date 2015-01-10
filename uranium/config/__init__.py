@@ -2,7 +2,6 @@ import copy
 import requests
 import yaml
 from ..part import Part
-from uranium.compat import DictMixin
 from .develop_eggs import DevelopEggs
 from .eggs import Eggs
 from .indexes import Indexes

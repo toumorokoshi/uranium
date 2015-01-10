@@ -3,6 +3,10 @@ from six import string_types
 from jinja2 import Template
 
 
+class RecursiveResolveDictException(Exception):
+    pass
+
+
 class ResolveDict(UserDict):
 
     def __init__(self, values, resolve_values):
@@ -21,8 +25,14 @@ class ResolveDict(UserDict):
 
         if isinstance(val, string_types):
             template = Template(val)
-            return template.render(**self._resolve_values)
+            return template.render(**self._get_values_for_template())
         elif isinstance(val, dict):
             return ResolveDict(val, self._resolve_values)
         else:
             return val
+
+    def _get_values_for_template(self):
+        result = {}
+        for k, v in self.items():
+            result[k] = v
+        return result

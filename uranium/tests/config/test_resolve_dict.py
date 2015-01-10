@@ -1,5 +1,5 @@
-from uranium.config.resolve_dict import ResolveDict
-from nose.tools import eq_
+from uranium.config.resolve_dict import ResolveDict, RecursiveResolveDictException
+from nose.tools import eq_, raises
 
 
 class TestResolveDict(object):
@@ -39,10 +39,17 @@ class TestResolveDictRecursive(object):
 
     def setUp(self):
         self.values = {
-            'foo': '{{foo_val}}',
+            'foo': {
+                'foo': '{{foo_val}}',
+            },
             'foo_val': 'bar'
         }
         self._dict = ResolveDict(self.values, self.values)
 
-    def test_recursive_retrieval(self):
-        eq_(self._dict['foo'], 'bar')
+    def test_self_retrieval(self):
+        eq_(self._dict['foo']['foo'], 'bar')
+
+    @raises(RecursiveResolveDictException)
+    def skip_recursive_retrieval(self):
+        self.values['bar'] = '{{bar}}'
+        self._dict['bar']
