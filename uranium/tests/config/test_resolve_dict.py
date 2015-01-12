@@ -1,4 +1,4 @@
-from uranium.config.resolve_dict import ResolveDict, RecursiveResolveDictException
+from uranium.config.resolve_dict import ResolveDict, CyclicReferenceException
 from nose.tools import eq_, raises
 
 
@@ -49,7 +49,7 @@ class TestResolveDictRecursive(object):
     def test_self_retrieval(self):
         eq_(self._dict['foo']['foo'], 'bar')
 
-    @raises(RecursiveResolveDictException)
+    @raises(CyclicReferenceException)
     def skip_recursive_retrieval(self):
         self.values['bar'] = '{{bar}}'
         self._dict['bar']
