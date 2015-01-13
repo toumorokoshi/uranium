@@ -14,5 +14,5 @@ class TestValueSubstitution(object):
             }
         })
 
-    def skip_retrieve_value(self):
+    def test_retrieve_value(self):
         eq_(self.config['parts']['test']['key'], 'foo')

@@ -46,7 +46,8 @@ class Config(ResolveDict,
     def __init__(self, raw_options):
         raw_values = {}
         _set_values(raw_values, raw_options)
-        super(Config, self).__init__(raw_values, raw_values)
+        super(Config, self).__init__(raw_values, None)
+        self._resolve_values = self
         self._initialize()
 
     def get_part(self, part_name):

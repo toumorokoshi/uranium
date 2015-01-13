@@ -26,14 +26,6 @@ class ResolveDict(UserDict):
         this accepts a 'key tree' argument, which is used to find
         cyclic definitions
         """
-        key_tree = copy.copy(key_tree) if key_tree else []
-
-        if key_tree and key in key_tree:
-            raise CyclicReferenceException(
-                "value for {0} references itself.".format(key))
-
-        key_tree.append(key)
-
         val = self.data[key]
 
         if isinstance(val, string_types):
@@ -87,6 +79,15 @@ def render(raw_string, values, key_tree=None):
 
 
 def _get_variable(name, values, key_tree):
+    key_tree = copy.copy(key_tree)
+    print("{0}:{1}".format(name, key_tree))
+
+    if name in key_tree:
+        raise CyclicReferenceException(
+            "value for {0} references itself.".format(name))
+
+    key_tree.append(name)
+
     path = name.split('.')
     for element in path:
         name, index = _parse_element(element)
@@ -100,7 +101,7 @@ def _get_variable(name, values, key_tree):
                 path, values
             )
 
-        if index:
+        if index is not None:
             values = values[index]
 
     return values
@@ -125,8 +126,7 @@ def _parse_element(element):
         else:
             index += char
 
-    return name, index or None
-
+    return name, index if index != "" else None
 
 
 def get_recursive_resolvedict(values):
