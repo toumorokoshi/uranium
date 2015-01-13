@@ -11,7 +11,7 @@ class CyclicReferenceException(ResolveDictExeception):
     pass
 
 
-class ResolveDict(UserDict):
+class ResolveDict(UserDict, object):
 
     def __init__(self, values, resolve_values):
         self._resolve_values = resolve_values
@@ -80,7 +80,6 @@ def render(raw_string, values, key_tree=None):
 
 def _get_variable(name, values, key_tree):
     key_tree = copy.copy(key_tree)
-    print("{0}:{1}".format(name, key_tree))
 
     if name in key_tree:
         raise CyclicReferenceException(
