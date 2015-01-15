@@ -6,7 +6,7 @@ Uranium also allows you to specify versions for eggs, even if they are
 not explicitly listed in your 'eggs' section. You can do so with the
 'versions' section:
 
-..code-block:: yaml
+.. code-block:: yaml
 
   versions:
     requests: "==2.3.0"

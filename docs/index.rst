@@ -27,7 +27,9 @@ Contents:
    :maxdepth: 2
 
    tutorial
+   config
    eggs
+   indexes
    inheritance
    versions
 

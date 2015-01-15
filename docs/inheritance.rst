@@ -6,7 +6,7 @@ oftentimes, there are situations where one would want to share build
 configuration among multiple projects. To support this, uranium
 supports extension of uranium.yaml files. You can enter a list of urls or file paths:
 
-..code-block:: yaml
+.. code-block:: yaml
 
     inherits:
       - http://example.com/uranium.yaml
@@ -31,7 +31,7 @@ In the example above, the following files have higher precedence:
 
 So if the files looked like:
 
-..code:: yaml
+.. code-block:: yaml
 
   # base uranium file
   inherits:
@@ -41,7 +41,7 @@ So if the files looked like:
     nose: ">1.0"
     mock: "==1.0"
 
-..code::yaml
+.. code-block:: yaml
 
   # http://example.com/uranium.yaml
   eggs:
@@ -49,7 +49,7 @@ So if the files looked like:
     coverage: null
 
 
-..code::yaml
+.. code-block:: yaml
 
   # ./base/base.yaml
   develop-eggs:
@@ -60,7 +60,7 @@ So if the files looked like:
 
 The final result would be:
 
-..code:: yaml
+.. code-block:: yaml
 
   inherits:
     - http://example.com/uranium.yaml

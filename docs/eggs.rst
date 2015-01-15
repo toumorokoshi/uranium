@@ -8,7 +8,7 @@ subsquently installed during an update.
 
 If you do not want to specify a specific version of an egg, you can leave the value null.
 
-..code-block:: yaml
+.. code-block:: yaml
 
   eggs:
     requests: "==2.3.0"
