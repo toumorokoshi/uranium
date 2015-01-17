@@ -14,7 +14,7 @@ INHERITANCE_KEY = "inherits"
 
 
 def load_config_from_string(string):
-    config_dict = yaml.load(string)
+    config_dict = yaml.load(string) or {}
     return Config(config_dict)
 
 
