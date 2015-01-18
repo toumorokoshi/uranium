@@ -43,4 +43,32 @@ This is all you need to run warmup. Let's run them now:
 
 And congrats, you've had your first Uranium run! Of course, all this
 did was run virtualend and install Uranium. Now let's get some real
-functionality done.
+functionality.
+
+------------------------------
+Developing and Installing Eggs
+------------------------------
+
+We started with a blank Uranium file. To add eggs and develop-eggs,
+you can add a couple new section to the uranium file:
+
+.. code-block:: yaml
+
+  # this is the uranium.yaml from the first part
+  develop-eggs:
+    - .
+  eggs:
+    nose: ==1.3.4
+
+And let's run uranium again. Now that you've 'warmed up', you don't have to run
+warmup again, instead, you can run:
+
+  $ ./bin/uranium
+
+You should see:
+
+    WARNING:  Unable to install develop egg at /tmp/uranium-tut: Directory '/tmp/uranium-tut' is not installable
+
+This is because we don't have any egg source in the current
+directory. If you did this in such a directory, you would notice the
+egg was installed for you.

@@ -1,12 +1,15 @@
 import os
+import logging
 from pip.index import PackageFinder
 from pip.req import InstallRequirement
 from pip.locations import build_prefix, src_prefix
-from pip.exceptions import DistributionNotFound
+from pip.exceptions import DistributionNotFound, InstallationError
 from pip.download import PipSession
 from .req_set import UraniumRequirementSet
+from uranium.utils import log_exception
 
 DEFAULT_INDEX_URLS = ['https://pypi.python.org/simple/']
+LOGGER = logging.getLogger(__name__)
 
 
 class PipException(Exception):
@@ -43,11 +46,17 @@ class PipManager(object):
                 self._requirement_set.add_requirement(egg_requirement)
 
     def add_develop_eggs(self, develop_egg_list):
+        errors = []
         for egg_path in develop_egg_list:
             egg_path = _expand_dir(egg_path)
-            egg_requirement = InstallRequirement.from_editable(egg_path)
-            self._requirement_set.add_requirement(egg_requirement)
-            self._develop_egg_original_paths[egg_path] = egg_requirement
+            try:
+                egg_requirement = InstallRequirement.from_editable(egg_path)
+                self._requirement_set.add_requirement(egg_requirement)
+                self._develop_egg_original_paths[egg_path] = egg_requirement
+            except InstallationError as e:
+                log_exception(LOGGER, logging.DEBUG)
+                errors.append((egg_path, str(e)))
+        return errors
 
     def install(self):
         try:

@@ -13,7 +13,11 @@ Uranium needs to work in a variety of situations, so testing is key. Ultimately 
 
 # Known issues
 
-* fix recursive value referencing
+* uranium version conflicts.
+  * the uranium package currently lives in it's own sandbox, so
+    version conflicts between uranium's requirements and the users
+    will conflict.
+  * We should maybe sandbox Uranium's own depedencies
 
 
 # Potential Problems

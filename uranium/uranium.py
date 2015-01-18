@@ -69,7 +69,12 @@ class Uranium(object):
     def _install_eggs(self):
         develop_eggs = self._config.get('develop-eggs')
         if develop_eggs:
-            self._pip.add_develop_eggs(develop_eggs)
+            errors = self._pip.add_develop_eggs(develop_eggs)
+            for egg_path, error in errors:
+                msg = "WARNING: Unable to install develop egg at {0}: {1}".format(
+                    egg_path, error
+                )
+                LOGGER.warning(msg)
         # for some reason install can only be run once
         # it seems to be related to the packages being installed,
         # then attempting to install them again with the same

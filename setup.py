@@ -6,13 +6,13 @@ except:
     from distutils.core import setup
 
 install_requires = [
-    'docopt>=0.6.2',
-    'jinja2',
-    'pip>=6',
-    'pyyaml',
-    'requests',
-    'six',
-    'virtualenv>=1.11.6',
+    'docopt==0.6.2',
+    'jinja2==2.7.3',
+    'pip==6.0.6',
+    'pyyaml==3.11',
+    'requests==2.5.1',
+    'six==1.9.0',
+    'virtualenv==12.0.5',
     'zc.buildout'
 ]
 
@@ -22,7 +22,7 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.0.24',
+      version='0.0.25',
       description='a build system for python',
       long_description='a build system for python',
       author='Yusuke Tsutsumi',
