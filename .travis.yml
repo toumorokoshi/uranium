@@ -4,5 +4,5 @@ python:
   - "3.4"
 install:
   - "pip install ."
-  - "bin/uranium"
+  - "uranium"
 script: "bin/test"
