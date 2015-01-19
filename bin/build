@@ -1,4 +1,2 @@
 #!/usr/bin/env sh
-./scripts/uranium --no-uranium
-./.uranium/bin/pip install -e .
-./.uranium/bin/uranium
+./scripts/uranium

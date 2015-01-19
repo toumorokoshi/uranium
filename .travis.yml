@@ -2,7 +2,5 @@ language: python
 python:
   - "2.7"
   - "3.4"
-install:
-  - "pip install ."
-  - "uranium"
-script: "nosetests --with-coverage --cover-package=uranium $1"
+install: "bin/build"
+script: "bin/test"
