@@ -18,6 +18,7 @@ from contextlib import contextmanager
 from docopt import docopt
 from virtualenv import make_environment_relocatable
 from .uranium import Uranium
+from .virtualenv_manager import install_virtualenv
 from .config import load_config_from_file
 import os
 import sys
@@ -44,6 +45,8 @@ def _get_uranium(uranium_file):
 
 @contextmanager
 def in_virtualenv(path):
+    install_virtualenv(path)
+
     # we activate the virtualenv
     _activate_virtualenv(path)
 
@@ -62,6 +65,7 @@ def _activate_virtualenv(uranium_dir):
 
     # we modify the executable directly, because pip invokes this to install packages.
     sys.executable = os.path.join(uranium_dir, 'bin', 'python')
+
 
 def _create_stdout_logger():
     """ create a logger to stdout """
