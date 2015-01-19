@@ -1,5 +1,7 @@
 phases:
   after-eggs: ['unit', 'test']
+develop-eggs:
+  - '.'
 eggs:
   coverage: null
   httpretty: null
