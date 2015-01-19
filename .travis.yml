@@ -2,5 +2,7 @@ language: python
 python:
   - "2.7"
   - "3.4"
-install: "bin/build"
+install:
+  - "pip install ."
+  - "bin/uranium"
 script: "bin/test"
