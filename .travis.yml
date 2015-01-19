@@ -5,4 +5,4 @@ python:
 install:
   - "pip install ."
   - "uranium"
-script: "bin/test"
+script: "nosetests --with-coverage --cover-package=uranium $1"
