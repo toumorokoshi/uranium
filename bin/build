@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
-./scripts/warmup --no-uranium
-./bin/pip install -e .
-./bin/uranium
+./scripts/uranium --no-uranium
+./.uranium/bin/pip install -e .
+./.uranium/bin/uranium

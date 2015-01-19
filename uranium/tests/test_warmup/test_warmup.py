@@ -13,10 +13,10 @@ class TestWarmup(WarmupBaseTest):
         ok_(not subprocess.call([self.warmup_file_path], cwd=self.root))
 
         desired_files = {
-            'uranium executable': os.path.join(self.root, 'bin', 'uranium'),
+            'uranium executable': os.path.join(self.root, '.uranium', 'bin', 'uranium'),
             # we're looking for activate because it only exists when
             # <root> is a virtualenv directory.
-            'virtualenv': os.path.join(self.root, 'bin', 'activate')
+            'virtualenv': os.path.join(self.root, '.uranium', 'bin', 'activate')
         }
 
         for name, path in desired_files.items():
@@ -28,7 +28,7 @@ class TestWarmup(WarmupBaseTest):
                                 cwd=self.root))
 
         desired_files = {
-            'virtualenv activate': os.path.join(self.root, 'bin', 'activate')
+            'virtualenv activate': os.path.join(self.root, '.uranium', 'bin', 'activate')
         }
 
         for name, path in desired_files.items():

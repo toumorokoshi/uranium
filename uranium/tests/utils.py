@@ -8,7 +8,7 @@ from uranium.config import Config
 from uranium.uranium import Uranium
 
 BASE = os.path.dirname(__file__)
-WARMUP_SCRIPT_PATH = os.path.join(BASE, os.pardir, os.pardir, 'scripts', 'warmup')
+WARMUP_SCRIPT_PATH = os.path.join(BASE, os.pardir, os.pardir, 'scripts', 'uranium')
 
 
 def get_valid_config():
