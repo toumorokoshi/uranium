@@ -33,7 +33,7 @@ LOGGER = logging.getLogger(__name__)
 
 parser = OptionParser()
 parser.add_option("--no-uranium", help="don't install uranium.",
-                  default=True, dest="with_uranium")
+                  default=True, action="store_false", dest="with_uranium")
 
 URANIUM_TARGET = ".uranium"
 
