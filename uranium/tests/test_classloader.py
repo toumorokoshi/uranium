@@ -1,6 +1,7 @@
+import uranium
 from uranium.classloader import ClassLoader
 from uranium.example_plugin import ExamplePlugin
-from nose.tools import eq_
+from nose.tools import eq_, ok_
 from mock import Mock
 
 
@@ -10,8 +11,8 @@ class TestClassLoader(object):
         self._classloader = ClassLoader(None)
 
     def test_find_example_plugin(self):
-        eq_(self._classloader.get_class_from_spec('uranium.example_plugin'),
-            ExamplePlugin)
+        ok_(self._classloader.get_class_from_spec('uranium.example_plugin') in
+            [ExamplePlugin, uranium.example_plugin.ExamplePlugin])
 
     def test_find_example_plugin_with_eggname(self):
         self._classloader._install_egg = Mock()
