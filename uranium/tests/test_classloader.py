@@ -10,8 +10,8 @@ class TestClassLoader(object):
         self._classloader = ClassLoader(None)
 
     def test_find_example_plugin(self):
-        eq_(id(self._classloader.get_class_from_spec('uranium.example_plugin')),
-            id(ExamplePlugin))
+        eq_(self._classloader.get_class_from_spec('uranium.example_plugin'),
+            ExamplePlugin)
 
     def test_find_example_plugin_with_eggname(self):
         self._classloader._install_egg = Mock()
