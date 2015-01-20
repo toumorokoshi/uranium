@@ -1,6 +1,5 @@
-import imp
 import inspect
-import importlib
+from .compat import import_module
 from .pip_manager import PackageNotFound
 
 
@@ -32,7 +31,7 @@ class ClassLoader(object):
         if ':' in class_spec:
             egg_name, module_path = class_spec.split(':')
 
-        if not importlib.import_module(module_path) and egg_name:
+        if not import_module(module_path) and egg_name:
             self._install_egg(egg_name)
 
         return self.get_class(module_path)
@@ -60,11 +59,11 @@ class ClassLoader(object):
         # if it doesn't exist, download from pip
         # return module or raise exception?
         try:
-            return importlib.import_module(module_path)
+            return import_module(module_path)
         except ImportError:
             try:
                 self._install_egg(module_path)
-                return importlib.import_module(module_path)
+                return import_module(module_path)
             except (PackageNotFound, ImportError):
                 raise ClassLoaderException(
                     "unable to find module or python package "

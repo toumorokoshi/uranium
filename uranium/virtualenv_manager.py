@@ -6,6 +6,7 @@ import shutil
 import sys
 import tarfile
 import tempfile
+from virtualenv import create_environment
 
 try:
     from urllib2 import urlopen as urlopen
@@ -21,6 +22,10 @@ LOGGER = logging.getLogger(__name__)
 
 
 def install_virtualenv(install_dir):
+    create_environment(install_dir)
+
+
+def _install_virtualenv(install_dir):
     if is_virtualenv(install_dir):
         return
 
