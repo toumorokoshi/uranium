@@ -34,6 +34,8 @@ LOGGER = logging.getLogger(__name__)
 parser = OptionParser()
 parser.add_option("--no-uranium", help="don't install uranium.",
                   default=True, action="store_false", dest="with_uranium")
+parser.add_option("--uranium-dir",
+                  help="specify a directory containing uranium source.")
 
 URANIUM_TARGET = ".uranium"
 
@@ -43,6 +45,7 @@ def main(argv):
 
     current_dir = os.getcwd()
     install_dir = os.path.join(current_dir, URANIUM_TARGET)
+    uranium_dir = options.uranium_dir
 
     LOGGER.info("installing virtualenv...")
     _install_virtualenv(install_dir)
@@ -54,7 +57,8 @@ def main(argv):
 
     if options.with_uranium:
         LOGGER.info("installing uranium...")
-        _install_uranium(install_dir)
+        _install_uranium(install_dir,
+                         uranium_dir=uranium_dir)
 
         LOGGER.info("running uranium...")
         _run_uranium(install_dir)
@@ -80,13 +84,16 @@ def _install_virtualenv(install_dir):
         shutil.rmtree(temp_dir)
 
 
-def _install_uranium(virtualenv_dir):
+def _install_uranium(virtualenv_dir, uranium_dir=None):
     log_file = os.path.join(virtualenv_dir, 'uranium_install_log.txt')
     pip_executable = os.path.join(virtualenv_dir, 'bin', 'pip')
+    uranium_name = uranium_dir or 'uranium'
 
     with open(log_file, 'w+') as fh:
-        status = subprocess.call([pip_executable, 'install', 'uranium', '--upgrade'],
-                                 stdout=fh, stderr=fh)
+        #status = subprocess.call([pip_executable, 'install', uranium_name,
+        #                         '--upgrade'], stdout=fh, stderr=fh)
+        status = subprocess.call([pip_executable, 'install', uranium_name,
+                                  '--upgrade'])
         if status:
             LOGGER.error("Unable to install uranium. please look at {0} for more info".format(
                 log_file

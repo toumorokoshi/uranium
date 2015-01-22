@@ -46,6 +46,7 @@ def _get_uranium(uranium_file):
 @contextmanager
 def in_virtualenv(path):
     install_virtualenv(path)
+    # sys.modules = {}
 
     # we activate the virtualenv
     _activate_virtualenv(path)
