@@ -60,6 +60,7 @@ class PipManager(object):
 
     def install(self):
         try:
+            self._requirement_set.cleanup_files()
             self._requirement_set.prepare_files(self._finder)
             self._requirement_set.install([], [])
             self._restore_source_dirs_in_develop_eggs()

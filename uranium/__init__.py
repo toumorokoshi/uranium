@@ -14,8 +14,8 @@ invoked in. this can be overridden by passing in a
 path to a <uranium_file>
 """
 import logging
-from pkg_resources import working_set
 from contextlib import contextmanager
+from pip._vendor import pkg_resources
 from docopt import docopt
 from virtualenv import make_environment_relocatable
 from .uranium import Uranium
@@ -43,15 +43,6 @@ def _get_uranium(uranium_file):
     config = load_config_from_file(uranium_file)
     return Uranium(config, root)
 
-URANIUM_LIBS = [
-    'docopt',
-    'requests',
-    'six',
-    'virtualenv',
-    'yaml',
-    'zc.buildout'
-]
-
 
 @contextmanager
 def in_virtualenv(path):
@@ -75,8 +66,6 @@ def _activate_virtualenv(uranium_dir):
     #       del working_set.by_key[uranium_lib]
     #   if hasattr(sys.modules, uranium_lib):
     #       del sys.modules[uranium_lib]
-    for req in working_set.by_key:
-        import pdb; pdb.set_trace()
 
     uranium_dir = os.path.abspath(uranium_dir)
     activate_this_path = os.path.join(uranium_dir, 'bin', 'activate_this.py')
