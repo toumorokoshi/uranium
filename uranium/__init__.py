@@ -14,6 +14,7 @@ invoked in. this can be overridden by passing in a
 path to a <uranium_file>
 """
 import logging
+from pkg_resources import working_set
 from contextlib import contextmanager
 from docopt import docopt
 from virtualenv import make_environment_relocatable
@@ -42,12 +43,19 @@ def _get_uranium(uranium_file):
     config = load_config_from_file(uranium_file)
     return Uranium(config, root)
 
+URANIUM_LIBS = [
+    'docopt',
+    'requests',
+    'six',
+    'virtualenv',
+    'yaml',
+    'zc.buildout'
+]
+
 
 @contextmanager
 def in_virtualenv(path):
     install_virtualenv(path)
-    # sys.modules = {}
-
     # we activate the virtualenv
     _activate_virtualenv(path)
 
@@ -59,10 +67,25 @@ def in_virtualenv(path):
 
 def _activate_virtualenv(uranium_dir):
     """ this will activate a virtualenv in the case one exists """
+    sys.path = [p for p in sys.path if sys.prefix not in p]
+
+    # mayybe this is necessary
+    # for uranium_lib in URANIUM_LIBS:
+    #   if hasattr(working_set.by_key, uranium_lib):
+    #       del working_set.by_key[uranium_lib]
+    #   if hasattr(sys.modules, uranium_lib):
+    #       del sys.modules[uranium_lib]
+    for req in working_set.by_key:
+        import pdb; pdb.set_trace()
+
     uranium_dir = os.path.abspath(uranium_dir)
     activate_this_path = os.path.join(uranium_dir, 'bin', 'activate_this.py')
     with open(activate_this_path) as fh:
         exec(fh.read(), {'__file__': activate_this_path}, {})
+
+    sys.path += [
+        os.path.join(uranium_dir, 'lib', 'python%s' % sys.version[:3], 'lib-dynload')
+    ]
 
     # we modify the executable directly, because pip invokes this to install packages.
     sys.executable = os.path.join(uranium_dir, 'bin', 'python')
