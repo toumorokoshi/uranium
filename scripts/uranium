@@ -95,8 +95,10 @@ def _install_uranium(virtualenv_dir, uranium_dir=None, version=None):
         uranium_name = 'uranium=={0}'.format(version)
 
     with open(log_file, 'w+') as fh:
+        #status = subprocess.call([pip_executable, 'install', uranium_name,
+        #                        '--upgrade'], stdout=fh, stderr=fh)
         status = subprocess.call([pip_executable, 'install', uranium_name,
-                                 '--upgrade'], stdout=fh, stderr=fh)
+                                 '--upgrade'])
         if status:
             LOGGER.error("Unable to install uranium. please look at {0} for more info".format(
                 log_file

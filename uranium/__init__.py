@@ -55,9 +55,22 @@ def in_virtualenv(path):
     # we end my making the virtualenv environment relocatable
     make_environment_relocatable(path)
 
+URANIUM_LIBS = [
+    'docopt',
+    'jinja2',
+    'pip',
+    'pyyaml',
+    'requests',
+    'setuptools',
+    'six',
+    'virtualenv',
+    'zc.buildout'
+]
 
 def _activate_virtualenv(uranium_dir):
     """ this will activate a virtualenv in the case one exists """
+    sys.prefix = os.path.join(*sys.prefix.split(os.sep)[:-2])
+    old_prefix = sys.prefix
     sys.path = [p for p in sys.path if sys.prefix not in p]
 
     # mayybe this is necessary
@@ -78,6 +91,12 @@ def _activate_virtualenv(uranium_dir):
 
     # we modify the executable directly, because pip invokes this to install packages.
     sys.executable = os.path.join(uranium_dir, 'bin', 'python')
+
+    for name, req in pkg_resources.working_set.by_key.items():
+        if old_prefix in req.location:
+            del pkg_resources.working_set.by_key[name]
+
+    pkg_resources.working_set.entries = sys.path
 
 
 def _create_stdout_logger():
