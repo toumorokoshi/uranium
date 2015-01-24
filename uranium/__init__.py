@@ -73,13 +73,6 @@ def _activate_virtualenv(uranium_dir):
     old_prefix = sys.prefix
     sys.path = [p for p in sys.path if sys.prefix not in p]
 
-    # mayybe this is necessary
-    # for uranium_lib in URANIUM_LIBS:
-    #   if hasattr(working_set.by_key, uranium_lib):
-    #       del working_set.by_key[uranium_lib]
-    #   if hasattr(sys.modules, uranium_lib):
-    #       del sys.modules[uranium_lib]
-
     uranium_dir = os.path.abspath(uranium_dir)
     activate_this_path = os.path.join(uranium_dir, 'bin', 'activate_this.py')
     with open(activate_this_path) as fh:
@@ -92,10 +85,21 @@ def _activate_virtualenv(uranium_dir):
     # we modify the executable directly, because pip invokes this to install packages.
     sys.executable = os.path.join(uranium_dir, 'bin', 'python')
 
+    # this is a workaround for pip. Pip utilizes pkg_resources
+    # and the path to determine what's installed in the current
+    # sandbox
+    #
+    # we remove the requirements that are installed
+    # from the parent environment, so pip will detect
+    # the requirement from the current virtualenv
     for name, req in pkg_resources.working_set.by_key.items():
         if old_prefix in req.location:
             del pkg_resources.working_set.by_key[name]
 
+    # ensure that pkg_resources only searches the
+    # existing sys.path. These variables are set on
+    # initialization, so we have to reset them
+    # when activating a sandbox.
     pkg_resources.working_set.entries = sys.path
 
 
