@@ -55,17 +55,6 @@ def in_virtualenv(path):
     # we end my making the virtualenv environment relocatable
     make_environment_relocatable(path)
 
-URANIUM_LIBS = [
-    'docopt',
-    'jinja2',
-    'pip',
-    'pyyaml',
-    'requests',
-    'setuptools',
-    'six',
-    'virtualenv',
-    'zc.buildout'
-]
 
 def _activate_virtualenv(uranium_dir):
     """ this will activate a virtualenv in the case one exists """
@@ -92,7 +81,7 @@ def _activate_virtualenv(uranium_dir):
     # we remove the requirements that are installed
     # from the parent environment, so pip will detect
     # the requirement from the current virtualenv
-    for name, req in pkg_resources.working_set.by_key.items():
+    for name, req in list(pkg_resources.working_set.by_key.items()):
         if old_prefix in req.location:
             del pkg_resources.working_set.by_key[name]
 
