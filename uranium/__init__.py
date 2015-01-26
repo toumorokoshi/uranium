@@ -13,6 +13,7 @@ file in the current directory uranium was
 invoked in. this can be overridden by passing in a
 path to a <uranium_file>
 """
+__import__('pkg_resources').declare_namespace(__name__)
 import logging
 from contextlib import contextmanager
 from pip._vendor import pkg_resources

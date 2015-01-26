@@ -1,9 +1,5 @@
 #!/usr/bin/env python
-
-try:
-    from setuptools import setup, find_packages
-except:
-    from distutils.core import setup
+from setuptools import setup, find_packages
 
 install_requires = [
     'setuptools==12.0.3',
@@ -23,7 +19,7 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.0.37',
+      version='0.0.39',
       description='a build system for python',
       long_description='a build system for python',
       author='Yusuke Tsutsumi',
@@ -38,9 +34,13 @@ setup(name='uranium',
           'Topic :: System :: Software Distribution',
           'License :: OSI Approved :: MIT License',
           'Programming Language :: Python',
+          'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 2.6',
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.3'
+          'Programming Language :: Python :: 3.2',
+          'Programming Language :: Python :: 3.3',
+          'Programming Language :: Python :: 3.4',
       ],
       entry_points={
           'console_scripts': [
