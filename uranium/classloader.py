@@ -31,8 +31,11 @@ class ClassLoader(object):
         if ':' in class_spec:
             egg_name, module_path = class_spec.split(':')
 
-        if not import_module(module_path) and egg_name:
-            self._install_egg(egg_name)
+        try:
+            import_module(module_path)
+        except ImportError:
+            if egg_name:
+                self._install_egg(egg_name)
 
         return self.get_class(module_path)
 
