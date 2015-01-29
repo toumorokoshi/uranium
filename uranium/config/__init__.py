@@ -9,6 +9,7 @@ from .parts import Parts
 from .phases import Phases
 from .versions import Versions
 from .resolve_dict import ResolveDict
+from .version_resolver import VersionResolver
 
 INHERITANCE_KEY = "inherits"
 
@@ -42,6 +43,7 @@ class Config(ResolveDict,
     functionality regarding specific subattributes of the config to
     mixins.
     """
+    _resolved_versions = None
 
     def __init__(self, raw_options):
         raw_values = {}
@@ -49,6 +51,7 @@ class Config(ResolveDict,
         super(Config, self).__init__(raw_values, None)
         self._resolve_values = self
         self._initialize()
+        self.resolved_versions = VersionResolver(self.eggs, self.versions)
 
     def get_part(self, part_name):
         return Part(part_name, self.parts[part_name])
@@ -61,12 +64,6 @@ class Config(ResolveDict,
         warnings, errors = [], []
         self._invoke_bases('_validate', warnings, errors)
         return warnings, errors
-
-    @property
-    def resolved_versions(self):
-        versions = copy.copy(self.versions)
-        versions.update(self.eggs)
-        return versions
 
     @staticmethod
     def load_from_path(path):

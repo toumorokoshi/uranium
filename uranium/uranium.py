@@ -26,7 +26,9 @@ class Uranium(object):
         self._config = config
 
         self._pip = PipManager(index_urls=self._config.indexes,
-                               versions=self.config.resolved_versions)
+                               # this is a lambda to ensure we always
+                               # pick up a newly resolved version
+                               versions=lambda: self.config.resolved_versions)
         self._classloader = ClassLoader(self._pip)
 
         self._buildout = BuildoutAdapter(self, self._classloader)

@@ -1,4 +1,5 @@
 from pip.req import RequirementSet
+from collections import Callable
 
 
 class UraniumRequirementSet(RequirementSet):
@@ -6,9 +7,6 @@ class UraniumRequirementSet(RequirementSet):
     This class extends pip's RequirementSet class
     to hook in version pinning from a spec
     """
-
-    # we have uranium in the name to ensure no conflicts
-    uranium_versions = {}
 
     def add_requirement(self, install_req):
         if not install_req.editable:
@@ -24,3 +22,17 @@ class UraniumRequirementSet(RequirementSet):
             # because the & operator accepts string
             if new_spec:
                 install_req.req.specifier = old_specifier & new_spec
+
+    @property
+    def uranium_versions(self):
+        if hasattr(self, '_uranium_versions'):
+            if isinstance(self._uranium_versions, Callable):
+                return self._uranium_versions()
+            else:
+                return self._uranium_versions
+        else:
+            return {}
+
+    @uranium_versions.setter
+    def uranium_versions(self, val):
+        self._uranium_versions = val
