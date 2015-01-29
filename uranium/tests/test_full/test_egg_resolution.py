@@ -3,30 +3,29 @@ tests for the warmup script
 """
 import os
 import subprocess
-from uranium.tests.utils import WarmupBaseTest
-from nose.tools import ok_
+from uranium.tests.utils import FullUraniumBaseTest
+from nose.tools import eq_
 
 BASE = os.path.dirname(__file__)
 URANIUM_ROOT_PATH = os.path.join(BASE, os.pardir, os.pardir, os.pardir)
 
 
-class TestEggResolution(WarmupBaseTest):
+class TestEggResolution(FullUraniumBaseTest):
 
     config = {
         'eggs': {
-            'uranium': '== 0.0.10'
+            'requests': '==2.3.0'
         },
-        'develop-eggs': [
-            URANIUM_ROOT_PATH
-        ],
         'versions': {
-            'uranium': '== 0.0.9'
+            'uranium': '==2.5.1'
         }
     }
 
-    def test_develop_egg_resolution(self):
+    def test_egg_resolution(self):
         """
-        ensure that develop eggs take precedence over
-        regular specs or version specs
+        ensure that egg version take precedence version specs
         """
-        ok_(not subprocess.call([self.warmup_file_path], cwd=self.root))
+        output = subprocess.check_output(['./bin/python', '-c', 'import requests; print(requests.__version__)'],
+                                         cwd=self.root)
+        output = output.decode('ascii').strip()
+        eq_(output, '2.3.0')
