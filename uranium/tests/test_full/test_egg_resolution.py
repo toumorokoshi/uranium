@@ -2,7 +2,7 @@
 tests for the warmup script
 """
 import os
-import subprocess
+from uranium.compat import check_output
 from uranium.tests.utils import FullUraniumBaseTest
 from nose.tools import eq_
 
@@ -25,7 +25,7 @@ class TestEggResolution(FullUraniumBaseTest):
         """
         ensure that egg version take precedence version specs
         """
-        output = subprocess.check_output(['./bin/python', '-c', 'import requests; print(requests.__version__)'],
-                                         cwd=self.root)
+        output = check_output(['./bin/python', '-c', 'import requests; print(requests.__version__)'],
+                              cwd=self.root)
         output = output.decode('ascii').strip()
         eq_(output, '2.3.0')

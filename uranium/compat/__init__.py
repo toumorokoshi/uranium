@@ -20,4 +20,9 @@ except ImportError:
 try:
     from importlib import import_module
 except:
-    from c_importlib import import_module
+    from .c_importlib import import_module
+
+try:
+    from subprocess import check_output
+except:
+    from .check_output import check_output
