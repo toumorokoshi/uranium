@@ -1,5 +1,8 @@
+import logging
 from pip.req import RequirementSet
 from collections import Callable
+
+LOGGER = logging.getLogger(__name__)
 
 
 class UraniumRequirementSet(RequirementSet):
@@ -11,6 +14,7 @@ class UraniumRequirementSet(RequirementSet):
     def add_requirement(self, install_req):
         if not install_req.editable:
             self._uranium_rectify_versions(install_req)
+        _log_requirement_added(install_req)
         super(UraniumRequirementSet, self).add_requirement(install_req)
 
     def _uranium_rectify_versions(self, install_req):
@@ -36,3 +40,16 @@ class UraniumRequirementSet(RequirementSet):
     @uranium_versions.setter
     def uranium_versions(self, val):
         self._uranium_versions = val
+
+
+def _log_requirement_added(install_req):
+    if install_req.editable:
+        msg = "Adding develop-egg {0}".format(install_req.source_dir)
+    else:
+        msg = "Adding requirement {0}".format(
+            install_req.req.project_name
+        )
+        if install_req.req.specifier:
+            msg += str(install_req.req.specifier)
+
+    LOGGER.info(msg + "...")

@@ -28,7 +28,7 @@ setup(name='uranium',
       packages=find_packages(),
       install_requires=install_requires,
       classifiers=[
-          'Development Status :: 1 - Planning',
+          'Development Status :: 3 - Alpha',
           'Operating System :: MacOS',
           'Operating System :: POSIX :: Linux',
           'Topic :: System :: Software Distribution',

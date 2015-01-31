@@ -6,6 +6,7 @@ from .config import Config
 from .buildout_adapter import BuildoutAdapter
 from .isotope_runner import IsotopeRunner
 from .phases import (AFTER_EGGS, BEFORE_EGGS)
+from .messages import START_URANIUM, END_URANIUM
 
 LOGGER = logging.getLogger(__name__)
 
@@ -45,12 +46,18 @@ class Uranium(object):
         return self._root
 
     def run(self):
+        [LOGGER.info(l) for l in START_URANIUM]
+
         self._create_bin_directory()
         self.run_phase(BEFORE_EGGS)
+        LOGGER.info("installing eggs...")
         self._install_eggs()
         self.run_phase(AFTER_EGGS)
 
+        [LOGGER.info(l) for l in END_URANIUM]
+
     def run_part(self, name):
+        LOGGER.info("running part {0}...".format(name))
         part = self._config.get_part(name)
 
         runner = self._buildout if part.is_recipe else self._isotope
@@ -59,6 +66,7 @@ class Uranium(object):
         runner.install_part(part_instance)
 
     def run_phase(self, phase):
+        LOGGER.debug("running phase {0}...".format(phase.key))
         part_names = self._config.phases.get(phase.key, [])
         for name in part_names:
             self.run_part(name)

@@ -92,12 +92,20 @@ def _activate_virtualenv(uranium_dir):
     # when activating a sandbox.
     pkg_resources.working_set.entries = sys.path
 
+LOGGING_NAMES = [__name__]
+
 
 def _create_stdout_logger():
-    """ create a logger to stdout """
-    log = logging.getLogger(__name__)
+    """
+    create a logger to stdout. This creates logger for a series
+    of module we would like to log information on.
+    """
     out_hdlr = logging.StreamHandler(sys.stdout)
-    out_hdlr.setFormatter(logging.Formatter('%(message)s'))
+    out_hdlr.setFormatter(logging.Formatter(
+        '[%(asctime)s] %(message)s', "%H:%M:%S"
+    ))
     out_hdlr.setLevel(logging.INFO)
-    log.addHandler(out_hdlr)
-    log.setLevel(logging.INFO)
+    for name in LOGGING_NAMES:
+        log = logging.getLogger(name)
+        log.addHandler(out_hdlr)
+        log.setLevel(logging.INFO)
