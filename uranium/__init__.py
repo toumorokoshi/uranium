@@ -92,6 +92,11 @@ def _activate_virtualenv(uranium_dir):
     # when activating a sandbox.
     pkg_resources.working_set.entries = sys.path
 
+    # in the past, an incorrect real_prefix directory was being
+    # generated when using uranium. it looks like sys.prefix
+    # works as a replacement, so let's use that.
+    sys.real_prefix = sys.prefix
+
 LOGGING_NAMES = [__name__]
 
 

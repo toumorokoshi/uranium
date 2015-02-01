@@ -43,16 +43,18 @@ This is all you need to run uranium. Let's run them now:
 
   $ ./uranium
   installing virtualenv...
-  ...
-  activating virtualenv...
-  ...
-  installing uranium...
-  ...
-  running uranium...
-  ...
+  setting up uranium...
+  done!
+  [HH:MM:SS] ================
+  [HH:MM:SS] STARTING URANIUM
+  [HH:MM:SS] ================
+  [HH:MM:SS] installing eggs...
+  [HH:MM:SS] ================
+  [HH:MM:SS] URANIUM FINISHED
+  [HH:MM:SS] ================
 
 And congrats, you've had your first Uranium run! Of course, all this
-did was run virtualend and install Uranium. Now let's get some real
+did was run virtualenv and install Uranium. Now let's get some real
 functionality.
 
 ------------------------------
@@ -73,11 +75,22 @@ you can add a couple new section to the uranium file:
 And let's run uranium again:
 
   $ ./uranium
+  setting up uranium...
+  done!
+  [HH:MM:SS] ================
+  [HH:MM:SS] STARTING URANIUM
+  [HH:MM:SS] ================
+  [HH:MM:SS] installing eggs...
+  [HH:MM:SS] WARNING: Unable to install develop egg at /tmp/uranium-tut: Directory '/tmp/uranium-tut' is not installable. File 'setup.py' not found.
+  [HH:MM:SS] Adding requirement nose==1.3.4...
+  [HH:MM:SS] ================
+  [HH:MM:SS] URANIUM FINISHED
+  [HH:MM:SS] ================
 
-You should see:
+Note the:
 
     WARNING:  Unable to install develop egg at /tmp/uranium-tut: Directory '/tmp/uranium-tut' is not installable
 
-This is because we don't have any egg source in the current
+This is because we don't have any egg source (setup.py) in the current
 directory. If you did this in such a directory, you would notice the
-egg was installed for you.
+develop-egg was installed for you.
