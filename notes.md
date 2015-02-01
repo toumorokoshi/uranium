@@ -27,3 +27,12 @@ Uranium needs to work in a variety of situations, so testing is key. Ultimately 
 Distutils contains the code that helps package and download dependencies. If this is not copied over, it can
 lead to the distutils on the system path being loaded, which results in an incorrect configuration, which finally
 can cause eggs to be installed incorrectly (due to a misdetected root path)
+
+# TODO
+
+* does develop-eggs to a bad egg directory raise an error?
+  * it should just warn
+* support buildout plugins
+* support buildout extensions?
+* support inheritance
+* make virtualenv relocatable at the end of the build process

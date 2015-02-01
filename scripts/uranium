@@ -49,26 +49,28 @@ def main(argv):
     install_dir = os.path.join(current_dir, URANIUM_TARGET)
     uranium_dir = options.uranium_dir
 
-    LOGGER.info("installing virtualenv...")
     _install_virtualenv(install_dir)
 
-    LOGGER.info("activating virtualenv...")
+    LOGGER.debug("activating virtualenv...")
     _activate_virtualenv(install_dir)
 
     os.chdir(current_dir)
 
     if options.with_uranium:
-        LOGGER.info("installing uranium...")
+        LOGGER.info("setting up uranium...")
         _install_uranium(install_dir, uranium_dir=uranium_dir,
                          version=options.version)
+        LOGGER.info("done!")
 
-        LOGGER.info("running uranium...")
+        LOGGER.debug("running uranium...")
         _run_uranium(install_dir)
 
 
 def _install_virtualenv(install_dir):
     if _is_virtualenv(install_dir):
         return
+
+    LOGGER.info("installing virtualenv...")
 
     temp_dir = tempfile.mkdtemp()
     try:
