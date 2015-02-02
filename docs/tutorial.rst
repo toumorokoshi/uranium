@@ -41,17 +41,17 @@ This is all you need to run uranium. Let's run them now:
 
 .. code-block:: yaml
 
-  $ ./uranium
-  installing virtualenv...
-  setting up uranium...
-  done!
-  [HH:MM:SS] ================
-  [HH:MM:SS] STARTING URANIUM
-  [HH:MM:SS] ================
-  [HH:MM:SS] installing eggs...
-  [HH:MM:SS] ================
-  [HH:MM:SS] URANIUM FINISHED
-  [HH:MM:SS] ================
+    $ ./uranium
+    installing virtualenv...
+    setting up uranium...
+    done!
+    [HH:MM:SS] ================
+    [HH:MM:SS] STARTING URANIUM
+    [HH:MM:SS] ================
+    [HH:MM:SS] installing eggs...
+    [HH:MM:SS] ================
+    [HH:MM:SS] URANIUM FINISHED
+    [HH:MM:SS] ================
 
 And congrats, you've had your first Uranium run! Of course, all this
 did was run virtualenv and install Uranium. Now let's get some real
@@ -74,18 +74,21 @@ you can add a couple new section to the uranium file:
 
 And let's run uranium again:
 
-  $ ./uranium
-  setting up uranium...
-  done!
-  [HH:MM:SS] ================
-  [HH:MM:SS] STARTING URANIUM
-  [HH:MM:SS] ================
-  [HH:MM:SS] installing eggs...
-  [HH:MM:SS] WARNING: Unable to install develop egg at /tmp/uranium-tut: Directory '/tmp/uranium-tut' is not installable. File 'setup.py' not found.
-  [HH:MM:SS] Adding requirement nose==1.3.4...
-  [HH:MM:SS] ================
-  [HH:MM:SS] URANIUM FINISHED
-  [HH:MM:SS] ================
+
+.. code-block::
+
+    $ ./uranium
+    setting up uranium...
+    done!
+    [HH:MM:SS] ================
+    [HH:MM:SS] STARTING URANIUM
+    [HH:MM:SS] ================
+    [HH:MM:SS] installing eggs...
+    [HH:MM:SS] WARNING: Unable to install develop egg at /tmp/uranium-tut: Directory '/tmp/uranium-tut' is not installable. File 'setup.py' not found.
+    [HH:MM:SS] Adding requirement nose==1.3.4...
+    [HH:MM:SS] ================
+    [HH:MM:SS] URANIUM FINISHED
+    [HH:MM:SS] ================
 
 Note the:
 

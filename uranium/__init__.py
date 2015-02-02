@@ -21,7 +21,7 @@ from docopt import docopt
 from virtualenv import make_environment_relocatable
 from .uranium import Uranium
 from .virtualenv_manager import install_virtualenv
-from .config import load_config_from_file
+from .config import Config
 import os
 import sys
 
@@ -41,7 +41,7 @@ def main(argv=sys.argv[1:]):
 
 def _get_uranium(uranium_file):
     root = os.path.abspath(os.curdir)
-    config = load_config_from_file(uranium_file)
+    config = Config.load_from_path(uranium_file)
     return Uranium(config, root)
 
 

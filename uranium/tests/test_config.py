@@ -1,6 +1,6 @@
 import httpretty
 import os
-from uranium import config as u_config
+from uranium.config import Config
 from uranium.config import Part
 from nose.tools import ok_, eq_
 
@@ -14,7 +14,7 @@ class TestConfigInheritance(object):
         self.old_dir = os.path.abspath(os.curdir)
         os.chdir(TEST_DIR)
         uranium_file = os.path.join(TEST_DIR, 'uranium.yaml')
-        self.config = u_config.load_config_from_file(uranium_file)
+        self.config = Config.load_from_path(uranium_file)
 
     def test_inheritance(self):
         """
@@ -46,7 +46,7 @@ inherits:
   - "http://example.com/base.yaml"
     """
 
-    config = u_config.load_config_from_string(INHERITS_YAML)
+    config = Config.load_from_string(INHERITS_YAML)
     eq_(config.get("index"), "http://localpypi.local",
         "index should have been loaded from base found online")
 
@@ -64,6 +64,6 @@ def test_get_part():
             }
         }
     }
-    config = u_config.Config(config_dict)
+    config = Config(config_dict)
     part = config.get_part('test')
     eq_(part, Part('test', config_dict['parts']['test']))
