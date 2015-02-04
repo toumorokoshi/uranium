@@ -40,7 +40,7 @@ class BuildoutAdapter(DictMixin):
             LOGGER.error(str(e))
 
     def _get_recipe_class(self, recipe_name):
-        return self._classloader.get_class(recipe_name)
+        return self._classloader.get_entry_point(recipe_name, "zc.buildout")
 
     def __getitem__(self, key):
         if key == "buildout":

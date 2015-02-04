@@ -15,8 +15,9 @@ path to a <uranium_file>
 """
 __import__('pkg_resources').declare_namespace(__name__)
 import logging
+import pkg_resources
 from contextlib import contextmanager
-from pip._vendor import pkg_resources
+from pip._vendor import pkg_resources as pip_pkg_resources
 from docopt import docopt
 from virtualenv import make_environment_relocatable
 from .uranium import Uranium
@@ -75,6 +76,16 @@ def _activate_virtualenv(uranium_dir):
     # we modify the executable directly, because pip invokes this to install packages.
     sys.executable = os.path.join(uranium_dir, 'bin', 'python')
 
+    for _pkg_resources in [pkg_resources, pip_pkg_resources]:
+        _clean_package_resources(_pkg_resources, old_prefix)
+
+    # in the past, an incorrect real_prefix directory was being
+    # generated when using uranium. it looks like sys.prefix
+    # works as a replacement, so let's use that.
+    sys.real_prefix = sys.prefix
+
+
+def _clean_package_resources(_pkg_resources, old_prefix):
     # this is a workaround for pip. Pip utilizes pkg_resources
     # and the path to determine what's installed in the current
     # sandbox
@@ -82,20 +93,15 @@ def _activate_virtualenv(uranium_dir):
     # we remove the requirements that are installed
     # from the parent environment, so pip will detect
     # the requirement from the current virtualenv
-    for name, req in list(pkg_resources.working_set.by_key.items()):
+    for name, req in list(_pkg_resources.working_set.by_key.items()):
         if old_prefix in req.location:
-            del pkg_resources.working_set.by_key[name]
+            del _pkg_resources.working_set.by_key[name]
 
     # ensure that pkg_resources only searches the
     # existing sys.path. These variables are set on
     # initialization, so we have to reset them
     # when activating a sandbox.
     pkg_resources.working_set.entries = sys.path
-
-    # in the past, an incorrect real_prefix directory was being
-    # generated when using uranium. it looks like sys.prefix
-    # works as a replacement, so let's use that.
-    sys.real_prefix = sys.prefix
 
 LOGGING_NAMES = [__name__]
 

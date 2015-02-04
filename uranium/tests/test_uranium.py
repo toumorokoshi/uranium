@@ -14,7 +14,7 @@ class TestUranium(object):
             },
             'parts': {
                 'platform-versions': {
-                    'isotope': 'uranium.example_plugin',
+                    'isotope': 'uranium',
                     'versions': {
                         'nose': '1.1.0'
                     }

@@ -89,6 +89,9 @@ def _install_virtualenv(install_dir):
 
 
 def _install_uranium(virtualenv_dir, uranium_dir=None, version=None):
+    if uranium_dir:
+        uranium_dir = os.path.expanduser(uranium_dir)
+
     log_file = os.path.join(virtualenv_dir, 'uranium_install_log.txt')
     pip_executable = os.path.join(virtualenv_dir, 'bin', 'pip')
     uranium_name = uranium_dir or 'uranium'

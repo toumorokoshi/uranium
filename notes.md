@@ -36,3 +36,7 @@ can cause eggs to be installed incorrectly (due to a misdetected root path)
 * support buildout extensions?
 * support inheritance
 * make virtualenv relocatable at the end of the build process
+
+## Tests TODO
+
+* test to allow user paths in uranium script.

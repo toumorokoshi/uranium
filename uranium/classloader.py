@@ -1,4 +1,5 @@
 import inspect
+import pkg_resources
 from .compat import import_module
 from .pip_manager import PackageNotFound
 
@@ -19,25 +20,20 @@ class ClassLoader(object):
     def __init__(self, pip_manager):
         self._pip = pip_manager
 
-    def get_class_from_spec(self, class_spec):
-        """
-        resolve a spec string from one of the following options:
-
-        <egg_name>:<module>
-        <module>
-        """
-        egg_name = None
-        module_path = class_spec
-        if ':' in class_spec:
-            egg_name, module_path = class_spec.split(':')
+    def get_entry_point(self, entry_point, group):
+        if ":" in entry_point:
+            dist, name = entry_point.split(":")
+        else:
+            dist, name = entry_point, "default"
 
         try:
-            import_module(module_path)
+            import_module(dist)
         except ImportError:
-            if egg_name:
-                self._install_egg(egg_name)
+            self._install_egg(dist)
 
-        return self.get_class(module_path)
+        return pkg_resources.load_entry_point(
+            dist, group, name
+        )
 
     def get_class(self, class_module_path):
         """

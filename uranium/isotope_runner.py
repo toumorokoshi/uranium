@@ -24,4 +24,6 @@ class IsotopeRunner(object):
         pass
 
     def _get_isotope_class(self, isotope_name):
-        return self._classloader.get_class_from_spec(isotope_name)
+        return self._classloader.get_entry_point(
+            isotope_name, "uranium.plugin"
+        )
