@@ -13,6 +13,7 @@ Support the following:
 from .compat import DictMixin
 import zc.buildout
 import logging
+import os
 
 LOGGER = logging.getLogger(__name__)
 
@@ -61,5 +62,6 @@ class BuildoutAdapter(DictMixin):
     def _buildout(self):
         """ return a buildout """
         return {
-            'directory': self._uranium.root
+            'directory': self._uranium.root,
+            'parts-directory': self._uranium.parts_directory
         }

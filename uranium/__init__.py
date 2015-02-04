@@ -101,7 +101,7 @@ def _clean_package_resources(_pkg_resources, old_prefix):
     # existing sys.path. These variables are set on
     # initialization, so we have to reset them
     # when activating a sandbox.
-    pkg_resources.working_set.entries = sys.path
+    _pkg_resources.working_set.entries = sys.path
 
 LOGGING_NAMES = [__name__]
 

@@ -10,7 +10,7 @@ def install_virtualenv(install_dir):
         return
 
     create_environment(install_dir, no_setuptools=False,
-                       no_pip=False, site_packages=False,
+                       no_pip=True, site_packages=False,
                        symlink=False)
 
 

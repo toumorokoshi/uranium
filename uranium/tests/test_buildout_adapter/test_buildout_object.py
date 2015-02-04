@@ -1,3 +1,4 @@
+import os
 import shutil
 import tempfile
 from uranium.uranium import Uranium
@@ -25,3 +26,11 @@ class TestBuildoutObject(object):
         the uranium root.
         """
         eq_(self.buildout['buildout']['directory'], self.temp_dir)
+
+    def test_buildout_parts_directory(self):
+        """
+        buildout['buildout']['parts-directory'] should return
+        the parts directory.
+        """
+        eq_(self.buildout['buildout']['parts-directory'],
+            os.path.join(self.temp_dir, 'parts'))

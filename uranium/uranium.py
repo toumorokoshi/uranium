@@ -10,6 +10,8 @@ from .messages import START_URANIUM, END_URANIUM
 
 LOGGER = logging.getLogger(__name__)
 
+PARTS_DIRECTORY = "parts"
+
 
 class UraniumException(Exception):
     pass
@@ -44,6 +46,10 @@ class Uranium(object):
     @property
     def root(self):
         return self._root
+
+    @property
+    def parts_directory(self):
+        return os.path.join(self.root, PARTS_DIRECTORY)
 
     def run(self):
         [LOGGER.info(l) for l in START_URANIUM]
