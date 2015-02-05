@@ -7,7 +7,7 @@ from .buildout_adapter import BuildoutAdapter
 from .isotope_runner import IsotopeRunner
 from .phases import (AFTER_EGGS, BEFORE_EGGS)
 from .messages import START_URANIUM, END_URANIUM
-
+from .bin import BinDirectory
 LOGGER = logging.getLogger(__name__)
 
 PARTS_DIRECTORY = "parts"
@@ -15,6 +15,8 @@ PARTS_DIRECTORY = "parts"
 
 class UraniumException(Exception):
     pass
+
+BIN_DIRECTORY = "bin"
 
 
 class Uranium(object):
@@ -46,6 +48,12 @@ class Uranium(object):
     @property
     def root(self):
         return self._root
+
+    @property
+    def bin(self):
+        if not self._bin:
+            self._bin = BinDirectory(self._root, BIN_DIRECTORY)
+        return self._bin
 
     @property
     def parts_directory(self):
