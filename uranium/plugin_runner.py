@@ -1,4 +1,4 @@
-class IsotopeRunner(object):
+class PluginRunner(object):
     """
     isotope runner handles the running of an isotope.
     """
@@ -8,7 +8,7 @@ class IsotopeRunner(object):
         self._classloader = classloader
 
     def get_part_instance(self, part):
-        cls = self._get_isotope_class(part.get('isotope'))
+        cls = self._get_isotope_class(part.get('_plugin'))
         return cls(self._uranium, part)
 
     @staticmethod

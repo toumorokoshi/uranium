@@ -13,7 +13,7 @@ class Part(dict):
     @property
     def is_isotope(self):
         """ returns true if this part is an isotope """
-        return 'isotope' in self
+        return '_plugin' in self
 
     def __eq__(self, other):
         if self.name != other.name:

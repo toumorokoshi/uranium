@@ -4,7 +4,7 @@ from .classloader import ClassLoader
 from .pip_manager import PipManager
 from .config import Config
 from .buildout_adapter import BuildoutAdapter
-from .isotope_runner import IsotopeRunner
+from .plugin_runner import PluginRunner
 from .phases import (AFTER_EGGS, BEFORE_EGGS)
 from .messages import START_URANIUM, END_URANIUM
 from .bin import BinDirectory
@@ -37,7 +37,7 @@ class Uranium(object):
         self._classloader = ClassLoader(self._pip)
 
         self._buildout = BuildoutAdapter(self, self._classloader)
-        self._isotope = IsotopeRunner(self, self._classloader)
+        self._plugin_runner = PluginRunner(self, self._classloader)
 
         self._validate_config()
 
@@ -74,7 +74,7 @@ class Uranium(object):
         LOGGER.info("running part {0}...".format(name))
         part = self._config.get_part(name)
 
-        runner = self._buildout if part.is_recipe else self._isotope
+        runner = self._buildout if part.is_recipe else self._plugin_runner
 
         part_instance = runner.get_part_instance(part)
         runner.install_part(part_instance)
