@@ -51,8 +51,9 @@ class Uranium(object):
 
     @property
     def bin(self):
-        if not self._bin:
-            self._bin = BinDirectory(self._root, BIN_DIRECTORY)
+        if not hasattr(self, '_bin'):
+            self._bin = BinDirectory(
+                os.path.join(self._root, BIN_DIRECTORY))
         return self._bin
 
     @property
