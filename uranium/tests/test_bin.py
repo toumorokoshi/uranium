@@ -7,8 +7,9 @@ from nose.tools import eq_, ok_
 
 
 desired_body = """
-import os
+import os; activate_this=os.path.join(os.path.dirname(os.path.realpath(__file__)), 'activate_this.py'); exec(compile(open(activate_this).read(), activate_this, 'exec'), dict(__file__=activate_this)); del os, activate_this
 
+import os
 bin_directory = os.path.dirname(os.path.realpath(__file__))
 base = os.path.join(bin_directory, os.pardir)
 os.chdir(base)
@@ -41,4 +42,4 @@ class TestBinDirectory(object):
             ok_(permission & desired_permission != 0)
 
         with open(target_path) as fh:
-            eq_(fh.read(), desired_body)
+            ok_(desired_body in fh.read())

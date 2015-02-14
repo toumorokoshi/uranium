@@ -75,7 +75,7 @@ class Uranium(object):
         LOGGER.info("running part {0}...".format(name))
         part = self._config.get_part(name)
 
-        runner = self._buildout if part.is_recipe else self._plugin_runner
+        runner = self._buildout if part.type == "recipe" else self._plugin_runner
 
         part_instance = runner.get_part_instance(part)
         runner.install_part(part_instance)
