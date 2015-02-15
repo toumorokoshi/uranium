@@ -17,7 +17,7 @@ class PluginRunner(object):
 
     @staticmethod
     def update_part(isotope):
-        pass
+        isotope.update()
 
     @staticmethod
     def remove_part(isotope):

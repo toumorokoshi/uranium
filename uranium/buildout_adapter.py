@@ -13,7 +13,6 @@ Support the following:
 from .compat import DictMixin
 import zc.buildout
 import logging
-import os
 
 LOGGER = logging.getLogger(__name__)
 
@@ -37,6 +36,13 @@ class BuildoutAdapter(DictMixin):
     def install_part(part):
         try:
             part.install()
+        except zc.buildout.UserError as e:
+            LOGGER.error(str(e))
+
+    @staticmethod
+    def update_part(part):
+        try:
+            part.update()
         except zc.buildout.UserError as e:
             LOGGER.error(str(e))
 

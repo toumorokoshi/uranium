@@ -1,13 +1,14 @@
 import logging
 import os
-from .classloader import ClassLoader
-from .pip_manager import PipManager
-from .config import Config
-from .buildout_adapter import BuildoutAdapter
-from .plugin_runner import PluginRunner
-from .phases import (AFTER_EGGS, BEFORE_EGGS)
-from .messages import START_URANIUM, END_URANIUM
 from .bin import BinDirectory
+from .buildout_adapter import BuildoutAdapter
+from .classloader import ClassLoader
+from .config import Config
+from .messages import START_URANIUM, END_URANIUM
+from .phases import (AFTER_EGGS, BEFORE_EGGS)
+from .pip_manager import PipManager
+from .plugin_runner import PluginRunner
+from .store import Store
 LOGGER = logging.getLogger(__name__)
 
 PARTS_DIRECTORY = "parts"
@@ -21,7 +22,7 @@ BIN_DIRECTORY = "bin"
 
 class Uranium(object):
 
-    def __init__(self, config, root):
+    def __init__(self, config, root, store_file=None):
         # well cast the dict to a config for people
         # to make it easier
         if type(config) == dict:
@@ -29,16 +30,14 @@ class Uranium(object):
 
         self._root = root
         self._config = config
-
         self._pip = PipManager(index_urls=self._config.indexes,
                                # this is a lambda to ensure we always
                                # pick up a newly resolved version
                                versions=lambda: self.config.resolved_versions)
         self._classloader = ClassLoader(self._pip)
-
         self._buildout = BuildoutAdapter(self, self._classloader)
         self._plugin_runner = PluginRunner(self, self._classloader)
-
+        self._store = Store(store_file)
         self._validate_config()
 
     @property
@@ -78,7 +77,18 @@ class Uranium(object):
         runner = self._buildout if part.type == "recipe" else self._plugin_runner
 
         part_instance = runner.get_part_instance(part)
-        runner.install_part(part_instance)
+
+        if self._store.is_part_installed(name):
+            runner.install_part(part_instance)
+
+        else:
+            part_info = self._store.get_installed_part(name)
+            if part_info['type'] == part.type and \
+               part_info['entry_point'] == part.entry_point:
+                runner.update_part(part_instance)
+            else:
+                # todo: add a delete part
+                runner.install_part(part_instance)
 
     def run_phase(self, phase):
         LOGGER.debug("running phase {0}...".format(phase.key))
