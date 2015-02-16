@@ -8,7 +8,7 @@ from .messages import START_URANIUM, END_URANIUM
 from .phases import (AFTER_EGGS, BEFORE_EGGS)
 from .pip_manager import PipManager
 from .plugin_runner import PluginRunner
-from .store import Store
+from .state import State
 LOGGER = logging.getLogger(__name__)
 
 PARTS_DIRECTORY = "parts"
@@ -22,7 +22,7 @@ BIN_DIRECTORY = "bin"
 
 class Uranium(object):
 
-    def __init__(self, config, root, store_file=None):
+    def __init__(self, config, root, state_file=None):
         # well cast the dict to a config for people
         # to make it easier
         if type(config) == dict:
@@ -37,7 +37,7 @@ class Uranium(object):
         self._classloader = ClassLoader(self._pip)
         self._buildout = BuildoutAdapter(self, self._classloader)
         self._plugin_runner = PluginRunner(self, self._classloader)
-        self._store = Store(store_file)
+        self._state = State(state_file)
         self._validate_config()
 
     @property
@@ -78,13 +78,12 @@ class Uranium(object):
 
         part_instance = runner.get_part_instance(part)
 
-        if self._store.is_part_installed(name):
+        if not self._state.has_part(name):
             runner.install_part(part_instance)
 
         else:
-            part_info = self._store.get_installed_part(name)
-            if part_info['type'] == part.type and \
-               part_info['entry_point'] == part.entry_point:
+            old_part = self._state.get_part(name)
+            if part == old_part:
                 runner.update_part(part_instance)
             else:
                 # todo: add a delete part

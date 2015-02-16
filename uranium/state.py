@@ -1,4 +1,5 @@
 import yaml
+from .part import Part
 
 PART_STATE_KEY = 'parts'
 
@@ -14,7 +15,7 @@ class State(object):
             PART_STATE_KEY: {}
         }
 
-    def store(self):
+    def save(self):
         if hasattr(self, '_state_file_path'):
             with open(self._state_file_path, 'w+') as fh:
                 fh.write(yaml.dump(self._state,
@@ -22,22 +23,20 @@ class State(object):
             return True
         return False
 
-    def retrieve(self):
+    def load(self):
         if hasattr(self, '_state_file_path'):
             with open(self._state_file_path, 'r') as fh:
                 self._state = yaml.load(fh.read())
             return True
         return False
 
-    def set_is_installed(self, part):
+    def set_part(self, part):
         """ let state know the part is installed """
-        self._state[PART_STATE_KEY][part.name] = {
-            'type': part.type,
-            'entry_point': part.entry_point
-        }
+        self._state[PART_STATE_KEY][part.name] = dict(part.items())
 
-    def is_part_installed(self, part_name):
+    def has_part(self, part_name):
         return part_name in self._state[PART_STATE_KEY]
 
-    def get_installed_part(self, part_name):
-        return self._state[PART_STATE_KEY].get(part_name)
+    def get_part(self, part_name):
+        return Part(part_name,
+                    self._state[PART_STATE_KEY].get(part_name))

@@ -14,27 +14,21 @@ class TestState(object):
     def tearDown(self):
         os.unlink(self.temp_file)
 
-    def test_set_is_installed(self):
+    def test_set_part(self):
         part = Part('foo', {'_plugin': 'foo'})
-        self.state.set_is_installed(part)
-        ok_(self.state.is_part_installed(part.name))
+        self.state.set_part(part)
+        ok_(self.state.has_part(part.name))
 
-    def get_installed_part(self):
+    def test_get_part(self):
         part = Part('foo', {'_plugin': 'foo'})
-        self.state.set_is_installed(part)
-        eq_(self.state.get_installed_part(part.name), {
-            'type': part.type,
-            'entry_point': part.entry_point
-        })
+        self.state.set_part(part)
+        eq_(self.state.get_part(part.name), part)
 
-    def test_store(self):
+    def test_save(self):
         part = Part('foo', {'_plugin': 'foo'})
-        self.state.set_is_installed(part)
-        self.state.store()
+        self.state.set_part(part)
+        self.state.save()
         new_state = State(self.temp_file)
-        new_state.retrieve()
-        ok_(new_state.is_part_installed(part.name))
-        eq_(new_state.get_installed_part(part.name), {
-            'type': 'plugin',
-            'entry_point': 'foo'
-        })
+        new_state.load()
+        ok_(new_state.has_part(part.name))
+        eq_(new_state.get_part(part.name), part)

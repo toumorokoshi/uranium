@@ -35,10 +35,4 @@ class Part(dict):
         if self.name != other.name:
             return False
 
-        if self.type != other.type:
-            return False
-
-        if self.entry_point != other.entry_point:
-            return False
-
         return super(Part, self).__eq__(other)
