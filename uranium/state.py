@@ -1,5 +1,7 @@
+import os
 import yaml
 from .part import Part
+from .utils import ensure_file
 
 PART_STATE_KEY = 'parts'
 
@@ -16,7 +18,9 @@ class State(object):
         }
 
     def save(self):
-        if hasattr(self, '_state_file_path'):
+        if self._state_file_path:
+            ensure_file(self._state_file_path)
+
             with open(self._state_file_path, 'w+') as fh:
                 fh.write(yaml.dump(self._state,
                                    default_flow_style=False))
@@ -24,9 +28,13 @@ class State(object):
         return False
 
     def load(self):
-        if hasattr(self, '_state_file_path'):
+        if self._state_file_path:
+            if not os.path.exists(self._state_file_path):
+                return False
+
             with open(self._state_file_path, 'r') as fh:
                 self._state = yaml.load(fh.read())
+
             return True
         return False
 

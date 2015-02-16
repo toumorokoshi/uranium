@@ -22,6 +22,9 @@ class VersionResolver(Mapping):
         return len(self.__iter__())
 
     def __eq__(self, other):
+        if not hasattr(other, 'keys'):
+            return False
+
         self_keys = set(self.keys())
         other_keys = set(other.keys())
 

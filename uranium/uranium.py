@@ -60,6 +60,7 @@ class Uranium(object):
         return os.path.join(self.root, PARTS_DIRECTORY)
 
     def run(self):
+        self._state.load()
         [LOGGER.info(l) for l in START_URANIUM]
 
         self._create_bin_directory()
@@ -69,25 +70,38 @@ class Uranium(object):
         self.run_phase(AFTER_EGGS)
 
         [LOGGER.info(l) for l in END_URANIUM]
+        self._state.save()
 
     def run_part(self, name):
         LOGGER.info("running part {0}...".format(name))
         part = self._config.get_part(name)
 
-        runner = self._buildout if part.type == "recipe" else self._plugin_runner
-
-        part_instance = runner.get_part_instance(part)
+        runner = self.get_part_runner(part)
 
         if not self._state.has_part(name):
-            runner.install_part(part_instance)
+            # set_part has to be run before install part,
+            # which has the ability to augment
+            # the part information to something
+            # unshashable
+            self._state.set_part(part)
+            runner.install_part(part)
 
         else:
             old_part = self._state.get_part(name)
             if part == old_part:
-                runner.update_part(part_instance)
+                runner.update_part(part)
             else:
-                # todo: add a delete part
-                runner.install_part(part_instance)
+                old_part_runner = self.get_part_runner(old_part)
+                old_part_runner.remove_part(old_part)
+                # set_part has to be run before install part,
+                # which has the ability to augment
+                # the part information to something
+                # unshashable
+                self._state.set_part(part)
+                runner.install_part(part)
+
+    def get_part_runner(self, part):
+        return self._buildout if part.type == "recipe" else self._plugin_runner
 
     def run_phase(self, phase):
         LOGGER.debug("running phase {0}...".format(phase.key))

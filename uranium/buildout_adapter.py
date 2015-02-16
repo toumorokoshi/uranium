@@ -32,19 +32,25 @@ class BuildoutAdapter(DictMixin):
         cls = self._get_recipe_class(part.get('recipe'))
         return cls(self, part.name, part)
 
-    @staticmethod
-    def install_part(part):
+    def install_part(self, part):
+        part_instance = self.get_part_instance(part)
         try:
-            part.install()
+            part_instance.install()
         except zc.buildout.UserError as e:
             LOGGER.error(str(e))
 
-    @staticmethod
-    def update_part(part):
+    def update_part(self, part):
+        part_instance = self.get_part_instance(part)
         try:
-            part.update()
+            part_instance.update()
         except zc.buildout.UserError as e:
             LOGGER.error(str(e))
+
+    def remove_part(self, part):
+        # no remove in buildout.
+        # todo: remove the 'parts' directory for this part.
+        # I believe this is the only thing that buildout does.
+        pass
 
     def _get_recipe_class(self, recipe_name):
         return self._classloader.get_entry_point(recipe_name, "zc.buildout")

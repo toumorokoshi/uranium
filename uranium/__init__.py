@@ -27,6 +27,8 @@ import os
 import sys
 
 DEFAULT_URANIUM_FILE = "uranium.yaml"
+URANIUM_HISTORY_DIR = ".uranium"
+URANIUM_STATE_FILENAME = "state.yaml"
 
 
 def main(argv=sys.argv[1:]):
@@ -43,7 +45,11 @@ def main(argv=sys.argv[1:]):
 def _get_uranium(uranium_file):
     root = os.path.abspath(os.curdir)
     config = Config.load_from_path(uranium_file)
-    return Uranium(config, root)
+    uranium_state_file = os.path.join(
+        root, URANIUM_HISTORY_DIR, URANIUM_STATE_FILENAME
+    )
+    return Uranium(config, root,
+                   state_file=uranium_state_file)
 
 
 @contextmanager

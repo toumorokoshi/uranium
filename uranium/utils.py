@@ -1,3 +1,4 @@
+import os
 import traceback
 
 
@@ -8,3 +9,15 @@ def log_exception(logger, level):
     this should be called during exception handling.
     """
     logger.log(level, traceback.format_exc())
+
+
+def ensure_file(path):
+    """ ensure a file exists at the path specified
+    """
+    parent_dir = os.path.dirname(path)
+
+    if not os.path.exists(parent_dir):
+        os.makedirs(parent_dir)
+
+    if not os.path.exists(path):
+        open(path, 'w+').close()

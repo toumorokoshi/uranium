@@ -11,17 +11,17 @@ class PluginRunner(object):
         cls = self._get_isotope_class(part.get('_plugin'))
         return cls(self._uranium, part)
 
-    @staticmethod
-    def install_part(isotope):
-        isotope.install()
+    def install_part(self, part):
+        plugin_instance = self.get_part_instance(part)
+        plugin_instance.install()
 
-    @staticmethod
-    def update_part(isotope):
-        isotope.update()
+    def update_part(self, part):
+        plugin_instance = self.get_part_instance(part)
+        plugin_instance.update()
 
-    @staticmethod
-    def remove_part(isotope):
-        pass
+    def remove_part(self, part):
+        plugin_instance = self.get_part_instance(part)
+        plugin_instance.remove()
 
     def _get_isotope_class(self, isotope_name):
         return self._classloader.get_entry_point(
