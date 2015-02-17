@@ -1,4 +1,5 @@
 import logging
+import re
 import os
 from virtualenv import create_environment
 
@@ -26,3 +27,35 @@ def is_virtualenv(path):
         if not os.path.exists(target_path):
             return False
     return True
+
+INJECT_WRAPPER = "# URANIUM_INJECT THIS"
+
+INJECT_MATCH = re.compile("(\n?{0}.*{0}\n)".format(INJECT_WRAPPER), re.DOTALL)
+
+INJECT_TEMPLATE = """
+{0}
+{{body}}
+{0}
+""".format(INJECT_WRAPPER)
+
+
+def inject_into_activate_this(venv_root, body):
+    """
+    inject a body into activate_this.py.
+
+    this will overwrite any values previously injected into activate_this.
+    """
+    activate_this_file = os.path.join(venv_root, 'bin', 'activate_this.py')
+    inject_into_file(activate_this_file, body)
+
+
+def inject_into_file(path, body):
+    """ inject into a file """
+    with open(path) as fh:
+        content = fh.read()
+
+    content = INJECT_MATCH.sub("", content)
+    content += INJECT_TEMPLATE.format(body=body)
+
+    with open(path, 'w+') as fh:
+        fh.write(content)
