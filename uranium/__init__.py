@@ -21,8 +21,11 @@ from pip._vendor import pkg_resources as pip_pkg_resources
 from docopt import docopt
 from virtualenv import make_environment_relocatable
 from .uranium import Uranium
-from .virtualenv_manager import install_virtualenv
+from .virtualenv_manager import (
+    install_virtualenv, inject_into_activate_this
+)
 from .config import Config
+from uranium.activate import generate_activate_this
 import os
 import sys
 
@@ -40,6 +43,7 @@ def main(argv=sys.argv[1:]):
 
     with in_virtualenv(uranium_dir):
         uranium.run()
+    _inject_activate_this(uranium_dir, uranium)
 
 
 def _get_uranium(uranium_file):
@@ -62,6 +66,11 @@ def in_virtualenv(path):
 
     # we end my making the virtualenv environment relocatable
     make_environment_relocatable(path)
+
+
+def _inject_activate_this(uranium_dir, uranium):
+    content = generate_activate_this(uranium)
+    inject_into_activate_this(uranium_dir, content)
 
 
 def _activate_virtualenv(uranium_dir):

@@ -38,6 +38,7 @@ class Uranium(object):
         self._buildout = BuildoutAdapter(self, self._classloader)
         self._plugin_runner = PluginRunner(self, self._classloader)
         self._state = State(state_file)
+        self._environment = {}
         self._validate_config()
 
     @property
@@ -54,6 +55,17 @@ class Uranium(object):
             self._bin = BinDirectory(
                 os.path.join(self._root, BIN_DIRECTORY))
         return self._bin
+
+    @property
+    def environment(self):
+        """
+        environment is the dictionary that can be used to set environment
+        variables.
+
+        any key/value pairs set here will be injected into the
+        initialization scripts.
+        """
+        return self._environment
 
     @property
     def parts_directory(self):
