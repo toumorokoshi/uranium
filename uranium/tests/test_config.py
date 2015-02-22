@@ -23,6 +23,8 @@ class TestConfigInheritance(object):
         eq_(self.config.get("index"), "http://my-index.local",
             "value should have been inherited from base.yaml!")
 
+        eq_(self.config.get("config"), "uranium")
+
         parts = self.config["parts"]
         ok_('zeromq' in parts,
             "value should have been inherited indirectly through zeromq.yaml")

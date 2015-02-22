@@ -1,4 +1,3 @@
-import copy
 import requests
 import yaml
 from ..part import Part
@@ -88,14 +87,16 @@ def _set_values(to_dict, raw_options):
     * download all values from the inheritance list
     * fold those values into the raw_options dictionary
     """
+    _recursive_merge(to_dict, raw_options)
+
     inheritance_list = raw_options.get(INHERITANCE_KEY)
+
     if inheritance_list:
 
         for inherited_path in inheritance_list:
             inherited_values = _load_values_from_path(inherited_path)
             _set_values(to_dict, inherited_values)
 
-    _recursive_merge(to_dict, raw_options)
 
 
 def _recursive_merge(to_dict, from_dict):

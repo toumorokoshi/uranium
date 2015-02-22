@@ -25,7 +25,7 @@ from .virtualenv_manager import (
     install_virtualenv, inject_into_activate_this
 )
 from .config import Config
-from uranium.activate import generate_activate_this
+from .activate import generate_activate_this
 import os
 import sys
 

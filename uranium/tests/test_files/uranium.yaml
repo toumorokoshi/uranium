@@ -1,5 +1,6 @@
 inherits:
   - "./base.yaml"
+config: "uranium"
 parts:
   uranium:
     another: key
