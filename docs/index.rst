@@ -29,6 +29,7 @@ Contents:
    tutorial
    config
    eggs
+   envs
    indexes
    inheritance
    versions

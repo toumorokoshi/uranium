@@ -3,6 +3,7 @@ import yaml
 from ..part import Part
 from .develop_eggs import DevelopEggs
 from .eggs import Eggs
+from .envs import Envs
 from .indexes import Indexes
 from .parts import Parts
 from .phases import Phases
@@ -14,7 +15,7 @@ INHERITANCE_KEY = "inherits"
 
 
 class Config(ResolveDict,
-             DevelopEggs, Eggs, Indexes,
+             DevelopEggs, Eggs, Envs, Indexes,
              Parts, Phases, Versions):
     """
     The config object that store configuration.

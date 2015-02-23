@@ -39,6 +39,7 @@ class Uranium(object):
         self._plugin_runner = PluginRunner(self, self._classloader)
         self._state = State(state_file)
         self._environment = {}
+        self._environment.update(config.envs)
         self._validate_config()
 
     @property

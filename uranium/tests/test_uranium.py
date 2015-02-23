@@ -11,6 +11,9 @@ class TestUranium(object):
     def setUp(self):
         self.root = tempfile.mkdtemp()
         self.config = Config({
+            'envs': {
+                'foo': 'bar'
+            },
             'phases': {
                 'before-eggs': 'platform-versions'
             },
@@ -38,3 +41,8 @@ class TestUranium(object):
     def test_parts_directory_property(self):
         eq_(self.uranium.parts_directory,
             os.path.join(self.root, 'parts'))
+
+    def test_environment_inherits_from_config(self):
+        eq_(self.uranium.environment, {
+            'foo': 'bar'
+        })
