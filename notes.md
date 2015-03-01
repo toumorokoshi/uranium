@@ -40,3 +40,18 @@ can cause eggs to be installed incorrectly (due to a misdetected root path)
 ## Tests TODO
 
 * test to allow user paths in uranium script.
+
+## Buildout compatiblity
+
+We have to work with the buildout dictionary being an option set for a download cache:
+
+Some plugins use it: https://github.com/gawel/gp.recipe.node/blob/master/gp/recipe/node/__init__.py#L75
+
+Download object: https://github.com/buildout/buildout/blob/master/src/zc/buildout/download.py#L51
+
+to do so, we need:
+
+  * 'download-cache' option
+  * 'directory' option
+  * 'offline' option
+  * 'install-from-cache'

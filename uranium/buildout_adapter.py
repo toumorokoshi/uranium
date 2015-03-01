@@ -75,5 +75,8 @@ class BuildoutAdapter(DictMixin):
         """ return a buildout """
         return {
             'directory': self._uranium.root,
+            'download-cache': '.cache',
+            'install-from-cache': 'false',
+            'offline': 'false',
             'parts-directory': self._uranium.parts_directory
         }

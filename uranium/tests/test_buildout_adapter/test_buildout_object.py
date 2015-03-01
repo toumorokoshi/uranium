@@ -34,3 +34,28 @@ class TestBuildoutObject(object):
         """
         eq_(self.buildout['buildout']['parts-directory'],
             os.path.join(self.temp_dir, 'parts'))
+
+    def test_download_cache(self):
+        """
+        buildout provides a download cache.
+        we should use that.
+        """
+        eq_(self.buildout['buildout']['download-cache'], '.cache')
+
+    def test_offline(self):
+        """
+        uranium does not currently support an offline proprty,
+        so always return false.
+        """
+        # configparser only supports strings.
+        # uranium should support real values
+        eq_(self.buildout['buildout']['offline'], 'false')
+
+    def test_install_from_cache(self):
+        """
+        uranium does not currently support an offline proprty,
+        so always return false.
+        """
+        # configparser only supports strings.
+        # uranium should support real values
+        eq_(self.buildout['buildout']['install-from-cache'], 'false')
