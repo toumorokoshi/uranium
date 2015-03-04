@@ -10,6 +10,8 @@ install_requires = [
     'requests==2.5.1',
     'six==1.9.0',
     'virtualenv==12.0.6',
+    # we need these two for
+    # buildout compatibilty purposes.
     'zc.buildout'
 ]
 
@@ -19,7 +21,7 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.0.60',
+      version='0.0.62',
       description='a build system for python',
       long_description='a build system for python',
       author='Yusuke Tsutsumi',

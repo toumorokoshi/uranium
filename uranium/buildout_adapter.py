@@ -11,6 +11,7 @@ Support the following:
 
 """
 from .compat import DictMixin
+from .cache import DEFAULT_CACHE_DIRECTORY
 import zc.buildout
 import logging
 
@@ -74,8 +75,13 @@ class BuildoutAdapter(DictMixin):
     def _buildout(self):
         """ return a buildout """
         return {
+            'allow-hosts': '*',
             'directory': self._uranium.root,
-            'download-cache': '.cache',
+            'download-cache': DEFAULT_CACHE_DIRECTORY,
+            # should be site-packages
+            'develop-eggs-directory': '',
+            'eggs-directory': '',
+            'find-links': '',
             'install-from-cache': 'false',
             'offline': 'false',
             'parts-directory': self._uranium.parts_directory

@@ -59,3 +59,14 @@ class TestBuildoutObject(object):
         # configparser only supports strings.
         # uranium should support real values
         eq_(self.buildout['buildout']['install-from-cache'], 'false')
+
+    def test_find_links(self):
+        """
+        uranium does not currently support find-links. We'll
+        just have an empty string for now.
+        """
+        eq_(self.buildout['buildout']['find-links'], '')
+
+    def test_allow_hosts(self):
+        """ just allow the default. """
+        eq_(self.buildout['buildout']['allow-hosts'], '*')

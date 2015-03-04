@@ -2,6 +2,7 @@ import logging
 import os
 from .bin import BinDirectory
 from .buildout_adapter import BuildoutAdapter
+from .cache import Cache, DEFAULT_CACHE_DIRECTORY
 from .classloader import ClassLoader
 from .config import Config
 from .messages import START_URANIUM, END_URANIUM
@@ -11,13 +12,12 @@ from .plugin_runner import PluginRunner
 from .state import State
 LOGGER = logging.getLogger(__name__)
 
-PARTS_DIRECTORY = "parts"
-
 
 class UraniumException(Exception):
     pass
 
 BIN_DIRECTORY = "bin"
+PARTS_DIRECTORY = "parts"
 
 
 class Uranium(object):
@@ -28,6 +28,7 @@ class Uranium(object):
         if type(config) == dict:
             config = Config(config)
 
+        self._cache = Cache(os.path.join(root, DEFAULT_CACHE_DIRECTORY))
         self._root = root
         self._config = config
         self._pip = PipManager(index_urls=self._config.indexes,
@@ -73,6 +74,7 @@ class Uranium(object):
         return os.path.join(self.root, PARTS_DIRECTORY)
 
     def run(self):
+        self._cache.ensure_directory()
         self._state.load()
         [LOGGER.info(l) for l in START_URANIUM]
 
