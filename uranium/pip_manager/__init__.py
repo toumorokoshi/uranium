@@ -65,8 +65,8 @@ class PipManager(object):
             self._requirement_set.install([], [])
             self._restore_source_dirs_in_develop_eggs()
             self._requirement_set.cleanup_files()
-        except DistributionNotFound:
-            raise PackageNotFound()
+        except DistributionNotFound as e:
+            raise PackageNotFound(str(e))
 
     @staticmethod
     def _create_package_finder(index_urls):

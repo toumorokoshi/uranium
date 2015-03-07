@@ -12,6 +12,7 @@ from .resolve_dict import ResolveDict
 from .version_resolver import VersionResolver
 
 INHERITANCE_KEY = "inherits"
+VERIFY_SSL_KEY = "inherits_verify_ssl"
 
 
 class Config(ResolveDict,
@@ -80,7 +81,7 @@ class Config(ResolveDict,
                 getattr(cls, method_name)(self, *args)
 
 
-def _set_values(to_dict, raw_options):
+def _set_values(to_dict, raw_options, verify_ssl=None):
     """
     from a raw_options object:
 
@@ -91,13 +92,17 @@ def _set_values(to_dict, raw_options):
     _recursive_merge(to_dict, raw_options)
 
     inheritance_list = raw_options.get(INHERITANCE_KEY)
+    if verify_ssl is None:
+        verify_ssl = raw_options.get(VERIFY_SSL_KEY)
 
     if inheritance_list:
 
         for inherited_path in inheritance_list:
-            inherited_values = _load_values_from_path(inherited_path)
-            _set_values(to_dict, inherited_values)
-
+            inherited_values = _load_values_from_path(
+                inherited_path, verify_ssl=verify_ssl
+            )
+            _set_values(to_dict, inherited_values,
+                        verify_ssl=verify_ssl)
 
 
 def _recursive_merge(to_dict, from_dict):
@@ -108,9 +113,9 @@ def _recursive_merge(to_dict, from_dict):
             _recursive_merge(to_dict[key], value)
 
 
-def _load_values_from_path(path):
-    if path.startswith('http://'):
-        return _load_values_from_url(path)
+def _load_values_from_path(path, verify_ssl=True):
+    if path.startswith('http'):
+        return _load_values_from_url(path, verify_ssl=verify_ssl)
     return _load_values_from_file(path)
 
 
@@ -127,6 +132,6 @@ def _load_values_from_file(file_path):
         return _load_values_from_file_handle(fh)
 
 
-def _load_values_from_url(url):
-    content = requests.get(url).content
+def _load_values_from_url(url, verify_ssl=True):
+    content = requests.get(url, verify=verify_ssl).content
     return _load_values_from_string(content)

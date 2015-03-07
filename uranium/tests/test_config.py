@@ -52,6 +52,24 @@ inherits:
     eq_(config.get("index"), "http://localpypi.local",
         "index should have been loaded from base found online")
 
+@httpretty.activate
+def test_inheritance_web_https():
+    TEST_URI = "https://example.com/base.yaml"
+    BASE_YAML_DATA = """
+index: "http://localpypi.local"
+    """
+    httpretty.register_uri(httpretty.GET, TEST_URI,
+                           body=BASE_YAML_DATA)
+
+    INHERITS_YAML = """
+inherits:
+  - "https://example.com/base.yaml"
+    """
+
+    config = Config.load_from_string(INHERITS_YAML)
+    eq_(config.get("index"), "http://localpypi.local",
+        "index should have been loaded from base found online")
+
 
 def test_get_part():
     config_dict = {
