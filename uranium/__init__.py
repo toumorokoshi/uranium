@@ -22,7 +22,8 @@ from docopt import docopt
 from virtualenv import make_environment_relocatable
 from .uranium import Uranium
 from .virtualenv_manager import (
-    install_virtualenv, inject_into_activate_this
+    install_virtualenv, inject_into_activate_this,
+    inject_sitepy
 )
 from .config import Config
 from .activate import generate_activate_this
@@ -43,7 +44,7 @@ def main(argv=sys.argv[1:]):
 
     with in_virtualenv(uranium_dir):
         uranium.run()
-    _inject_activate_this(uranium_dir, uranium)
+    _inject_uranium_into_venv(uranium_dir, uranium)
 
 
 def _get_uranium(uranium_file):
@@ -68,9 +69,10 @@ def in_virtualenv(path):
     make_environment_relocatable(path)
 
 
-def _inject_activate_this(uranium_dir, uranium):
+def _inject_uranium_into_venv(uranium_dir, uranium):
     content = generate_activate_this(uranium)
     inject_into_activate_this(uranium_dir, content)
+    inject_sitepy(uranium_dir)
 
 
 def _activate_virtualenv(uranium_dir):

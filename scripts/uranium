@@ -84,8 +84,33 @@ def _install_virtualenv(install_dir):
                          '--no-site-packages',
                          '--always-copy',
                          install_dir])
+        site_py_file = _get_site_file_path(install_dir)
+        _inject_to_site_py(site_py_file)
     finally:
         shutil.rmtree(temp_dir)
+
+
+def _get_site_file_path(venv_directory):
+    executable = os.path.join(venv_directory, 'bin', 'python')
+    return subprocess.check_output(
+        [executable, "-c", "import site; print(site.__file__)"]
+    # we strip the last character because it is a .pyc file.
+    # want the .py
+    )[:-2]
+
+
+def _inject_to_site_py(site_py_file):
+    """
+    we inject modifications to the site.py
+    """
+    with open(site_py_file, 'a') as fh:
+        fh.write("""
+# reshuffling the paths to ensure that distributions in the sandbox
+# always come first
+paths_to_append = [p for p in sys.path if p.startswith(sys.real_prefix)]
+sys.path = [p for p in sys.path if not p.startswith(sys.real_prefix)]
+sys.path += paths_to_append
+        """.strip())
 
 
 def _install_uranium(virtualenv_dir, uranium_dir=None, version=None):

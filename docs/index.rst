@@ -33,6 +33,7 @@ Contents:
    indexes
    inheritance
    versions
+   caveats
 
 
 Indices and tables
