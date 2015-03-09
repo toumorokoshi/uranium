@@ -70,7 +70,7 @@ def _get_site_file_path(venv_directory):
         stdout=subprocess.PIPE
     # we strip the last character because it is a .pyc file.
     # want the .py
-    ).communicate()[:-2]
+    ).communicate()[0][:-2]
 
 
 def inject_into_file(path, body):
