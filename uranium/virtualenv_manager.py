@@ -65,11 +65,12 @@ def inject_sitepy(venv_root):
 
 def _get_site_file_path(venv_directory):
     executable = os.path.join(venv_directory, 'bin', 'python')
-    return subprocess.check_output(
-        [executable, "-c", "import site; print(site.__file__)"]
+    return subprocess.Popen(
+        [executable, "-c", "import site; print(site.__file__)"],
+        stdout=subprocess.PIPE
     # we strip the last character because it is a .pyc file.
     # want the .py
-    )[:-2]
+    ).communicate()[:-2]
 
 
 def inject_into_file(path, body):
