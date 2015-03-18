@@ -68,9 +68,9 @@ def _get_site_file_path(venv_directory):
     return subprocess.Popen(
         [executable, "-c", "import site; print(site.__file__)"],
         stdout=subprocess.PIPE
-    # we strip the last character because it is a .pyc file.
+    # we strip the last character 'c' in case it's a .pyc file
     # want the .py
-    ).communicate()[0][:-2]
+    ).communicate()[0].rstrip('c')
 
 
 def inject_into_file(path, body):
