@@ -70,7 +70,7 @@ def _get_site_file_path(venv_directory):
         stdout=subprocess.PIPE
     # we strip the last character 'c' in case it's a .pyc file
     # want the .py
-    ).communicate()[0].decode('utf-8').rstrip('c')
+    ).communicate()[0].decode('utf-8').rstrip('c\n')
 
 
 def inject_into_file(path, body):
