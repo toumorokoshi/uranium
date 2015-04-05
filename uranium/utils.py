@@ -1,6 +1,7 @@
 import os
 import traceback
 
+
 def log_exception(logger, level):
     """
     log an exception at a specific level

@@ -24,6 +24,8 @@ class Part(dict):
             return 'plugin'
         if 'recipe' in self:
             return 'recipe'
+        if '_script' in self:
+            return 'script'
 
     @property
     def entry_point(self):
