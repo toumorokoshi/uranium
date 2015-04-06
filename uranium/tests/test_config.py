@@ -2,6 +2,7 @@ import httpretty
 import os
 from uranium.config import Config
 from nose.tools import ok_, eq_
+from nose.plugins.attrib import attr
 
 FILEDIR = os.path.dirname(__file__)
 TEST_DIR = os.path.join(FILEDIR, "test_files")
@@ -34,6 +35,7 @@ class TestConfigInheritance(object):
         os.chdir(self.old_dir)
 
 
+@attr(full=True)
 @httpretty.activate
 def test_inheritance_web():
     TEST_URI = "http://example.com/base.yaml"
@@ -53,6 +55,7 @@ inherits:
         "index should have been loaded from base found online")
 
 
+@attr(full=True)
 @httpretty.activate
 def test_inheritance_web_https():
     TEST_URI = "https://example.com/base.yaml"

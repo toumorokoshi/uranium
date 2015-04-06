@@ -1,7 +1,7 @@
 import os
 import tempfile
 from nose.tools import eq_, ok_
-from uranium.part import Part
+from uranium.parts.part import Part
 from uranium.state import State
 
 

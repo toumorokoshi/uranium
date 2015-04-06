@@ -93,7 +93,10 @@ class Uranium(object):
         LOGGER.debug("running phase {0}...".format(phase.key))
         part_names = self._config.phases.get(phase.key, [])
         for name in part_names:
-            self._part_runner.run_part(name)
+            self.run_part(name)
+
+    def run_part(self, name):
+        self._part_runner.run_part(name)
 
     def _create_bin_directory(self):
         bin_directory = os.path.join(self._root, 'bin')

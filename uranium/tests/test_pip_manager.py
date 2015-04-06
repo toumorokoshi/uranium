@@ -2,7 +2,7 @@ from uranium.pip_manager import PipManager
 from nose.tools import eq_
 
 
-class TestPipManager(object):
+class SkipPipManager(object):
 
     def setUp(self):
         self.pip = PipManager()
