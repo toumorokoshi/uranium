@@ -1,6 +1,6 @@
 import os
 import yaml
-from .part import Part
+from .parts.part import Part
 from .utils import ensure_file
 
 PART_STATE_KEY = 'parts'

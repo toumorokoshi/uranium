@@ -10,15 +10,15 @@ Support the following:
 * must catch zc.builout.UserError (raised when there is an error with user input)
 
 """
-from .compat import DictMixin
-from .cache import DEFAULT_CACHE_DIRECTORY
+from ..compat import DictMixin
+from ..cache import DEFAULT_CACHE_DIRECTORY
 import zc.buildout
 import logging
 
 LOGGER = logging.getLogger(__name__)
 
 
-class BuildoutAdapter(DictMixin):
+class RecipeRunner(DictMixin):
     """
     a class that acts like a buildout object,
     to support buildout recipes.

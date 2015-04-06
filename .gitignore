@@ -64,3 +64,5 @@ pip-selfcheck.json
 
 # Vim
 .*.swp
+
+!uranium/parts/

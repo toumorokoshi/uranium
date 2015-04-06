@@ -1,6 +1,5 @@
 import requests
 import yaml
-from ..part import Part
 from .develop_eggs import DevelopEggs
 from .eggs import Eggs
 from .envs import Envs
@@ -38,9 +37,6 @@ class Config(ResolveDict,
         self._resolve_values = self
         self._initialize()
         self.resolved_versions = VersionResolver(self.eggs, self.versions)
-
-    def get_part(self, part_name):
-        return Part(part_name, self.parts[part_name])
 
     def validate(self):
         """

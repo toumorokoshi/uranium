@@ -15,7 +15,7 @@ class TestBuildoutObject(object):
         self.temp_dir = tempfile.mkdtemp()
         self.config = Config({})
         self.uranium = Uranium(self.config, root=self.temp_dir)
-        self.buildout = self.uranium._buildout
+        self.buildout = self.uranium._part_runner._runners['recipe']
 
     def tearDown(self):
         shutil.rmtree(self.temp_dir)

@@ -1,7 +1,6 @@
 import httpretty
 import os
 from uranium.config import Config
-from uranium.config import Part
 from nose.tools import ok_, eq_
 
 FILEDIR = os.path.dirname(__file__)
@@ -34,6 +33,7 @@ class TestConfigInheritance(object):
     def tearDown(self):
         os.chdir(self.old_dir)
 
+
 @httpretty.activate
 def test_inheritance_web():
     TEST_URI = "http://example.com/base.yaml"
@@ -52,6 +52,7 @@ inherits:
     eq_(config.get("index"), "http://localpypi.local",
         "index should have been loaded from base found online")
 
+
 @httpretty.activate
 def test_inheritance_web_https():
     TEST_URI = "https://example.com/base.yaml"
@@ -69,21 +70,3 @@ inherits:
     config = Config.load_from_string(INHERITS_YAML)
     eq_(config.get("index"), "http://localpypi.local",
         "index should have been loaded from base found online")
-
-
-def test_get_part():
-    config_dict = {
-        'phases': {
-            'after-eggs': ['unit', 'test']
-        },
-        'parts': {
-            'test': {
-                'recipe': 'yt.recipe.shell',
-                'script': './bin/nosetests',
-                'name': 'test'
-            }
-        }
-    }
-    config = Config(config_dict)
-    part = config.get_part('test')
-    eq_(part, Part('test', config_dict['parts']['test']))

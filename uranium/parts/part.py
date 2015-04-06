@@ -1,7 +1,7 @@
 class PartException(Exception):
     pass
 
-PART_TYPES = ['_plugin', 'recipe']
+PART_TYPES = ['_plugin', 'recipe', '_script']
 
 
 class Part(dict):

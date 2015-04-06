@@ -1,14 +1,13 @@
 import logging
 import os
 from .bin import BinDirectory
-from .buildout_adapter import BuildoutAdapter
 from .cache import Cache, DEFAULT_CACHE_DIRECTORY
 from .classloader import ClassLoader
 from .config import Config
 from .messages import START_URANIUM, END_URANIUM
+from .parts import PartRunner
 from .phases import (AFTER_EGGS, BEFORE_EGGS)
 from .pip_manager import PipManager
-from .plugin_runner import PluginRunner
 from .state import State
 LOGGER = logging.getLogger(__name__)
 
@@ -36,11 +35,10 @@ class Uranium(object):
                                # pick up a newly resolved version
                                versions=lambda: self.config.resolved_versions)
         self._classloader = ClassLoader(self._pip)
-        self._buildout = BuildoutAdapter(self, self._classloader)
-        self._plugin_runner = PluginRunner(self, self._classloader)
         self._state = State(state_file)
         self._environment = {}
         self._environment.update(config.envs)
+        self._part_runner = PartRunner(self, self._classloader)
         self._validate_config()
 
     @property
@@ -50,6 +48,10 @@ class Uranium(object):
     @property
     def root(self):
         return self._root
+
+    @property
+    def state(self):
+        return self._state
 
     @property
     def bin(self):
@@ -87,42 +89,11 @@ class Uranium(object):
         [LOGGER.info(l) for l in END_URANIUM]
         self._state.save()
 
-    def run_part(self, name):
-        LOGGER.info("running part {0}...".format(name))
-        part = self._config.get_part(name)
-
-        runner = self.get_part_runner(part)
-
-        if not self._state.has_part(name):
-            # set_part has to be run before install part,
-            # which has the ability to augment
-            # the part information to something
-            # unshashable
-            self._state.set_part(part)
-            runner.install_part(part)
-
-        else:
-            old_part = self._state.get_part(name)
-            if part == old_part:
-                runner.update_part(part)
-            else:
-                old_part_runner = self.get_part_runner(old_part)
-                old_part_runner.remove_part(old_part)
-                # set_part has to be run before install part,
-                # which has the ability to augment
-                # the part information to something
-                # unshashable
-                self._state.set_part(part)
-                runner.install_part(part)
-
-    def get_part_runner(self, part):
-        return self._buildout if part.type == "recipe" else self._plugin_runner
-
     def run_phase(self, phase):
         LOGGER.debug("running phase {0}...".format(phase.key))
         part_names = self._config.phases.get(phase.key, [])
         for name in part_names:
-            self.run_part(name)
+            self._part_runner.run_part(name)
 
     def _create_bin_directory(self):
         bin_directory = os.path.join(self._root, 'bin')
