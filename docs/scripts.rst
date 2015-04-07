@@ -40,3 +40,19 @@ Scripts must contain the following:
 
 As a best practice, it's recommended to put all scripts into a common
 directory, such as 'uscripts' (uranium scripts)
+
+You can also have scripts inline:
+
+.. code-block:: yaml
+
+    phases:
+      after-eggs: 'inline-example'
+    parts:
+      inline-example:
+        _script: true
+        inline: |
+          import platform
+          uranium.environment['platform'] = platform.uname().node
+
+
+In the inline definition, the 'uranium' variable is already provided for you.
