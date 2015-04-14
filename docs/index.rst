@@ -32,6 +32,7 @@ Contents:
    envs
    indexes
    inheritance
+   scripts
    versions
    caveats
 
