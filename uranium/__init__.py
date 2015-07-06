@@ -1,17 +1,17 @@
 """Uranium, a build system for python
 
 Usage:
-  uranium [<uranium_file> -v]
+  uranium [<build_file> -v]
   uranium (-h | --help)
 
 Options:
   -h, --help        show this usage guide
   -v, --verbose     show verbose output
 
-By default, uranium will look for a uranium.yaml
+By default, uranium will look for a build.py
 file in the current directory uranium was
 invoked in. this can be overridden by passing in a
-path to a <uranium_file>
+path to a <build_file>
 """
 __import__('pkg_resources').declare_namespace(__name__)
 import logging
@@ -20,41 +20,32 @@ from contextlib import contextmanager
 from pip._vendor import pkg_resources as pip_pkg_resources
 from docopt import docopt
 from virtualenv import make_environment_relocatable
-from .uranium import Uranium
-from .virtualenv_manager import (
+from .build import Build
+from .lib.virtualenv_manager import (
     install_virtualenv, inject_into_activate_this,
     inject_sitepy
 )
-from .config import Config
 from .activate import generate_activate_this
 import os
 import sys
 
-DEFAULT_URANIUM_FILE = "uranium.yaml"
+DEFAULT_BUILD_FILE = "build.py"
 URANIUM_HISTORY_DIR = ".uranium"
-URANIUM_STATE_FILENAME = "state.yaml"
+# URANIUM_STATE_FILENAME = "state.yaml"
 
 
 def main(argv=sys.argv[1:]):
     _create_stdout_logger()
     options = docopt(__doc__,  argv=argv)
-    uranium_dir = os.path.abspath(os.curdir)
-    uranium_file = options['<uranium_file>'] or DEFAULT_URANIUM_FILE
-    uranium = _get_uranium(uranium_file)
-
-    with in_virtualenv(uranium_dir):
-        uranium.run()
-    _inject_uranium_into_venv(uranium_dir, uranium)
-
-
-def _get_uranium(uranium_file):
     root = os.path.abspath(os.curdir)
-    config = Config.load_from_path(uranium_file)
-    uranium_state_file = os.path.join(
-        root, URANIUM_HISTORY_DIR, URANIUM_STATE_FILENAME
-    )
-    return Uranium(config, root,
-                   state_file=uranium_state_file)
+    build_file = options['<build_file>'] or DEFAULT_BUILD_FILE
+
+    build = Build(root)
+
+    with in_virtualenv(root):
+        build.run(build_file)
+
+    # _inject_uranium_into_venv(root, root)
 
 
 @contextmanager
@@ -120,7 +111,7 @@ def _clean_package_resources(_pkg_resources, old_prefix):
     # when activating a sandbox.
     _pkg_resources.working_set.entries = sys.path
 
-LOGGING_NAMES = [__name__]
+LOGGING_NAMES = [__name__, "pip"]
 
 
 def _create_stdout_logger():

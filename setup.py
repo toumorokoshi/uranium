@@ -2,14 +2,14 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'setuptools==12.0.5',
+    'setuptools==18.0.1',
     'docopt==0.6.2',
     'jinja2==2.7.3',
-    'pip==6.0.6',
+    'pip==7.1.0',
     'pyyaml==3.11',
-    'requests==2.5.1',
+    'requests==2.7.0',
     'six==1.9.0',
-    'virtualenv==12.0.6',
+    'virtualenv==13.1.0',
     # we need these two for
     # buildout compatibilty purposes.
     'zc.buildout'
@@ -21,7 +21,7 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.0.64',
+      version='0.1.0',
       description='a build system for python',
       long_description='a build system for python',
       author='Yusuke Tsutsumi',
