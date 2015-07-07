@@ -6,7 +6,6 @@ install_requires = [
     'docopt==0.6.2',
     'jinja2==2.7.3',
     'pip==7.1.0',
-    'pyyaml==3.11',
     'requests==2.7.0',
     'six==1.9.0',
     'virtualenv==13.1.0',
