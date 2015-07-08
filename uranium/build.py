@@ -39,11 +39,11 @@ class Build(object):
     def packages(self):
         return self._packages
 
-    def run(self, build_py_name="build.py"):
+    def run(self, build_py_name="build.py", method="main"):
         path = os.path.join(self.root, build_py_name)
         u_assert(os.path.exists(path),
                  "build file at {0} does not exist".format(path))
-        run_script(path, "main", build=self)
+        run_script(path, method, build=self)
         self._finalize()
 
     def _finalize(self):

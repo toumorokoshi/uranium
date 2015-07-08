@@ -1,18 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
-install_requires = [
-    'setuptools==18.0.1',
-    'docopt==0.6.2',
-    'jinja2==2.7.3',
-    'pip==7.1.0',
-    'requests==2.7.0',
-    'six==1.9.0',
-    'virtualenv==13.1.0',
-    # we need these two for
-    # buildout compatibilty purposes.
-    'zc.buildout'
-]
+install_requires = []
 
 tests_require = [
     'httpretty',
@@ -20,11 +9,11 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.1.0',
+      version='0.2.3',
       description='a build system for python',
       long_description='a build system for python',
       author='Yusuke Tsutsumi',
-      author_email='yusuke@yusuketsutsumi.com',
+      author_email='yusuke@tsutsumi.io',
       url='http://uranium.readthedocs.org',
       packages=find_packages(),
       install_requires=install_requires,
@@ -47,9 +36,6 @@ setup(name='uranium',
           'console_scripts': [
               'uranium=uranium:main'
           ],
-          'uranium.plugin': [
-              'default = uranium.example_plugin:ExamplePlugin'
-          ]
       },
       tests_require=tests_require
 )
