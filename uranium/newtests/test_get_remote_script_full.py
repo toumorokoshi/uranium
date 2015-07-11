@@ -1,4 +1,6 @@
 import httpretty
+from uranium import get_remote_script
+from uranium.build import Build
 
 SCRIPT_URL = "http://www.myinternalwebsite.com/uranium_base.py"
 
@@ -18,15 +20,12 @@ def main(build):
 """.strip()
 
 
-def test_get_remote_script(tmpdir, sandbox):
+def test_get_remote_script(tmpdir):
     httpretty.enable()
     httpretty.register_uri(httpretty.GET, SCRIPT_URL,
                            body=REMOTE_SCRIPT)
-    try:
-        # we need to create a virtualenv
-        tmpdir.join("build.py").write(BUILD_PY)
-        code, out, err = sandbox.execute("uranium")
-        assert code == 0
-    finally:
-        httpretty.disable()
-        httpretty.reset()
+    script = get_remote_script(SCRIPT_URL)
+    build = Build(tmpdir.strpath)
+    script["setup"](build)
+    httpretty.disable()
+    httpretty.reset()

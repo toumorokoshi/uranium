@@ -109,7 +109,7 @@ class PipManager(object):
         req_set = UraniumRequirementSet(
             build_dir=build_dir,
             src_dir=src_prefix,
-            download_dir=None, upgrade=True,
+            download_dir=None, upgrade=False,
             session=PipSession()
         )
         req_set.uranium_versions = versions

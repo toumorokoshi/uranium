@@ -40,6 +40,3 @@ class Packages(object):
             self._pip.install_develop(name)
         else:
             self._pip.install(name, version=version)
-
-    def install_develop(self, path):
-        pass

@@ -27,6 +27,12 @@ def _install_vendor_modules(build):
             shutil.rmtree(os.path.join(vendor_directory, d))
 
 
+def _install_test_modules(build):
+    build.packages.install("pytest==2.7.0")
+    build.packages.install("pytest-cov")
+    build.packages.install("httpretty==0.8.10")
+
+
 def distribute(build):
     _install_vendor_modules(build)
     build.packages.install("wheel")
@@ -36,9 +42,15 @@ def distribute(build):
 
 def main(build):
     _install_vendor_modules(build)
-    build.packages.versions.update({
-        "pytest": "==2.7.0"
-    })
-    build.packages.install("pytest")
-    build.packages.install("pytest-cov")
+    _install_test_modules(build)
     build.packages.install(".", develop=True)
+
+
+def test(build):
+    main(build)
+    pytest = os.path.join(build.root, "bin", "py.test")
+    subprocess.call([pytest,
+                     os.path.join("uranium", "newtests"),
+                     "--cov", "uranium",
+                     "--cov-config", "coverage.cfg"],
+                    cwd=build.root)
