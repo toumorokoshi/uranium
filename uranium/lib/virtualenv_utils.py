@@ -8,6 +8,10 @@ LOGGER = logging.getLogger(__name__)
 
 
 def install_virtualenv(install_dir):
+    """
+    install a virtualenv to the desired directory,
+    and returns the path to the executable.
+    """
     if is_virtualenv(install_dir):
         return
 
@@ -15,6 +19,7 @@ def install_virtualenv(install_dir):
                        no_pip=False, site_packages=False,
                        symlink=False)
     make_environment_relocatable(install_dir)
+    return os.path.exists(install_dir, "bin")
 
 
 VIRTUALENV_FILES = {

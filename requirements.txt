@@ -1,6 +1,4 @@
 # seems like this is the only way to get this to build on travis.
 -e .
-mock
-nose
-httpretty
-coverage
+pytest
+pytest-cov
