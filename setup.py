@@ -5,7 +5,6 @@ install_requires = []
 
 tests_require = [
     'httpretty',
-    'nose',
 ]
 
 setup(name='uranium',
@@ -34,7 +33,7 @@ setup(name='uranium',
       ],
       entry_points={
           'console_scripts': [
-              'uranium=uranium:main'
+              'uranium=uranium.scripts.uranium:main'
           ],
       },
       tests_require=tests_require

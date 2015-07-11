@@ -2,3 +2,4 @@
 -e .
 pytest
 pytest-cov
+httpretty

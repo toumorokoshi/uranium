@@ -8,7 +8,8 @@ VENDOR_PACKAGES = [
     "six==1.9.0",
     "setuptools==18.0.1",
     "virtualenv==13.1.0",
-    "docopt==0.6.2"
+    "docopt==0.6.2",
+    "requests==2.7.0",
 ]
 
 

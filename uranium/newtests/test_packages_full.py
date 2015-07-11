@@ -1,10 +1,3 @@
-import os
-from uranium.lib.sandbox import Sandbox
-
-BASE = os.path.dirname(os.path.abspath(__file__))
-URANIUM_SOURCE_ROOT = os.path.dirname(os.path.dirname(BASE))
-
-
 BUILD_PY = """
 def main(build):
 
@@ -14,10 +7,8 @@ def main(build):
 """.strip()
 
 
-def test_install(tmpdir):
+def test_install(tmpdir, sandbox):
     # we need to create a virtualenv
     tmpdir.join("build.py").write(BUILD_PY)
-    sandbox = Sandbox(tmpdir.strpath, uranium_to_install=URANIUM_SOURCE_ROOT)
-    sandbox.initialize()
     code, out, err = sandbox.execute("uranium")
     assert code == 0
