@@ -36,8 +36,7 @@ def main(argv=sys.argv[1:]):
     build_file = options['<build_file>'] or DEFAULT_BUILD_FILE
     method = options['<directive>'] or DEFAULT_DIRECTIVE
 
-    # if _executed_within_sandox(root):
-    if False:
+    if _executed_within_sandox(root):
         build = Build(root)
         build.run(build_file, method)
     else:
