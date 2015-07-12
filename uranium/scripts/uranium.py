@@ -43,7 +43,7 @@ def main(argv=sys.argv[1:]):
 
 
 def _executed_within_sandox(root):
-    return hasattr(sys, "real_prefix")
+    return hasattr(sys, "real_prefix") and root == sys.prefix
 
 
 def _install_and_run_uranium(path, argv):
