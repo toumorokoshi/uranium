@@ -32,10 +32,12 @@ def main(argv=sys.argv[1:]):
     _create_stdout_logger()
     options = docopt.docopt(__doc__,  argv=argv)
     root = os.path.abspath(os.curdir)
+    LOGGER.info("executing uranium in {0}...".format(root))
     build_file = options['<build_file>'] or DEFAULT_BUILD_FILE
     method = options['<directive>'] or DEFAULT_DIRECTIVE
 
-    if _executed_within_sandox(root):
+    # if _executed_within_sandox(root):
+    if False:
         build = Build(root)
         build.run(build_file, method)
     else:
