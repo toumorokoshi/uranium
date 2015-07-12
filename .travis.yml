@@ -4,5 +4,5 @@ python:
   - "2.6"
   - "2.7"
   - "3.3"
-install: "pip install uranium; mkdir -p venv; cd venv && uranium"
+install: "pip install uranium; uranium"
 script: "py.test uranium/newtests --cov uranium --cov-config coverage.cfg"
