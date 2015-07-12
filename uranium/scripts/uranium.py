@@ -15,9 +15,8 @@ invoked in. this can be overridden by passing in a
 path to a <build_file>
 """
 import logging
-import subprocess
 from uranium._vendor import docopt
-from ..lib.virtualenv_utils import install_virtualenv
+from ..lib.sandbox import Sandbox
 from ..build import Build
 import os
 import sys
@@ -44,24 +43,14 @@ def main(argv=sys.argv[1:]):
 
 
 def _executed_within_sandox(root):
-    python_executable = os.path.join(root, "bin", "python")
-    return python_executable in sys.executable
+    return hasattr(sys, "real_prefix")
 
 
 def _install_and_run_uranium(path, argv):
     LOGGER.info("instantiating virtualenv...")
-    install_virtualenv(path)
-    python_executable = os.path.join(path, "bin", "python")
-    # setup_py = os.path.join(URANIUM_ROOT, "setup.py")
-    LOGGER.info("installing uranium...")
-    pip = os.path.join(path, "bin", "pip")
-    subprocess.call([python_executable, pip, "install", "--ignore-installed", "uranium"],
-                    cwd=path)
-
-    LOGGER.info("executing uranium...")
-    uranium_executable = os.path.join(path, "bin", "uranium")
-    args = [uranium_executable] + argv
-    subprocess.call(args, cwd=path)
+    sandbox = Sandbox(path)
+    sandbox.initialize()
+    sandbox.execute("uranium", argv, link_pipes=True)
 
 
 def _create_stdout_logger():

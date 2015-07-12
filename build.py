@@ -28,9 +28,14 @@ def _install_vendor_modules(build):
 
 
 def _install_test_modules(build):
-    build.packages.install("pytest==2.7.0")
+    build.packages.versions.update({
+        "httpretty": "==0.8.10",
+        "pytest": "==2.7.0"
+    })
+
+    build.packages.install("pytest")
     build.packages.install("pytest-cov")
-    build.packages.install("httpretty==0.8.10")
+    build.packages.install("httpretty")
 
 
 def distribute(build):

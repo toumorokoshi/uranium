@@ -5,7 +5,7 @@ from .lib.script_runner import run_script
 from .lib.asserts import get_assert_function
 from .exceptions import UraniumException
 from uranium._vendor import virtualenv
-from .lib.virtualenv_utils import inject_into_activate_this
+from .lib.virtualenv_utils import write_activate_this
 
 u_assert = get_assert_function(UraniumException)
 
@@ -50,4 +50,4 @@ class Build(object):
         virtualenv.make_environment_relocatable(self._root)
         activate_content = ""
         activate_content += self.environment.generate_activate_content()
-        inject_into_activate_this(self._root, activate_content)
+        write_activate_this(self._root, additional_content=activate_content)

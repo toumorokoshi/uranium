@@ -1,6 +1,8 @@
 """ this module contains all the tools for sandboxing. """
 import os
 import subprocess
+import sys
+from uranium._vendor import virtualenv
 from .virtualenv_utils import install_virtualenv
 
 
@@ -21,19 +23,25 @@ class Sandbox(object):
         self.execute("easy_install", ["pip"])
         self.execute("pip", ["install", self._uranium_to_install])
 
-    def execute(self, executable_name, args=None):
+    def execute(self, executable_name, args=None, link_pipes=False):
         executable = os.path.join(self._root_dir, "bin", executable_name)
-        return self._execute(executable, args)
+        return self._execute(executable, args, link_pipes)
 
-    def _execute(self, executable, args=None):
+    def _execute(self, executable, args=None, link_pipes=False):
         assert self._initialized, "unable to call script in sandbox until it is initialized!"
         args = args or []
         args = [executable] + args
 
-        process = subprocess.Popen(args,
-                                   stdout=subprocess.PIPE,
-                                   stderr=subprocess.PIPE,
-                                   cwd=self._root_dir)
+        stdin, stdout, stderr = None, subprocess.PIPE, subprocess.PIPE
+        if link_pipes:
+            stdin, stdout, stderr = sys.stdin, sys.stdout, sys.stderr
+        process = subprocess.Popen(
+            args, stdin=stdin, stdout=stdout, stderr=stderr,
+            cwd=self._root_dir
+        )
         stdout, stderr = process.communicate()
         returncode = process.returncode
         return (returncode, stdout, stderr)
+
+    def finalize(self):
+        pass

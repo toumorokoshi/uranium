@@ -1,22 +1,29 @@
 import logging
 import os
-import re
-import subprocess
 import sys
 import pkg_resources
 from pip._vendor import pkg_resources as pip_pkg_resources
-from virtualenv import create_environment
+from uranium._vendor.virtualenv import create_environment
 
 LOGGER = logging.getLogger(__name__)
+
+PREFIX = getattr(sys, "prefix", None)
+REAL_PREFIX = getattr(sys, "real_prefix", None)
 
 
 def install_virtualenv(install_dir):
     if is_virtualenv(install_dir):
         return
 
+    original_prefix = sys.prefix
+    if hasattr(sys, "real_prefix"):
+        sys.prefix = sys.real_prefix
+
     create_environment(install_dir, no_setuptools=False,
                        no_pip=True, site_packages=False,
                        symlink=False)
+
+    sys.prefix = original_prefix
 
 
 def activate_virtualenv(uranium_dir):

@@ -5,6 +5,8 @@ import subprocess
 from uranium._vendor.virtualenv import create_environment, make_environment_relocatable
 
 LOGGER = logging.getLogger(__name__)
+BASE = os.path.dirname(os.path.abspath(__file__))
+LIB_DIR = os.path.dirname(BASE)
 
 
 def install_virtualenv(install_dir):
@@ -40,6 +42,8 @@ INJECT_WRAPPER = "# URANIUM_INJECT THIS"
 INJECT_MATCH = re.compile("(\n?{0}.*{0}\n)".format(INJECT_WRAPPER), re.DOTALL)
 
 INJECT_TEMPLATE = """
+sys.executable = os.path.join(base, "bin", "python")
+
 {0}
 {{body}}
 {0}
@@ -62,6 +66,18 @@ def inject_into_activate_this(venv_root, body):
     """
     activate_this_file = os.path.join(venv_root, 'bin', 'activate_this.py')
     inject_into_file(activate_this_file, body)
+
+
+def write_activate_this(venv_root, additional_content=None):
+
+    activate_this_template = os.path.join(LIB_DIR, "scripts", "activate_this.py")
+    with open(activate_this_template, "r") as fh:
+        content = fh.read() + "\n"
+        content += (additional_content or "")
+
+    activate_this_file = os.path.join(venv_root, "bin", "activate_this.py")
+    with open(activate_this_file, "w+") as fh:
+        fh.write(content)
 
 
 def inject_sitepy(venv_root):
