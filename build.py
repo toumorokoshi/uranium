@@ -16,9 +16,9 @@ VENDOR_PACKAGES = [
 def _install_vendor_modules(build):
     """ download + install the vendor directories """
     vendor_directory = os.path.join(build.root, "uranium", "_vendor")
-    pip_executable = os.path.join(build.root, "bin", "pip")
+    # pip_executable = os.path.join(build.root, "bin", "pip")
     for package in VENDOR_PACKAGES:
-        subprocess.call([pip_executable, "install",
+        subprocess.call(["pip", "install",
                          "-t",  vendor_directory, package])
 
     # then clean the packages
