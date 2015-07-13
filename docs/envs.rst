@@ -1,15 +1,8 @@
-====
-Envs
-====
+=====================
+Environment Variables
+=====================
 
-The envs section can be used to set environment variables within the
-Uranium sandbox.
+An environment variable set within uranium is active for not only the
+lifetime of the build, but for any entry points or scripts generated as well.
 
-envs should be a dictionary of <environment variable, value> pairs. These
-Will be set as environment variables for the execution of both the Uranium run,
-and also for any entry-points generated as well.
-
-.. code-block:: yaml
-
-  envs:
-    AUTH_URL: 'http://example.com/auth'
+Environment variables can be modified with

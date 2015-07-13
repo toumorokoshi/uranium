@@ -1,4 +1,4 @@
-BUILD_PY = """
+URANIUM_PY = """
 def main(build):
 
     build.packages.install("nose")
@@ -9,6 +9,6 @@ def main(build):
 
 def test_install(tmpdir, sandbox):
     # we need to create a virtualenv
-    tmpdir.join("build.py").write(BUILD_PY)
+    tmpdir.join("uranium.py").write(URANIUM_PY)
     code, out, err = sandbox.execute("uranium")
     assert code == 0

@@ -3,8 +3,10 @@ import os
 
 class Environment(dict):
     """
-    a uranium interface exposed which allows the setting of
-    environment variables
+    an interface exposed which allows the setting of
+    environment variables.
+
+    it acts identical to a dictionary.
     """
 
     def __setitem__(self, key, item):

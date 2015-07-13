@@ -9,16 +9,6 @@ def setup(build):
     build.index_urls = ["http://www.myinternalwebsite.com/python_index"]
 """.strip()
 
-BUILD_PY = """
-from uranium import get_remote_script
-
-def main(build):
-    base = get_remote_script("http://www.myinternalwebsite.com/uranium_base.py")
-    base.setup(build)
-
-    assert base.index_urls == ["http://www.myinternalwebsite.com/python_index"]
-""".strip()
-
 
 def test_get_remote_script(tmpdir):
     httpretty.enable()

@@ -10,15 +10,33 @@ Uranium: a Python Build System
 What is Uranium?
 ----------------
 
-Uranium is a build framework for Python. It's designed to help assist with the build process
-for Python services that require more than a virtualenv + "pip install -r requirements.txt". Some of the
-functionality includes:
+Uranium is a build system for Python. It's designed to help assist with the build process
+for Python services that require more than a virtualenv + "pip install -r requirements.txt". The
+built in features include:
 
-* a YAML-based configuration language
-* the ability to share common configuration and setup
-* support for plugins, both for Uranium itself and for zc.buildout
-* (by 1.0) simplifying the installation and configuration process for
-  native libraries that are needed for some Python libraries.
+* isolation via virtualenv
+* package installation via programatically driven pip
+
+Some of the reasons you may want to use Uranium include:
+
+* installing native dependencies
+* executing arbitrary scripts
+
+An example configuration looks like this:
+
+.. code:: python
+
+    # this is a uranium.py file
+    # it requires at the minimum a function
+    # main that accepts a parameter build.
+    def main(build):
+        # you can change the index urls as desired.
+        build.packages.index_urls = ["http://www.mycompany.com/index",
+                                     "http://pypi.python.org"]
+        # eggs are installed this way.
+        build.packages.install("py.test")
+        # you can execute arbitrary scripts that are installed within a sandbox.
+        build.bin.execute("py.test", ["mytests"])
 
 
 Contents:
@@ -26,15 +44,12 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   installation
    tutorial
-   config
-   eggs
+   managing_packages
    envs
    indexes
-   inheritance
-   scripts
    versions
-   caveats
 
 
 Indices and tables

@@ -13,13 +13,6 @@ Uranium needs to work in a variety of situations, so testing is key. Ultimately 
 
 # Known issues
 
-* uranium version conflicts.
-  * the uranium package currently lives in it's own sandbox, so
-    version conflicts between uranium's requirements and the users
-    will conflict.
-  * We should maybe sandbox Uranium's own depedencies
-
-
 # Potential Problems
 
 ## virtualenv does not copy over distutils
@@ -30,12 +23,11 @@ can cause eggs to be installed incorrectly (due to a misdetected root path)
 
 # TODO
 
-* does develop-eggs to a bad egg directory raise an error?
-  * it should just warn
-* support buildout plugins
-* support buildout extensions?
-* support inheritance
-* make virtualenv relocatable at the end of the build process
+* implement a "plugin" pattern
+* allow dynamic loading of modules
+* add an "execute" command to execute commands within the sandbox.
+* allow an override to always download the newest version of a package.
+
 
 ## Tests TODO
 

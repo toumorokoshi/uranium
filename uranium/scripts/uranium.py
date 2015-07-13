@@ -9,7 +9,7 @@ Options:
   -v, --verbose     show verbose output
   <directive>       the directive to execute (defaults to "main")
 
-By default, uranium will look for a build.py
+By default, uranium will look for a uranium.py
 file in the current directory uranium was
 invoked in. this can be overridden by passing in a
 path to a <build_file>
@@ -21,7 +21,7 @@ from ..build import Build
 import os
 import sys
 
-DEFAULT_BUILD_FILE = "build.py"
+DEFAULT_BUILD_FILE = "uranium.py"
 DEFAULT_DIRECTIVE = "main"
 LOGGING_NAMES = [__name__, "pip"]
 URANIUM_ROOT = os.path.dirname(os.path.dirname(__file__))

@@ -59,3 +59,8 @@ def test(build):
                      "--cov", "uranium",
                      "--cov-config", "coverage.cfg"],
                     cwd=build.root)
+
+
+def build_docs(build):
+    main(build)
+    build.packages.install("sphinx")

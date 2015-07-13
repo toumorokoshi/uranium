@@ -39,7 +39,7 @@ class Build(object):
     def packages(self):
         return self._packages
 
-    def run(self, build_py_name="build.py", method="main"):
+    def run(self, build_py_name="uranium.py", method="main"):
         path = os.path.join(self.root, build_py_name)
         u_assert(os.path.exists(path),
                  "build file at {0} does not exist".format(path))
