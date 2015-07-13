@@ -1,5 +1,5 @@
 import logging
-from pip.req import RequirementSet
+from uranium._vendor.pip.req import RequirementSet
 from collections import Callable
 
 LOGGER = logging.getLogger(__name__)
