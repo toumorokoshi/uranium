@@ -65,6 +65,8 @@ pip-selfcheck.json
 # Vim
 .*.swp
 
+*.whl
+
 !uranium/parts/
-uranium/_vendor/
-!uranium/_vendor/__init__.py
+# uranium/_vendor/
+# !uranium/_vendor/__init__.py
