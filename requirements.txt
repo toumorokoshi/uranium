@@ -1,5 +1,5 @@
 # seems like this is the only way to get this to build on travis.
-uranium==0.2.6
+pip==7.1.0
 pytest
 pytest-cov
 httpretty==0.8.10

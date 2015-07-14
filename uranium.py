@@ -20,6 +20,8 @@ def _install_vendor_modules(build):
     for package in VENDOR_PACKAGES:
         subprocess.call(["pip", "install",
                          "-t",  vendor_directory, package])
+        # TODO: modify all imports to use the vendor packages
+        # vs. the direct package imports.
 
     # then clean the packages
     for d in os.listdir(vendor_directory):
@@ -39,14 +41,14 @@ def _install_test_modules(build):
 
 
 def distribute(build):
-    _install_vendor_modules(build)
+    # _install_vendor_modules(build)
     build.packages.install("wheel")
     subprocess.call([sys.executable, "setup.py",
                      "bdist_wheel", "--universal", "upload"])
 
 
 def main(build):
-    _install_vendor_modules(build)
+    # _install_vendor_modules(build)
     _install_test_modules(build)
     build.packages.install(".", develop=True)
 

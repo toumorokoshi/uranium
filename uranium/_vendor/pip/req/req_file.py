@@ -9,15 +9,15 @@ import re
 import shlex
 import optparse
 
-from pip._vendor.six.moves.urllib import parse as urllib_parse
-from pip._vendor.six.moves import filterfalse
+from uranium._vendor.pip._vendor.six.moves.urllib import parse as urllib_parse
+from uranium._vendor.pip._vendor.six.moves import filterfalse
 
-import pip
-from pip.download import get_file_content
-from pip.req.req_install import InstallRequirement
-from pip.exceptions import (RequirementsFileParseError)
-from pip.utils import normalize_name
-from pip import cmdoptions
+import uranium._vendor.pip as pip
+from uranium._vendor.pip.download import get_file_content
+from uranium._vendor.pip.req.req_install import InstallRequirement
+from uranium._vendor.pip.exceptions import (RequirementsFileParseError)
+from uranium._vendor.pip.utils import normalize_name
+from uranium._vendor.pip import cmdoptions
 
 __all__ = ['parse_requirements']
 
