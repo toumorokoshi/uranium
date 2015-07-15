@@ -18,8 +18,12 @@ def _detect_and_fix_import(line, top_module):
         return line.replace("from {0}".format(top_module),
                             "from uranium._vendor.{0}".format(top_module))
 
-    elif line.startswith("import {0}".format(top_module)):
+    elif line == "import {0}".format(top_module):
         return "import uranium._vendor.{0} as {0}".format(top_module)
+
+    elif line.startswith("import {0}".format(top_module)):
+        _, module = line.split(" ")
+        return "import uranium._vendor.{0} as {0}".format(module)
 
     return line
 
