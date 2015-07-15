@@ -1,3 +1,4 @@
+import logging
 import os
 from .packages import Packages
 from .environment import Environment
@@ -6,8 +7,12 @@ from .lib.asserts import get_assert_function
 from .exceptions import UraniumException
 from uranium._vendor import virtualenv
 from .lib.virtualenv_utils import write_activate_this
+from .lib.log_templates import STARTING_URANIUM, ENDING_URANIUM
+from .lib.utils import log_multiline
 
 u_assert = get_assert_function(UraniumException)
+
+LOGGER = logging.getLogger(__name__)
 
 
 class Build(object):
@@ -40,11 +45,13 @@ class Build(object):
         return self._packages
 
     def run(self, build_py_name="uranium.py", method="main"):
+        log_multiline(LOGGER, logging.INFO, STARTING_URANIUM)
         path = os.path.join(self.root, build_py_name)
         u_assert(os.path.exists(path),
                  "build file at {0} does not exist".format(path))
         run_script(path, method, build=self)
         self._finalize()
+        log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
 
     def _finalize(self):
         virtualenv.make_environment_relocatable(self._root)

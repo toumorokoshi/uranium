@@ -23,7 +23,7 @@ import sys
 
 DEFAULT_BUILD_FILE = "uranium.py"
 DEFAULT_DIRECTIVE = "main"
-LOGGING_NAMES = [__name__, "pip"]
+LOGGING_NAMES = ["uranium", "pip"]
 URANIUM_ROOT = os.path.dirname(os.path.dirname(__file__))
 LOGGER = logging.getLogger(__name__)
 

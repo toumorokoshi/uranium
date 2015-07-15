@@ -70,3 +70,4 @@ pip-selfcheck.json
 !uranium/parts/
 # uranium/_vendor/
 # !uranium/_vendor/__init__.py
+*dist-info*

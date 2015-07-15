@@ -1,13 +1,13 @@
 import os
 import logging
-from pip.index import PackageFinder
-from pip.req import InstallRequirement
-from pip.locations import src_prefix
-from pip.exceptions import DistributionNotFound, InstallationError
-from pip.download import PipSession
-from pip.utils.build import BuildDirectory
+from uranium._vendor.pip.index import PackageFinder
+from uranium._vendor.pip.req import InstallRequirement
+from uranium._vendor.pip.locations import src_prefix
+from uranium._vendor.pip.exceptions import DistributionNotFound, InstallationError
+from uranium._vendor.pip.download import PipSession
+from uranium._vendor.pip.utils.build import BuildDirectory
 from .req_set import UraniumRequirementSet
-from uranium.utils import log_exception
+from uranium.lib.utils import log_exception
 from uranium.lib.asserts import get_assert_function
 
 DEFAULT_INDEX_URLS = ['https://pypi.python.org/simple/']
