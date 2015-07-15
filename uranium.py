@@ -4,13 +4,32 @@ import subprocess
 import sys
 
 VENDOR_PACKAGES = {
+    "docopt": "==0.6.2",
     "pip": "==7.1.0",
     "six": "==1.9.0",
     "setuptools": "==18.0.1",
-    "virtualenv": "==13.1.0",
-    "docopt": "==0.6.2",
     "requests": "==2.7.0",
+    "virtualenv": "==13.1.0",
 }
+
+
+def _detect_and_fix_import_2(line, top_module):
+    if "uranium" in line:
+        return line
+
+    if "{0}._vendor.pkg_resources".format(top_module) in line:
+        return line.replace("{0}._vendor.pkg_resources".format(top_module), "uranium._vendor.pkg_resources")
+
+    if "from {0}._vendor import pkg_resources".format(top_module) in line:
+        return line.replace("from {0}._vendor".format(top_module), "from uranium._vendor")
+
+    line = line.replace("{0}.".format(top_module), "uranium._vendor.{0}.".format(top_module))
+    line = line.replace("from {0} ".format(top_module), "from uranium._vendor.{0} ".format(top_module))
+
+    if line.startswith("import {0}".format(top_module)):
+        return "import uranium._vendor.{0}\n".format(top_module)
+
+    return line
 
 
 def _detect_and_fix_import(line, top_module):
@@ -44,7 +63,7 @@ def _convert_vendor_module_imports(path, top_module):
 
             with open(target_path) as fh:
                 lines = [
-                    _detect_and_fix_import(l, top_module) for l in
+                    _detect_and_fix_import_2(l, top_module) for l in
                     fh.readlines()
                 ]
 
