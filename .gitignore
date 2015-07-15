@@ -14,6 +14,7 @@ dist/
 downloads/
 eggs/
 lib/
+!uranium/lib
 lib64/
 parts/
 sdist/
