@@ -3,15 +3,15 @@ Package containing all pip commands
 """
 from __future__ import absolute_import
 
-from pip.commands.completion import CompletionCommand
-from pip.commands.freeze import FreezeCommand
-from pip.commands.help import HelpCommand
-from pip.commands.list import ListCommand
-from pip.commands.search import SearchCommand
-from pip.commands.show import ShowCommand
-from pip.commands.install import InstallCommand
-from pip.commands.uninstall import UninstallCommand
-from pip.commands.wheel import WheelCommand
+from uranium._vendor.pip.commands.completion import CompletionCommand
+from uranium._vendor.pip.commands.freeze import FreezeCommand
+from uranium._vendor.pip.commands.help import HelpCommand
+from uranium._vendor.pip.commands.list import ListCommand
+from uranium._vendor.pip.commands.search import SearchCommand
+from uranium._vendor.pip.commands.show import ShowCommand
+from uranium._vendor.pip.commands.install import InstallCommand
+from uranium._vendor.pip.commands.uninstall import UninstallCommand
+from uranium._vendor.pip.commands.wheel import WheelCommand
 
 
 commands_dict = {

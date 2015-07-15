@@ -1,4 +1,4 @@
-"""setuptools.command.egg_info
+"""uranium._vendor.setuptools.command.egg_info
 
 Create a distribution's .egg-info directory and contents"""
 
@@ -16,14 +16,14 @@ try:
 except ImportError:
     pass
 
-from setuptools import Command
-from setuptools.command.sdist import sdist
-from setuptools.compat import basestring, PY3, StringIO
-from setuptools.command.sdist import walk_revctrl
+from uranium._vendor.setuptools import Command
+from uranium._vendor.setuptools.command.sdist import sdist
+from uranium._vendor.setuptools.compat import basestring, PY3, StringIO
+from uranium._vendor.setuptools.command.sdist import walk_revctrl
 from pkg_resources import (
     parse_requirements, safe_name, parse_version,
     safe_version, yield_lines, EntryPoint, iter_entry_points, to_filename)
-import setuptools.unicode_utils as unicode_utils
+import uranium._vendor.setuptools.unicode_utils as unicode_utils
 
 from pkg_resources import packaging
 
@@ -58,7 +58,7 @@ class egg_info(Command):
         self.vtags = None
 
     def save_version_info(self, filename):
-        from setuptools.command.setopt import edit_config
+        from uranium._vendor.setuptools.command.setopt import edit_config
 
         values = dict(
             egg_info=dict(
@@ -390,7 +390,7 @@ def write_pkg_info(cmd, basename, filename):
             metadata.name, metadata.version = oldname, oldver
 
         safe = getattr(cmd.distribution, 'zip_safe', None)
-        from setuptools.command import bdist_egg
+        from uranium._vendor.setuptools.command import bdist_egg
 
         bdist_egg.write_safety_flag(cmd.egg_info, safe)
 

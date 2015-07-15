@@ -5,9 +5,9 @@ import os
 import glob
 
 from pkg_resources import Distribution, PathMetadata, normalize_path
-from setuptools.command.easy_install import easy_install
-from setuptools.compat import PY3
-import setuptools
+from uranium._vendor.setuptools.command.easy_install import easy_install
+from uranium._vendor.setuptools.compat import PY3
+import uranium._vendor.setuptools
 
 
 class develop(easy_install):
@@ -117,9 +117,9 @@ class develop(easy_install):
             self.run_command('build_ext')
 
         self.install_site_py()  # ensure that target dir is site-safe
-        if setuptools.bootstrap_install_from:
-            self.easy_install(setuptools.bootstrap_install_from)
-            setuptools.bootstrap_install_from = None
+        if uranium._vendor.setuptools.bootstrap_install_from:
+            self.easy_install(uranium._vendor.setuptools.bootstrap_install_from)
+            uranium._vendor.setuptools.bootstrap_install_from = None
 
         # create an .egg-link in the installation dir, pointing to our egg
         log.info("Creating %s (link to %s)", self.egg_link, self.egg_base)

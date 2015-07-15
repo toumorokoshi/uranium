@@ -8,13 +8,13 @@ import re
 import textwrap
 from distutils.util import strtobool
 
-from pip._vendor.six import string_types
-from pip._vendor.six.moves import configparser
-from pip.locations import (
+from uranium._vendor.pip._vendor.six import string_types
+from uranium._vendor.pip._vendor.six.moves import configparser
+from uranium._vendor.pip.locations import (
     legacy_config_file, config_basename, running_under_virtualenv,
     site_config_files
 )
-from pip.utils import appdirs, get_terminal_size
+from uranium._vendor.pip.utils import appdirs, get_terminal_size
 
 
 _environ_prefix_re = re.compile(r"^PIP_", re.I)

@@ -4,12 +4,12 @@ import logging
 import os
 import re
 
-from pip._vendor.six.moves.urllib import parse as urllib_parse
+from uranium._vendor.pip._vendor.six.moves.urllib import parse as urllib_parse
 
-from pip.index import Link
-from pip.utils import rmtree, display_path
-from pip.utils.logging import indent_log
-from pip.vcs import vcs, VersionControl
+from uranium._vendor.pip.index import Link
+from uranium._vendor.pip.utils import rmtree, display_path
+from uranium._vendor.pip.utils.logging import indent_log
+from uranium._vendor.pip.vcs import vcs, VersionControl
 
 _svn_xml_url_re = re.compile('url="([^"]+)"')
 _svn_rev_re = re.compile('committed-rev="(\d+)"')
@@ -161,7 +161,7 @@ class Subversion(VersionControl):
         return self._get_svn_url_rev(location)[0]
 
     def _get_svn_url_rev(self, location):
-        from pip.exceptions import InstallationError
+        from uranium._vendor.pip.exceptions import InstallationError
 
         with open(os.path.join(location, self.dirname, 'entries')) as f:
             data = f.read()

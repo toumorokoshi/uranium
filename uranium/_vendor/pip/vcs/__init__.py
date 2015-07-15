@@ -6,10 +6,10 @@ import logging
 import os
 import shutil
 
-from pip._vendor.six.moves.urllib import parse as urllib_parse
+from uranium._vendor.pip._vendor.six.moves.urllib import parse as urllib_parse
 
-from pip.exceptions import BadCommand
-from pip.utils import (display_path, backup_dir, call_subprocess,
+from uranium._vendor.pip.exceptions import BadCommand
+from uranium._vendor.pip.utils import (display_path, backup_dir, call_subprocess,
                        rmtree, ask_path_exists)
 
 

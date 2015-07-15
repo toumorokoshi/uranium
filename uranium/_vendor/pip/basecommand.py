@@ -8,24 +8,24 @@ import traceback
 import optparse
 import warnings
 
-from pip._vendor.six import StringIO
+from uranium._vendor.pip._vendor.six import StringIO
 
-from pip import cmdoptions
-from pip.locations import running_under_virtualenv
-from pip.download import PipSession
-from pip.exceptions import (BadCommand, InstallationError, UninstallationError,
+from uranium._vendor.pip import cmdoptions
+from uranium._vendor.pip.locations import running_under_virtualenv
+from uranium._vendor.pip.download import PipSession
+from uranium._vendor.pip.exceptions import (BadCommand, InstallationError, UninstallationError,
                             CommandError, PreviousBuildDirError)
-from pip.compat import logging_dictConfig
-from pip.baseparser import ConfigOptionParser, UpdatingDefaultsHelpFormatter
-from pip.req import InstallRequirement, parse_requirements
-from pip.status_codes import (
+from uranium._vendor.pip.compat import logging_dictConfig
+from uranium._vendor.pip.baseparser import ConfigOptionParser, UpdatingDefaultsHelpFormatter
+from uranium._vendor.pip.req import InstallRequirement, parse_requirements
+from uranium._vendor.pip.status_codes import (
     SUCCESS, ERROR, UNKNOWN_ERROR, VIRTUALENV_NOT_FOUND,
     PREVIOUS_BUILD_DIR_ERROR,
 )
-from pip.utils import get_prog, normalize_path
-from pip.utils.deprecation import RemovedInPip8Warning
-from pip.utils.logging import IndentingFormatter
-from pip.utils.outdated import pip_version_check
+from uranium._vendor.pip.utils import get_prog, normalize_path
+from uranium._vendor.pip.utils.deprecation import RemovedInPip8Warning
+from uranium._vendor.pip.utils.logging import IndentingFormatter
+from uranium._vendor.pip.utils.outdated import pip_version_check
 
 
 __all__ = ['Command']
@@ -124,7 +124,7 @@ class Command(object):
             "disable_existing_loggers": False,
             "filters": {
                 "exclude_warnings": {
-                    "()": "pip.utils.logging.MaxLevelFilter",
+                    "()": "uranium._vendor.pip.utils.logging.MaxLevelFilter",
                     "level": logging.WARNING,
                 },
             },
@@ -141,20 +141,20 @@ class Command(object):
             "handlers": {
                 "console": {
                     "level": level,
-                    "class": "pip.utils.logging.ColorizedStreamHandler",
+                    "class": "uranium._vendor.pip.utils.logging.ColorizedStreamHandler",
                     "stream": self.log_streams[0],
                     "filters": ["exclude_warnings"],
                     "formatter": "indent",
                 },
                 "console_errors": {
                     "level": "WARNING",
-                    "class": "pip.utils.logging.ColorizedStreamHandler",
+                    "class": "uranium._vendor.pip.utils.logging.ColorizedStreamHandler",
                     "stream": self.log_streams[1],
                     "formatter": "indent",
                 },
                 "user_log": {
                     "level": "DEBUG",
-                    "class": "pip.utils.logging.BetterRotatingFileHandler",
+                    "class": "uranium._vendor.pip.utils.logging.BetterRotatingFileHandler",
                     "filename": options.log or "/dev/null",
                     "delay": True,
                     "formatter": "indent",
@@ -169,7 +169,7 @@ class Command(object):
                 ])),
             },
             # Disable any logging besides WARNING unless we have DEBUG level
-            # logging enabled. These use both pip._vendor and the bare names
+            # logging enabled. These use both uranium._vendor.pip._vendor and the bare names
             # for the case where someone unbundles our libraries.
             "loggers": dict(
                 (
@@ -182,7 +182,7 @@ class Command(object):
                         ),
                     },
                 )
-                for name in ["pip._vendor", "distlib", "requests", "urllib3"]
+                for name in ["uranium._vendor.pip._vendor", "distlib", "requests", "urllib3"]
             ),
         })
 

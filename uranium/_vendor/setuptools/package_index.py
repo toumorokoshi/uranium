@@ -13,18 +13,18 @@ from pkg_resources import (
     require, Environment, find_distributions, safe_name, safe_version,
     to_filename, Requirement, DEVELOP_DIST,
 )
-from setuptools import ssl_support
+from uranium._vendor.setuptools import ssl_support
 from distutils import log
 from distutils.errors import DistutilsError
-from setuptools.compat import (urllib2, httplib, StringIO, HTTPError,
+from uranium._vendor.setuptools.compat import (urllib2, httplib, StringIO, HTTPError,
                                urlparse, urlunparse, unquote, splituser,
                                url2pathname, name2codepoint,
                                unichr, urljoin, urlsplit, urlunsplit,
                                ConfigParser)
-from setuptools.compat import filterfalse
+from uranium._vendor.setuptools.compat import filterfalse
 from fnmatch import translate
-from setuptools.py26compat import strip_fragment
-from setuptools.py27compat import get_all_headers
+from uranium._vendor.setuptools.py26compat import strip_fragment
+from uranium._vendor.setuptools.py27compat import get_all_headers
 
 EGG_FRAGMENT = re.compile(r'^egg=([-A-Za-z0-9_.]+)$')
 HREF = re.compile("""href\\s*=\\s*['"]?([^'"> ]+)""", re.I)
@@ -626,14 +626,14 @@ class PackageIndex(Environment):
             # Make sure the file has been downloaded to the temp dir.
             if os.path.dirname(filename) != tmpdir:
                 dst = os.path.join(tmpdir, basename)
-                from setuptools.command.easy_install import samefile
+                from uranium._vendor.setuptools.command.easy_install import samefile
                 if not samefile(filename, dst):
                     shutil.copy2(filename, dst)
                     filename=dst
 
             with open(os.path.join(tmpdir, 'setup.py'), 'w') as file:
                 file.write(
-                    "from setuptools import setup\n"
+                    "from uranium._vendor.setuptools import setup\n"
                     "setup(name=%r, version=%r, py_modules=[%r])\n"
                     % (
                         dists[0].project_name, dists[0].version,

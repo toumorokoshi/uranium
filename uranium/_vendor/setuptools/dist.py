@@ -13,9 +13,9 @@ from distutils.core import Distribution as _Distribution
 from distutils.errors import (DistutilsOptionError, DistutilsPlatformError,
     DistutilsSetupError)
 
-from setuptools.depends import Require
-from setuptools.compat import basestring, PY2
-from setuptools import windows_support
+from uranium._vendor.setuptools.depends import Require
+from uranium._vendor.setuptools.compat import basestring, PY2
+from uranium._vendor.setuptools import windows_support
 import pkg_resources
 
 packaging = pkg_resources.packaging
@@ -194,7 +194,7 @@ class Distribution(_Distribution):
         additional requirements will be installed if needed.
 
      'features' **deprecated** -- a dictionary mapping option names to
-        'setuptools.Feature'
+        'uranium._vendor.setuptools.Feature'
         objects.  Features are a portion of the distribution that can be
         included or excluded based on user options, inter-feature dependencies,
         and availability on the current system.  Excluded features are omitted
@@ -353,7 +353,7 @@ class Distribution(_Distribution):
             cmd = self._egg_fetcher
             cmd.package_index.to_scan = []
         except AttributeError:
-            from setuptools.command.easy_install import easy_install
+            from uranium._vendor.setuptools.command.easy_install import easy_install
             dist = self.__class__({'script_args':['easy_install']})
             dist.parse_config_files()
             opts = dist.get_option_dict('easy_install')

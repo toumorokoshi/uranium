@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-requests.models
+uranium._vendor.requests.models
 ~~~~~~~~~~~~~~~
 
 This module contains the primary objects that power Requests.
@@ -202,7 +202,7 @@ class Request(RequestHooksMixin):
     Usage::
 
       >>> import requests
-      >>> req = requests.Request('GET', 'http://httpbin.org/get')
+      >>> req = uranium._vendor.requests.Request('GET', 'http://httpbin.org/get')
       >>> req.prepare()
       <PreparedRequest [GET]>
 
@@ -270,11 +270,11 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
     Usage::
 
       >>> import requests
-      >>> req = requests.Request('GET', 'http://httpbin.org/get')
+      >>> req = uranium._vendor.requests.Request('GET', 'http://httpbin.org/get')
       >>> r = req.prepare()
       <PreparedRequest [GET]>
 
-      >>> s = requests.Session()
+      >>> s = uranium._vendor.requests.Session()
       >>> s.send(r)
       <Response [200]>
 

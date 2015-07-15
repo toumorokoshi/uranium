@@ -1,7 +1,7 @@
 import os
 import os.path
 
-from pip.compat import get_path_uid
+from uranium._vendor.pip.compat import get_path_uid
 
 
 def check_path_owner(path):

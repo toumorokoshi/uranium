@@ -1,6 +1,6 @@
 import os
 import sys
-import pip
+import uranium._vendor.pip
 import glob
 import shutil
 
@@ -19,7 +19,7 @@ def clean():
     os.unlink(os.path.join(here, 'six.py'))
 
 def vendor():
-    pip.main(['install', '-t', here, '-r', 'vendor.txt'])
+    uranium._vendor.pip.main(['install', '-t', here, '-r', 'vendor.txt'])
     for dirname in glob.glob('*.egg-info'):
         shutil.rmtree(dirname)
 

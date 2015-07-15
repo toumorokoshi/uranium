@@ -5,11 +5,11 @@ import os
 import sys
 import tempfile
 
-from pip.compat import uses_pycache, WINDOWS, cache_from_source
-from pip.exceptions import UninstallationError
-from pip.utils import (rmtree, ask, is_local, dist_is_local, renames,
+from uranium._vendor.pip.compat import uses_pycache, WINDOWS, cache_from_source
+from uranium._vendor.pip.exceptions import UninstallationError
+from uranium._vendor.pip.utils import (rmtree, ask, is_local, dist_is_local, renames,
                        normalize_path)
-from pip.utils.logging import indent_log
+from uranium._vendor.pip.utils.logging import indent_log
 
 
 logger = logging.getLogger(__name__)

@@ -92,7 +92,7 @@ class install_lib(orig.install_lib):
 
         # Exclude namespace package __init__.py* files from the output
 
-        from setuptools.archive_util import unpack_directory
+        from uranium._vendor.setuptools.archive_util import unpack_directory
         from distutils import log
 
         outfiles = []

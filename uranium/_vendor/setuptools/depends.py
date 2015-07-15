@@ -3,7 +3,7 @@ import imp
 import marshal
 from imp import PKG_DIRECTORY, PY_COMPILED, PY_SOURCE, PY_FROZEN
 from distutils.version import StrictVersion
-from setuptools import compat
+from uranium._vendor.setuptools import compat
 
 __all__ = [
     'Require', 'find_module', 'get_module_constant', 'extract_constant'

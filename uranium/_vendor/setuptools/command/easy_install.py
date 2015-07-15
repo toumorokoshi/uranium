@@ -39,15 +39,15 @@ import subprocess
 import shlex
 import io
 
-from setuptools import Command
-from setuptools.sandbox import run_setup
-from setuptools.py31compat import get_path, get_config_vars
-from setuptools.command import setopt
-from setuptools.archive_util import unpack_archive
-from setuptools.package_index import PackageIndex
-from setuptools.package_index import URL_SCHEME
-from setuptools.command import bdist_egg, egg_info
-from setuptools.compat import (iteritems, maxsize, basestring, unicode,
+from uranium._vendor.setuptools import Command
+from uranium._vendor.setuptools.sandbox import run_setup
+from uranium._vendor.setuptools.py31compat import get_path, get_config_vars
+from uranium._vendor.setuptools.command import setopt
+from uranium._vendor.setuptools.archive_util import unpack_archive
+from uranium._vendor.setuptools.package_index import PackageIndex
+from uranium._vendor.setuptools.package_index import URL_SCHEME
+from uranium._vendor.setuptools.command import bdist_egg, egg_info
+from uranium._vendor.setuptools.compat import (iteritems, maxsize, basestring, unicode,
                                reraise, PY2, PY3)
 from pkg_resources import (
     yield_lines, normalize_path, resource_string, ensure_directory,
@@ -1135,7 +1135,7 @@ class easy_install(Command):
             if dist.key == 'setuptools':
                 # Ensure that setuptools itself never becomes unavailable!
                 # XXX should this check for latest version?
-                filename = os.path.join(self.install_dir, 'setuptools.pth')
+                filename = os.path.join(self.install_dir, 'uranium._vendor.setuptools.pth')
                 if os.path.islink(filename):
                     os.unlink(filename)
                 f = open(filename, 'wt')
@@ -1369,7 +1369,7 @@ def expand_paths(inputs):
             if not name.endswith('.pth'):
                 # We only care about the .pth files
                 continue
-            if name in ('easy-install.pth', 'setuptools.pth'):
+            if name in ('easy-install.pth', 'uranium._vendor.setuptools.pth'):
                 # Ignore .pth files that we control
                 continue
 
@@ -1405,7 +1405,7 @@ def extract_wininst_cfg(dist_filename):
             return None
         f.seek(prepended - 12)
 
-        from setuptools.compat import StringIO, ConfigParser
+        from uranium._vendor.setuptools.compat import StringIO, ConfigParser
         import struct
 
         tag, cfglen, bmlen = struct.unpack("<iii", f.read(12))
@@ -2218,15 +2218,15 @@ def bootstrap():
     # This function is called when setuptools*.egg is run using /bin/sh
     import setuptools
 
-    argv0 = os.path.dirname(setuptools.__path__[0])
+    argv0 = os.path.dirname(uranium._vendor.setuptools.__path__[0])
     sys.argv[0] = argv0
     sys.argv.append(argv0)
     main()
 
 
 def main(argv=None, **kw):
-    from setuptools import setup
-    from setuptools.dist import Distribution
+    from uranium._vendor.setuptools import setup
+    from uranium._vendor.setuptools.dist import Distribution
 
     class DistributionWithoutHelpCommands(Distribution):
         common_usage = ""

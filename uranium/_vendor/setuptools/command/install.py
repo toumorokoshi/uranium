@@ -5,7 +5,7 @@ import warnings
 import platform
 import distutils.command.install as orig
 
-import setuptools
+import uranium._vendor.setuptools
 
 # Prior to numpy 1.9, NumPy relies on the '_install' name, so provide it for
 # now. See https://bitbucket.org/pypa/setuptools/issue/199/
@@ -109,13 +109,13 @@ class install(orig.install):
         self.run_command('bdist_egg')
         args = [self.distribution.get_command_obj('bdist_egg').egg_output]
 
-        if setuptools.bootstrap_install_from:
+        if uranium._vendor.setuptools.bootstrap_install_from:
             # Bootstrap self-installation of setuptools
-            args.insert(0, setuptools.bootstrap_install_from)
+            args.insert(0, uranium._vendor.setuptools.bootstrap_install_from)
 
         cmd.args = args
         cmd.run()
-        setuptools.bootstrap_install_from = None
+        uranium._vendor.setuptools.bootstrap_install_from = None
 
 
 # XXX Python 3.1 doesn't see _nc if this is inside the class

@@ -3,8 +3,8 @@ from distutils import log
 from distutils.errors import DistutilsOptionError
 import os
 
-from setuptools import Command
-from setuptools.compat import basestring
+from uranium._vendor.setuptools import Command
+from uranium._vendor.setuptools.compat import basestring
 
 
 class rotate(Command):

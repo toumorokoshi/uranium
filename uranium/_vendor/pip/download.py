@@ -20,31 +20,31 @@ try:
 except ImportError:
     HAS_TLS = False
 
-from pip._vendor.six.moves.urllib import parse as urllib_parse
-from pip._vendor.six.moves.urllib import request as urllib_request
+from uranium._vendor.pip._vendor.six.moves.urllib import parse as urllib_parse
+from uranium._vendor.pip._vendor.six.moves.urllib import request as urllib_request
 
-import pip
+import uranium._vendor.pip
 
-from pip.exceptions import InstallationError, HashMismatch
-from pip.models import PyPI
-from pip.utils import (splitext, rmtree, format_size, display_path,
+from uranium._vendor.pip.exceptions import InstallationError, HashMismatch
+from uranium._vendor.pip.models import PyPI
+from uranium._vendor.pip.utils import (splitext, rmtree, format_size, display_path,
                        backup_dir, ask_path_exists, unpack_file,
                        call_subprocess, ARCHIVE_EXTENSIONS)
-from pip.utils.filesystem import check_path_owner
-from pip.utils.logging import indent_log
-from pip.utils.ui import DownloadProgressBar, DownloadProgressSpinner
-from pip.locations import write_delete_marker_file
-from pip.vcs import vcs
-from pip._vendor import requests, six
-from pip._vendor.requests.adapters import BaseAdapter, HTTPAdapter
-from pip._vendor.requests.auth import AuthBase, HTTPBasicAuth
-from pip._vendor.requests.models import Response
-from pip._vendor.requests.structures import CaseInsensitiveDict
-from pip._vendor.requests.packages import urllib3
-from pip._vendor.cachecontrol import CacheControlAdapter
-from pip._vendor.cachecontrol.caches import FileCache
-from pip._vendor.lockfile import LockError
-from pip._vendor.six.moves import xmlrpc_client
+from uranium._vendor.pip.utils.filesystem import check_path_owner
+from uranium._vendor.pip.utils.logging import indent_log
+from uranium._vendor.pip.utils.ui import DownloadProgressBar, DownloadProgressSpinner
+from uranium._vendor.pip.locations import write_delete_marker_file
+from uranium._vendor.pip.vcs import vcs
+from uranium._vendor.pip._vendor import requests, six
+from uranium._vendor.pip._vendor.requests.adapters import BaseAdapter, HTTPAdapter
+from uranium._vendor.pip._vendor.requests.auth import AuthBase, HTTPBasicAuth
+from uranium._vendor.pip._vendor.requests.models import Response
+from uranium._vendor.pip._vendor.requests.structures import CaseInsensitiveDict
+from uranium._vendor.pip._vendor.requests.packages import urllib3
+from uranium._vendor.pip._vendor.cachecontrol import CacheControlAdapter
+from uranium._vendor.pip._vendor.cachecontrol.caches import FileCache
+from uranium._vendor.pip._vendor.lockfile import LockError
+from uranium._vendor.pip._vendor.six.moves import xmlrpc_client
 
 
 __all__ = ['get_file_content',
@@ -62,7 +62,7 @@ def user_agent():
     Return a string representing the user agent.
     """
     data = {
-        "installer": {"name": "pip", "version": pip.__version__},
+        "installer": {"name": "pip", "version": uranium._vendor.pip.__version__},
         "python": platform.python_version(),
         "implementation": {
             "name": platform.python_implementation(),
@@ -238,7 +238,7 @@ class SafeFileCache(FileCache):
         super(SafeFileCache, self).__init__(*args, **kwargs)
 
         # Check to ensure that the directory containing our cache directory
-        # is owned by the user current executing pip. If it does not exist
+        # is owned by the user current executing uranium._vendor.pip. If it does not exist
         # we will check the parent directory until we find one that does exist.
         # If it is not owned by the user executing pip then we will disable
         # the cache and log a warning.

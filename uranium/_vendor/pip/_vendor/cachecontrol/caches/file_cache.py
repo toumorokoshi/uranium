@@ -1,8 +1,8 @@
 import hashlib
 import os
 
-from pip._vendor.lockfile import LockFile
-from pip._vendor.lockfile.mkdirlockfile import MkdirLockFile
+from uranium._vendor.pip._vendor.lockfile import LockFile
+from uranium._vendor.pip._vendor.lockfile.mkdirlockfile import MkdirLockFile
 
 from ..cache import BaseCache
 from ..controller import CacheController

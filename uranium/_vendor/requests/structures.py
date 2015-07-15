@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-requests.structures
+uranium._vendor.requests.structures
 ~~~~~~~~~~~~~~~~~~~
 
 Data structures that power Requests.

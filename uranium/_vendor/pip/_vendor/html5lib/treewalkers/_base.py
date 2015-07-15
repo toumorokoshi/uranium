@@ -1,5 +1,5 @@
 from __future__ import absolute_import, division, unicode_literals
-from pip._vendor.six import text_type, string_types
+from uranium._vendor.pip._vendor.six import text_type, string_types
 
 __all__ = ["DOCUMENT", "DOCTYPE", "TEXT", "ELEMENT", "COMMENT", "ENTITY", "UNKNOWN",
            "TreeWalker", "NonRecursiveTreeWalker"]

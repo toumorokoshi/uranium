@@ -12,26 +12,26 @@ import mimetypes
 import posixpath
 import warnings
 
-from pip._vendor.six.moves.urllib import parse as urllib_parse
-from pip._vendor.six.moves.urllib import request as urllib_request
+from uranium._vendor.pip._vendor.six.moves.urllib import parse as urllib_parse
+from uranium._vendor.pip._vendor.six.moves.urllib import request as urllib_request
 
-from pip.compat import ipaddress
-from pip.utils import (
+from uranium._vendor.pip.compat import ipaddress
+from uranium._vendor.pip.utils import (
     Inf, cached_property, normalize_name, splitext, normalize_path,
     ARCHIVE_EXTENSIONS, SUPPORTED_EXTENSIONS)
-from pip.utils.deprecation import RemovedInPip8Warning
-from pip.utils.logging import indent_log
-from pip.exceptions import (
+from uranium._vendor.pip.utils.deprecation import RemovedInPip8Warning
+from uranium._vendor.pip.utils.logging import indent_log
+from uranium._vendor.pip.exceptions import (
     DistributionNotFound, BestVersionAlreadyInstalled, InvalidWheelFilename,
     UnsupportedWheel,
 )
-from pip.download import HAS_TLS, url_to_path, path_to_url
-from pip.models import PyPI
-from pip.wheel import Wheel, wheel_ext
-from pip.pep425tags import supported_tags, supported_tags_noarch, get_platform
-from pip._vendor import html5lib, requests, pkg_resources, six
-from pip._vendor.packaging.version import parse as parse_version
-from pip._vendor.requests.exceptions import SSLError
+from uranium._vendor.pip.download import HAS_TLS, url_to_path, path_to_url
+from uranium._vendor.pip.models import PyPI
+from uranium._vendor.pip.wheel import Wheel, wheel_ext
+from uranium._vendor.pip.pep425tags import supported_tags, supported_tags_noarch, get_platform
+from uranium._vendor.pip._vendor import html5lib, requests, pkg_resources, six
+from uranium._vendor.pip._vendor.packaging.version import parse as parse_version
+from uranium._vendor.pip._vendor.requests.exceptions import SSLError
 
 
 __all__ = ['FormatControl', 'fmt_ctl_handle_mutual_exclude', 'PackageFinder']
@@ -883,7 +883,7 @@ class HTMLPage(object):
         url = url.split('#', 1)[0]
 
         # Check for VCS schemes that do not support lookup as web pages.
-        from pip.vcs import VcsSupport
+        from uranium._vendor.pip.vcs import VcsSupport
         for scheme in VcsSupport.schemes:
             if url.lower().startswith(scheme) and url[len(scheme)] in '+:':
                 logger.debug('Cannot look at %s URL %s', scheme, link)
@@ -1221,7 +1221,7 @@ class Link(object):
         Determines if this points to an actual artifact (e.g. a tarball) or if
         it points to an "abstract" thing like a path or a VCS location.
         """
-        from pip.vcs import vcs
+        from uranium._vendor.pip.vcs import vcs
 
         if self.scheme in vcs.all_schemes:
             return False

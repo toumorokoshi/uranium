@@ -1,6 +1,6 @@
 try:
     import ast
-    from pip._vendor._markerlib.markers import default_environment, compile, interpret
+    from uranium._vendor.pip._vendor._markerlib.markers import default_environment, compile, interpret
 except ImportError:
     if 'ast' in globals():
         raise

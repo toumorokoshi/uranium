@@ -4,15 +4,15 @@ import logging
 import sys
 import textwrap
 
-from pip.basecommand import Command, SUCCESS
-from pip.download import PipXmlrpcTransport
-from pip.index import PyPI
-from pip.utils import get_terminal_size
-from pip.utils.logging import indent_log
-from pip.exceptions import CommandError
-from pip.status_codes import NO_MATCHES_FOUND
-from pip._vendor import pkg_resources
-from pip._vendor.six.moves import xmlrpc_client
+from uranium._vendor.pip.basecommand import Command, SUCCESS
+from uranium._vendor.pip.download import PipXmlrpcTransport
+from uranium._vendor.pip.index import PyPI
+from uranium._vendor.pip.utils import get_terminal_size
+from uranium._vendor.pip.utils.logging import indent_log
+from uranium._vendor.pip.exceptions import CommandError
+from uranium._vendor.pip.status_codes import NO_MATCHES_FOUND
+from uranium._vendor import pkg_resources
+from uranium._vendor.pip._vendor.six.moves import xmlrpc_client
 
 
 logger = logging.getLogger(__name__)

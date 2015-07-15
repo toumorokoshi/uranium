@@ -2,15 +2,15 @@ from __future__ import absolute_import
 
 import logging
 
-from pip._vendor import pkg_resources
+from uranium._vendor import pkg_resources
 
-from pip.basecommand import Command
-from pip.exceptions import DistributionNotFound
-from pip.index import FormatControl, fmt_ctl_formats, PackageFinder, Search
-from pip.req import InstallRequirement
-from pip.utils import get_installed_distributions, dist_is_editable
-from pip.wheel import WheelCache
-from pip.cmdoptions import make_option_group, index_group
+from uranium._vendor.pip.basecommand import Command
+from uranium._vendor.pip.exceptions import DistributionNotFound
+from uranium._vendor.pip.index import FormatControl, fmt_ctl_formats, PackageFinder, Search
+from uranium._vendor.pip.req import InstallRequirement
+from uranium._vendor.pip.utils import get_installed_distributions, dist_is_editable
+from uranium._vendor.pip.wheel import WheelCache
+from uranium._vendor.pip.cmdoptions import make_option_group, index_group
 
 
 logger = logging.getLogger(__name__)

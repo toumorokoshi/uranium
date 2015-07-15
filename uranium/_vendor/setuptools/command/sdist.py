@@ -4,8 +4,8 @@ import distutils.command.sdist as orig
 import os
 import sys
 
-from setuptools.compat import PY3
-from setuptools.utils import cs_path_exists
+from uranium._vendor.setuptools.compat import PY3
+from uranium._vendor.setuptools.utils import cs_path_exists
 
 import pkg_resources
 
@@ -15,7 +15,7 @@ _default_revctrl = list
 
 def walk_revctrl(dirname=''):
     """Find all files under revision control"""
-    for ep in pkg_resources.iter_entry_points('setuptools.file_finders'):
+    for ep in pkg_resources.iter_entry_points('uranium._vendor.setuptools.file_finders'):
         for item in ep.load()(dirname):
             yield item
 

@@ -11,9 +11,9 @@ try:
 except ImportError:
     import urlparse as urllib_parse
 
-from pip.utils import rmtree, display_path
-from pip.vcs import vcs, VersionControl
-from pip.download import path_to_url
+from uranium._vendor.pip.utils import rmtree, display_path
+from uranium._vendor.pip.vcs import vcs, VersionControl
+from uranium._vendor.pip.download import path_to_url
 
 
 logger = logging.getLogger(__name__)

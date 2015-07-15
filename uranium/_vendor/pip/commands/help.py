@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
-from pip.basecommand import Command, SUCCESS
-from pip.exceptions import CommandError
+from uranium._vendor.pip.basecommand import Command, SUCCESS
+from uranium._vendor.pip.exceptions import CommandError
 
 
 class HelpCommand(Command):
@@ -12,10 +12,10 @@ class HelpCommand(Command):
     summary = 'Show help for commands.'
 
     def run(self, options, args):
-        from pip.commands import commands_dict, get_similar_commands
+        from uranium._vendor.pip.commands import commands_dict, get_similar_commands
 
         try:
-            # 'pip help' with no args is handled by pip.__init__.parseopt()
+            # 'pip help' with no args is handled by uranium._vendor.pip.__init__.parseopt()
             cmd_name = args[0]  # the command we need help for
         except IndexError:
             return SUCCESS

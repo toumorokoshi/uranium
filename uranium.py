@@ -7,7 +7,6 @@ VENDOR_PACKAGES = {
     "docopt": "==0.6.2",
     "pip": "==7.1.0",
     "six": "==1.9.0",
-    "setuptools": "==18.0.1",
     "requests": "==2.7.0",
     "virtualenv": "==13.1.0",
 }

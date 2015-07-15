@@ -22,8 +22,8 @@ _open = open
 from distutils.errors import DistutilsError
 from pkg_resources import working_set
 
-from setuptools import compat
-from setuptools.compat import builtins
+from uranium._vendor.setuptools import compat
+from uranium._vendor.setuptools.compat import builtins
 
 __all__ = [
     "AbstractSandbox", "DirectorySandbox", "SandboxViolation", "run_setup",
@@ -201,7 +201,7 @@ def _needs_hiding(mod_name):
     True
     >>> _needs_hiding('setuptools_plugin')
     False
-    >>> _needs_hiding('setuptools.__init__')
+    >>> _needs_hiding('uranium._vendor.setuptools.__init__')
     True
     >>> _needs_hiding('distutils')
     True
@@ -213,7 +213,7 @@ def _needs_hiding(mod_name):
 def hide_setuptools():
     """
     Remove references to setuptools' modules from sys.modules to allow the
-    invocation to import the most appropriate setuptools. This technique is
+    invocation to import the most appropriate uranium._vendor.setuptools. This technique is
     necessary to avoid issues such as #315 where setuptools upgrading itself
     would fail to find a function declared in the metadata.
     """

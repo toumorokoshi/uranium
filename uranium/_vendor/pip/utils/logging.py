@@ -10,11 +10,11 @@ try:
 except ImportError:
     import dummy_threading as threading
 
-from pip.compat import WINDOWS
-from pip.utils import ensure_dir
+from uranium._vendor.pip.compat import WINDOWS
+from uranium._vendor.pip.utils import ensure_dir
 
 try:
-    from pip._vendor import colorama
+    from uranium._vendor.pip._vendor import colorama
 # Lots of different errors can come from this, including SystemError and
 # ImportError.
 except Exception:

@@ -3,11 +3,11 @@ from __future__ import absolute_import
 import logging
 import re
 
-import pip
-from pip.compat import stdlib_pkgs
-from pip.req import InstallRequirement
-from pip.utils import get_installed_distributions
-from pip._vendor import pkg_resources
+import uranium._vendor.pip
+from uranium._vendor.pip.compat import stdlib_pkgs
+from uranium._vendor.pip.req import InstallRequirement
+from uranium._vendor.pip.utils import get_installed_distributions
+from uranium._vendor import pkg_resources
 
 
 logger = logging.getLogger(__name__)
@@ -45,7 +45,7 @@ def freeze(
     for dist in get_installed_distributions(local_only=local_only,
                                             skip=freeze_excludes,
                                             user_only=user_only):
-        req = pip.FrozenRequirement.from_dist(
+        req = uranium._vendor.pip.FrozenRequirement.from_dist(
             dist,
             dependency_links,
             find_tags=find_tags,

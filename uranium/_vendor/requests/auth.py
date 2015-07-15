@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-requests.auth
+uranium._vendor.requests.auth
 ~~~~~~~~~~~~~
 
 This module contains the authentication handlers for Requests.

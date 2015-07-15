@@ -1,6 +1,6 @@
 from distutils.errors import DistutilsOptionError
 
-from setuptools.command.setopt import edit_config, option_base, config_file
+from uranium._vendor.setuptools.command.setopt import edit_config, option_base, config_file
 
 
 def shquote(arg):

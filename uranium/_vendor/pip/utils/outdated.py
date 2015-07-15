@@ -6,14 +6,14 @@ import logging
 import os.path
 import sys
 
-from pip._vendor import lockfile
-from pip._vendor.packaging import version as packaging_version
+from uranium._vendor.pip._vendor import lockfile
+from uranium._vendor.pip._vendor.packaging import version as packaging_version
 
-from pip.compat import total_seconds, WINDOWS
-from pip.index import PyPI
-from pip.locations import USER_CACHE_DIR, running_under_virtualenv
-from pip.utils import ensure_dir
-from pip.utils.filesystem import check_path_owner
+from uranium._vendor.pip.compat import total_seconds, WINDOWS
+from uranium._vendor.pip.index import PyPI
+from uranium._vendor.pip.locations import USER_CACHE_DIR, running_under_virtualenv
+from uranium._vendor.pip.utils import ensure_dir
+from uranium._vendor.pip.utils.filesystem import check_path_owner
 
 
 SELFCHECK_DATE_FMT = "%Y-%m-%dT%H:%M:%SZ"
@@ -93,7 +93,7 @@ def load_selfcheck_statefile():
 
 
 def pip_version_check(session):
-    """Check for an update for pip.
+    """Check for an update for uranium._vendor.pip.
 
     Limit the frequency of checks to once per week. State is stored either in
     the active virtualenv or in the user's USER_CACHE_DIR keyed off the prefix
@@ -133,14 +133,14 @@ def pip_version_check(session):
             # save that we've performed a check
             state.save(pypi_version, current_time)
 
-        pip_version = packaging_version.parse(pip.__version__)
+        pip_version = packaging_version.parse(uranium._vendor.pip.__version__)
         remote_version = packaging_version.parse(pypi_version)
 
         # Determine if our pypi_version is older
         if (pip_version < remote_version and
                 pip_version.base_version != remote_version.base_version):
             # Advise "python -m pip" on Windows to avoid issues
-            # with overwriting pip.exe.
+            # with overwriting uranium._vendor.pip.exe.
             if WINDOWS:
                 pip_cmd = "python -m pip"
             else:
@@ -148,7 +148,7 @@ def pip_version_check(session):
             logger.warning(
                 "You are using pip version %s, however version %s is "
                 "available.\nYou should consider upgrading via the "
-                "'%s install --upgrade pip' command." % (pip.__version__,
+                "'%s install --upgrade pip' command." % (uranium._vendor.pip.__version__,
                                                          pypi_version,
                                                          pip_cmd)
             )

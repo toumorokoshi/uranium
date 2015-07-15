@@ -4,7 +4,7 @@ Compatibility Support for Python 2.6 and earlier
 
 import sys
 
-from setuptools.compat import splittag
+from uranium._vendor.setuptools.compat import splittag
 
 def strip_fragment(url):
 	"""

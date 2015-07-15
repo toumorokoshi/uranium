@@ -140,7 +140,7 @@ class Timeout(object):
         """ Create a new Timeout from a legacy timeout value.
 
         The timeout value used by httplib.py sets the same timeout on the
-        connect(), and recv() socket requests. This creates a :class:`Timeout`
+        connect(), and recv() socket uranium._vendor.requests. This creates a :class:`Timeout`
         object that sets the individual timeouts to the ``timeout`` value
         passed to this function.
 

@@ -13,7 +13,7 @@ if __package__ == '':
     path = os.path.dirname(os.path.dirname(__file__))
     sys.path.insert(0, path)
 
-import pip  # noqa
+import uranium._vendor.pip
 
 if __name__ == '__main__':
-    sys.exit(pip.main())
+    sys.exit(uranium._vendor.pip.main())

@@ -5,15 +5,15 @@ import logging
 import os
 import warnings
 
-from pip.basecommand import RequirementCommand
-from pip.index import PackageFinder
-from pip.exceptions import CommandError, PreviousBuildDirError
-from pip.req import RequirementSet
-from pip.utils import import_or_raise, normalize_path
-from pip.utils.build import BuildDirectory
-from pip.utils.deprecation import RemovedInPip8Warning
-from pip.wheel import WheelCache, WheelBuilder
-from pip import cmdoptions
+from uranium._vendor.pip.basecommand import RequirementCommand
+from uranium._vendor.pip.index import PackageFinder
+from uranium._vendor.pip.exceptions import CommandError, PreviousBuildDirError
+from uranium._vendor.pip.req import RequirementSet
+from uranium._vendor.pip.utils import import_or_raise, normalize_path
+from uranium._vendor.pip.utils.build import BuildDirectory
+from uranium._vendor.pip.utils.deprecation import RemovedInPip8Warning
+from uranium._vendor.pip.wheel import WheelCache, WheelBuilder
+from uranium._vendor.pip import cmdoptions
 
 DEFAULT_WHEEL_DIR = os.path.join(normalize_path(os.curdir), 'wheelhouse')
 

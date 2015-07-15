@@ -10,5 +10,5 @@ except ImportError:
     import pickle
 
 
-from pip._vendor.requests.packages.urllib3.response import HTTPResponse
-from pip._vendor.requests.packages.urllib3.util import is_fp_closed
+from uranium._vendor.pip._vendor.requests.packages.urllib3.response import HTTPResponse
+from uranium._vendor.pip._vendor.requests.packages.urllib3.util import is_fp_closed

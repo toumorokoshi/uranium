@@ -4,11 +4,11 @@ import logging
 import tempfile
 import os.path
 
-from pip._vendor.six.moves.urllib import parse as urllib_parse
-from pip._vendor.six.moves.urllib import request as urllib_request
+from uranium._vendor.pip._vendor.six.moves.urllib import parse as urllib_parse
+from uranium._vendor.pip._vendor.six.moves.urllib import request as urllib_request
 
-from pip.utils import display_path, rmtree
-from pip.vcs import vcs, VersionControl
+from uranium._vendor.pip.utils import display_path, rmtree
+from uranium._vendor.pip.vcs import vcs, VersionControl
 
 
 urlsplit = urllib_parse.urlsplit

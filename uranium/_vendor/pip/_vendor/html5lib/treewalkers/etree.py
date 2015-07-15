@@ -10,7 +10,7 @@ except ImportError:
 
 import re
 
-from pip._vendor.six import text_type
+from uranium._vendor.pip._vendor.six import text_type
 
 from . import _base
 from ..utils import moduleFactoryFactory

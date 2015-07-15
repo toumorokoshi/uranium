@@ -11,18 +11,18 @@ try:
 except ImportError:
     wheel = None
 
-from pip.req import RequirementSet
-from pip.basecommand import RequirementCommand
-from pip.locations import virtualenv_no_global, distutils_scheme
-from pip.index import PackageFinder
-from pip.exceptions import (
+from uranium._vendor.pip.req import RequirementSet
+from uranium._vendor.pip.basecommand import RequirementCommand
+from uranium._vendor.pip.locations import virtualenv_no_global, distutils_scheme
+from uranium._vendor.pip.index import PackageFinder
+from uranium._vendor.pip.exceptions import (
     InstallationError, CommandError, PreviousBuildDirError,
 )
-from pip import cmdoptions
-from pip.utils import ensure_dir
-from pip.utils.build import BuildDirectory
-from pip.utils.deprecation import RemovedInPip8Warning
-from pip.wheel import WheelCache, WheelBuilder
+from uranium._vendor.pip import cmdoptions
+from uranium._vendor.pip.utils import ensure_dir
+from uranium._vendor.pip.utils.build import BuildDirectory
+from uranium._vendor.pip.utils.deprecation import RemovedInPip8Warning
+from uranium._vendor.pip.wheel import WheelCache, WheelBuilder
 
 
 logger = logging.getLogger(__name__)

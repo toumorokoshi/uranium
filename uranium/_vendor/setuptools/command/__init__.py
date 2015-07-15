@@ -8,7 +8,7 @@ __all__ = [
 from distutils.command.bdist import bdist
 import sys
 
-from setuptools.command import install_scripts
+from uranium._vendor.setuptools.command import install_scripts
 
 
 if 'egg' not in bdist.format_commands:

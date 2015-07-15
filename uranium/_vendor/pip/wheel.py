@@ -21,20 +21,20 @@ import warnings
 from base64 import urlsafe_b64encode
 from email.parser import Parser
 
-from pip._vendor.six import StringIO
+from uranium._vendor.pip._vendor.six import StringIO
 
-import pip
-from pip.download import path_to_url, unpack_url
-from pip.exceptions import InvalidWheelFilename, UnsupportedWheel
-from pip.locations import distutils_scheme, PIP_DELETE_MARKER_FILENAME
-from pip import pep425tags
-from pip.utils import (
+import uranium._vendor.pip
+from uranium._vendor.pip.download import path_to_url, unpack_url
+from uranium._vendor.pip.exceptions import InvalidWheelFilename, UnsupportedWheel
+from uranium._vendor.pip.locations import distutils_scheme, PIP_DELETE_MARKER_FILENAME
+from uranium._vendor.pip import pep425tags
+from uranium._vendor.pip.utils import (
     call_subprocess, ensure_dir, make_path_relative, captured_stdout,
     rmtree)
-from pip.utils.logging import indent_log
-from pip._vendor.distlib.scripts import ScriptMaker
-from pip._vendor import pkg_resources
-from pip._vendor.six.moves import configparser
+from uranium._vendor.pip.utils.logging import indent_log
+from uranium._vendor.pip._vendor.distlib.scripts import ScriptMaker
+from uranium._vendor import pkg_resources
+from uranium._vendor.pip._vendor.six.moves import configparser
 
 
 wheel_ext = '.whl'
@@ -52,7 +52,7 @@ class WheelCache(object):
         """Create a wheel cache.
 
         :param cache_dir: The root of the cache.
-        :param format_control: A pip.index.FormatControl object to limit
+        :param format_control: A uranium._vendor.pip.index.FormatControl object to limit
             binaries being read from the cache.
         """
         self._cache_dir = os.path.expanduser(cache_dir) if cache_dir else None
@@ -77,7 +77,7 @@ def _cache_for_link(cache_dir, link):
     a version of 0.0...and if we built and cached a wheel, we'd end up using
     the same wheel even if the source has been edited.
 
-    :param cache_dir: The cache_dir being used by pip.
+    :param cache_dir: The cache_dir being used by uranium._vendor.pip.
     :param link: The link of the sdist for which this will cache wheels.
     """
 
@@ -116,7 +116,7 @@ def cached_wheel(cache_dir, link, format_control, package_name):
     if not package_name:
         return link
     canonical_name = pkg_resources.safe_name(package_name).lower()
-    formats = pip.index.fmt_ctl_formats(format_control, canonical_name)
+    formats = uranium._vendor.pip.index.fmt_ctl_formats(format_control, canonical_name)
     if "binary" not in formats:
         return link
     root = _cache_for_link(cache_dir, link)
@@ -140,7 +140,7 @@ def cached_wheel(cache_dir, link, format_control, package_name):
         return link
     candidates.sort()
     path = os.path.join(root, candidates[0][1])
-    return pip.index.Link(path_to_url(path), trusted=True)
+    return uranium._vendor.pip.index.Link(path_to_url(path), trusted=True)
 
 
 def rehash(path, algo='sha256', blocksize=1 << 20):
@@ -527,7 +527,7 @@ def uninstallation_paths(dist):
 
     UninstallPathSet.add() takes care of the __pycache__ .pyc.
     """
-    from pip.utils import FakeFile  # circular import
+    from uranium._vendor.pip.utils import FakeFile  # circular import
     r = csv.reader(FakeFile(dist.get_metadata_lines('RECORD')))
     for row in r:
         path = os.path.join(dist.location, row[0])
@@ -727,11 +727,11 @@ class WheelBuilder(object):
                 if autobuilding:
                     link = req.link
                     base, ext = link.splitext()
-                    if pip.index.egg_info_matches(base, None, link) is None:
+                    if uranium._vendor.pip.index.egg_info_matches(base, None, link) is None:
                         # Doesn't look like a package - don't autobuild a wheel
                         # because we'll have no way to lookup the result sanely
                         continue
-                    if "binary" not in pip.index.fmt_ctl_formats(
+                    if "binary" not in uranium._vendor.pip.index.fmt_ctl_formats(
                             self.finder.format_control,
                             pkg_resources.safe_name(req.name).lower()):
                         logger.info(
@@ -776,7 +776,7 @@ class WheelBuilder(object):
                         req.source_dir = req.build_location(
                             self.requirement_set.build_dir)
                         # Update the link for this.
-                        req.link = pip.index.Link(
+                        req.link = uranium._vendor.pip.index.Link(
                             path_to_url(wheel_file), trusted=True)
                         assert req.link.is_wheel
                         # extract the wheel into the dir

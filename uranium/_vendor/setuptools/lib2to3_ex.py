@@ -10,7 +10,7 @@ This module raises an ImportError on Python 2.
 from distutils.util import Mixin2to3 as _Mixin2to3
 from distutils import log
 from lib2to3.refactor import RefactoringTool, get_fixers_from_package
-import setuptools
+import uranium._vendor.setuptools
 
 class DistutilsRefactoringTool(RefactoringTool):
     def log_error(self, msg, *args, **kw):
@@ -34,7 +34,7 @@ class Mixin2to3(_Mixin2to3):
         self.__build_fixer_names()
         self.__exclude_fixers()
         if doctests:
-            if setuptools.run_2to3_on_doctests:
+            if uranium._vendor.setuptools.run_2to3_on_doctests:
                 r = DistutilsRefactoringTool(self.fixer_names)
                 r.refactor(files, write=True, doctests_only=True)
         else:
@@ -43,7 +43,7 @@ class Mixin2to3(_Mixin2to3):
     def __build_fixer_names(self):
         if self.fixer_names: return
         self.fixer_names = []
-        for p in setuptools.lib2to3_fixer_packages:
+        for p in uranium._vendor.setuptools.lib2to3_fixer_packages:
             self.fixer_names.extend(get_fixers_from_package(p))
         if self.distribution.use_2to3_fixers is not None:
             for p in self.distribution.use_2to3_fixers:

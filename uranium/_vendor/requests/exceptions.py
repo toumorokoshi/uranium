@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-requests.exceptions
+uranium._vendor.requests.exceptions
 ~~~~~~~~~~~~~~~~~~~
 
 This module contains the set of Requests' exceptions.
@@ -47,8 +47,8 @@ class Timeout(RequestException):
     """The request timed out.
 
     Catching this error will catch both
-    :exc:`~requests.exceptions.ConnectTimeout` and
-    :exc:`~requests.exceptions.ReadTimeout` errors.
+    :exc:`~uranium._vendor.requests.exceptions.ConnectTimeout` and
+    :exc:`~uranium._vendor.requests.exceptions.ReadTimeout` errors.
     """
 
 

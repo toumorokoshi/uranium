@@ -16,7 +16,7 @@ import tempfile
 import sys
 import shutil
 
-from setuptools.compat import httplib, urlparse, unicode, iteritems, PY3
+from uranium._vendor.setuptools.compat import httplib, urlparse, unicode, iteritems, PY3
 from pkg_resources import iter_entry_points
 
 

@@ -37,8 +37,8 @@ def _showwarning(message, category, filename, lineno, file=None, line=None):
     else:
         if issubclass(category, PipDeprecationWarning):
             # We use a specially named logger which will handle all of the
-            # deprecation messages for pip.
-            logger = logging.getLogger("pip.deprecations")
+            # deprecation messages for uranium._vendor.pip.
+            logger = logging.getLogger("uranium._vendor.pip.deprecations")
 
             # This is purposely using the % formatter here instead of letting
             # the logging module handle the interpolation. This is because we
@@ -46,7 +46,7 @@ def _showwarning(message, category, filename, lineno, file=None, line=None):
             log_message = "DEPRECATION: %s" % message
 
             # Things that are DeprecationWarnings will be removed in the very
-            # next version of pip. We want these to be more obvious so we
+            # next version of uranium._vendor.pip. We want these to be more obvious so we
             # use the ERROR logging level while the PendingDeprecationWarnings
             # are still have at least 2 versions to go until they are removed
             # so they can just be warnings.

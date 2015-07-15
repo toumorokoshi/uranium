@@ -14,16 +14,16 @@ import sys
 import tarfile
 import zipfile
 
-from pip.exceptions import InstallationError
-from pip.compat import console_to_str, stdlib_pkgs
-from pip.locations import (
+from uranium._vendor.pip.exceptions import InstallationError
+from uranium._vendor.pip.compat import console_to_str, stdlib_pkgs
+from uranium._vendor.pip.locations import (
     site_packages, user_site, running_under_virtualenv, virtualenv_no_global,
     write_delete_marker_file,
 )
-from pip._vendor import pkg_resources
-from pip._vendor.six.moves import input
-from pip._vendor.six import PY2
-from pip._vendor.retrying import retry
+from uranium._vendor import pkg_resources
+from uranium._vendor.pip._vendor.six.moves import input
+from uranium._vendor.pip._vendor.six import PY2
+from uranium._vendor.pip._vendor.retrying import retry
 
 if PY2:
     from io import BytesIO as StringIO
@@ -365,7 +365,7 @@ def dist_in_site_packages(dist):
 def dist_is_editable(dist):
     """Is distribution an editable install?"""
     # TODO: factor out determining editableness out of FrozenRequirement
-    from pip import FrozenRequirement
+    from uranium._vendor.pip import FrozenRequirement
     req = FrozenRequirement.from_dist(dist, [])
     return req.editable
 
@@ -650,7 +650,7 @@ def unpack_file(filename, location, content_type, link):
     elif (content_type and content_type.startswith('text/html') and
             is_svn_page(file_contents(filename))):
         # We don't really care about this
-        from pip.vcs.subversion import Subversion
+        from uranium._vendor.pip.vcs.subversion import Subversion
         Subversion('svn+' + link.url).unpack(location)
     else:
         # FIXME: handle?

@@ -7,18 +7,18 @@ from distutils.core import Command as _Command
 from distutils.util import convert_path
 from fnmatch import fnmatchcase
 
-import setuptools.version
-from setuptools.extension import Extension
-from setuptools.dist import Distribution, Feature, _get_unpatched
-from setuptools.depends import Require
-from setuptools.compat import filterfalse
+import uranium._vendor.setuptools.version
+from uranium._vendor.setuptools.extension import Extension
+from uranium._vendor.setuptools.dist import Distribution, Feature, _get_unpatched
+from uranium._vendor.setuptools.depends import Require
+from uranium._vendor.setuptools.compat import filterfalse
 
 __all__ = [
     'setup', 'Distribution', 'Feature', 'Command', 'Extension', 'Require',
     'find_packages'
 ]
 
-__version__ = setuptools.version.__version__
+__version__ = uranium._vendor.setuptools.version.__version__
 
 bootstrap_install_from = None
 

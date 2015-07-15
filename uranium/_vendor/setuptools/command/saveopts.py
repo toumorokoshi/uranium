@@ -1,4 +1,4 @@
-from setuptools.command.setopt import edit_config, option_base
+from uranium._vendor.setuptools.command.setopt import edit_config, option_base
 
 
 class saveopts(option_base):

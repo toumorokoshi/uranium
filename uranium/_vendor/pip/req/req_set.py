@@ -6,17 +6,17 @@ import itertools
 import logging
 import os
 
-from pip._vendor import pkg_resources
-from pip._vendor import requests
+from uranium._vendor import pkg_resources
+from uranium._vendor.pip._vendor import requests
 
-from pip.download import (url_to_path, unpack_url)
-from pip.exceptions import (InstallationError, BestVersionAlreadyInstalled,
+from uranium._vendor.pip.download import (url_to_path, unpack_url)
+from uranium._vendor.pip.exceptions import (InstallationError, BestVersionAlreadyInstalled,
                             DistributionNotFound, PreviousBuildDirError)
-from pip.req.req_install import InstallRequirement
-from pip.utils import (
+from uranium._vendor.pip.req.req_install import InstallRequirement
+from uranium._vendor.pip.utils import (
     display_path, dist_in_usersite, ensure_dir, normalize_path)
-from pip.utils.logging import indent_log
-from pip.vcs import vcs
+from uranium._vendor.pip.utils.logging import indent_log
+from uranium._vendor.pip.vcs import vcs
 
 
 logger = logging.getLogger(__name__)

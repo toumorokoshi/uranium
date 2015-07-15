@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-requests.adapters
+uranium._vendor.requests.adapters
 ~~~~~~~~~~~~~~~~~
 
 This module contains the transport adapters that Requests uses to define
@@ -72,8 +72,8 @@ class HTTPAdapter(BaseAdapter):
     Usage::
 
       >>> import requests
-      >>> s = requests.Session()
-      >>> a = requests.adapters.HTTPAdapter(max_retries=3)
+      >>> s = uranium._vendor.requests.Session()
+      >>> a = uranium._vendor.requests.adapters.HTTPAdapter(max_retries=3)
       >>> s.mount('http://', a)
     """
     __attrs__ = ['max_retries', 'config', '_pool_connections', '_pool_maxsize',
@@ -118,7 +118,7 @@ class HTTPAdapter(BaseAdapter):
 
         This method should not be called from user code, and is only
         exposed for use when subclassing the
-        :class:`HTTPAdapter <requests.adapters.HTTPAdapter>`.
+        :class:`HTTPAdapter <uranium._vendor.requests.adapters.HTTPAdapter>`.
 
         :param connections: The number of urllib3 connection pools to cache.
         :param maxsize: The maximum number of connections to save in the pool.
@@ -138,7 +138,7 @@ class HTTPAdapter(BaseAdapter):
 
         This method should not be called from user code, and is only
         exposed for use when subclassing the
-        :class:`HTTPAdapter <requests.adapters.HTTPAdapter>`.
+        :class:`HTTPAdapter <uranium._vendor.requests.adapters.HTTPAdapter>`.
 
         :param proxy: The proxy to return a urllib3 ProxyManager for.
         :param proxy_kwargs: Extra keyword arguments used to configure the Proxy Manager.
@@ -159,7 +159,7 @@ class HTTPAdapter(BaseAdapter):
     def cert_verify(self, conn, url, verify, cert):
         """Verify a SSL certificate. This method should not be called from user
         code, and is only exposed for use when subclassing the
-        :class:`HTTPAdapter <requests.adapters.HTTPAdapter>`.
+        :class:`HTTPAdapter <uranium._vendor.requests.adapters.HTTPAdapter>`.
 
         :param conn: The urllib3 connection object associated with the cert.
         :param url: The requested URL.
@@ -194,10 +194,10 @@ class HTTPAdapter(BaseAdapter):
                 conn.cert_file = cert
 
     def build_response(self, req, resp):
-        """Builds a :class:`Response <requests.Response>` object from a urllib3
+        """Builds a :class:`Response <uranium._vendor.requests.Response>` object from a urllib3
         response. This should not be called from user code, and is only exposed
         for use when subclassing the
-        :class:`HTTPAdapter <requests.adapters.HTTPAdapter>`
+        :class:`HTTPAdapter <uranium._vendor.requests.adapters.HTTPAdapter>`
 
         :param req: The :class:`PreparedRequest <PreparedRequest>` used to generate the response.
         :param resp: The urllib3 response object.
@@ -232,7 +232,7 @@ class HTTPAdapter(BaseAdapter):
     def get_connection(self, url, proxies=None):
         """Returns a urllib3 connection for the given URL. This should not be
         called from user code, and is only exposed for use when subclassing the
-        :class:`HTTPAdapter <requests.adapters.HTTPAdapter>`.
+        :class:`HTTPAdapter <uranium._vendor.requests.adapters.HTTPAdapter>`.
 
         :param url: The URL to connect to.
         :param proxies: (optional) A Requests-style dictionary of proxies used on this request.
@@ -268,7 +268,7 @@ class HTTPAdapter(BaseAdapter):
 
         This should not be called from user code, and is only exposed for use
         when subclassing the
-        :class:`HTTPAdapter <requests.adapters.HTTPAdapter>`.
+        :class:`HTTPAdapter <uranium._vendor.requests.adapters.HTTPAdapter>`.
 
         :param request: The :class:`PreparedRequest <PreparedRequest>` being sent.
         :param proxies: A dictionary of schemes to proxy URLs.
@@ -287,11 +287,11 @@ class HTTPAdapter(BaseAdapter):
     def add_headers(self, request, **kwargs):
         """Add any headers needed by the connection. As of v2.0 this does
         nothing by default, but is left for overriding by users that subclass
-        the :class:`HTTPAdapter <requests.adapters.HTTPAdapter>`.
+        the :class:`HTTPAdapter <uranium._vendor.requests.adapters.HTTPAdapter>`.
 
         This should not be called from user code, and is only exposed for use
         when subclassing the
-        :class:`HTTPAdapter <requests.adapters.HTTPAdapter>`.
+        :class:`HTTPAdapter <uranium._vendor.requests.adapters.HTTPAdapter>`.
 
         :param request: The :class:`PreparedRequest <PreparedRequest>` to add headers to.
         :param kwargs: The keyword arguments from the call to send().
@@ -306,7 +306,7 @@ class HTTPAdapter(BaseAdapter):
 
         This should not be called from user code, and is only exposed for use
         when subclassing the
-        :class:`HTTPAdapter <requests.adapters.HTTPAdapter>`.
+        :class:`HTTPAdapter <uranium._vendor.requests.adapters.HTTPAdapter>`.
 
         :param proxies: The url of the proxy being used for this request.
         :param kwargs: Optional additional keyword arguments.

@@ -24,7 +24,7 @@ import re
 import sys
 import types
 
-from pip._vendor import six
+from uranium._vendor.pip._vendor import six
 
 # flake8: noqa
 

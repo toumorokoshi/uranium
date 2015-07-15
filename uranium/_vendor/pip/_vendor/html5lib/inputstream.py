@@ -1,6 +1,6 @@
 from __future__ import absolute_import, division, unicode_literals
-from pip._vendor.six import text_type
-from pip._vendor.six.moves import http_client
+from uranium._vendor.pip._vendor.six import text_type
+from uranium._vendor.pip._vendor.six.moves import http_client
 
 import codecs
 import re

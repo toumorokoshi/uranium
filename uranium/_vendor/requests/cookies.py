@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-Compatibility code to be able to use `cookielib.CookieJar` with requests.
+Compatibility code to be able to use `cookielib.CookieJar` with uranium._vendor.requests.
 
-requests.utils imports from here, so be careful with imports.
+uranium._vendor.requests.utils imports from here, so be careful with imports.
 """
 
 import copy
@@ -20,7 +20,7 @@ except ImportError:
 
 
 class MockRequest(object):
-    """Wraps a `requests.Request` to mimic a `urllib2.Request`.
+    """Wraps a `uranium._vendor.requests.Request` to mimic a `urllib2.Request`.
 
     The code in `cookielib.CookieJar` expects this interface in order to correctly
     manage cookie policies, i.e., determine whether a cookie can be set, given the
@@ -116,7 +116,7 @@ def extract_cookies_to_jar(jar, request, response):
     """Extract the cookies from the response into a CookieJar.
 
     :param jar: cookielib.CookieJar (not necessarily a RequestsCookieJar)
-    :param request: our own requests.Request object
+    :param request: our own uranium._vendor.requests.Request object
     :param response: urllib3.HTTPResponse object
     """
     if not (hasattr(response, '_original_response') and

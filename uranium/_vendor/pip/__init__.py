@@ -9,14 +9,14 @@ import warnings
 import sys
 import re
 
-from pip.exceptions import InstallationError, CommandError, PipError
-from pip.utils import get_installed_distributions, get_prog
-from pip.utils import deprecation
-from pip.vcs import git, mercurial, subversion, bazaar  # noqa
-from pip.baseparser import ConfigOptionParser, UpdatingDefaultsHelpFormatter
-from pip.commands import get_summaries, get_similar_commands
-from pip.commands import commands_dict
-from pip._vendor.requests.packages.urllib3.exceptions import (
+from uranium._vendor.pip.exceptions import InstallationError, CommandError, PipError
+from uranium._vendor.pip.utils import get_installed_distributions, get_prog
+from uranium._vendor.pip.utils import deprecation
+from uranium._vendor.pip.vcs import git, mercurial, subversion, bazaar  # noqa
+from uranium._vendor.pip.baseparser import ConfigOptionParser, UpdatingDefaultsHelpFormatter
+from uranium._vendor.pip.commands import get_summaries, get_similar_commands
+from uranium._vendor.pip.commands import commands_dict
+from uranium._vendor.pip._vendor.requests.packages.urllib3.exceptions import (
     InsecureRequestWarning,
 )
 
@@ -24,10 +24,10 @@ from pip._vendor.requests.packages.urllib3.exceptions import (
 # assignment for flake8 to be happy
 
 # This fixes a peculiarity when importing via __import__ - as we are
-# initialising the pip module, "from pip import cmdoptions" is recursive
+# initialising the pip module, "from uranium._vendor.pip import cmdoptions" is recursive
 # and appears not to work properly in that situation.
-import pip.cmdoptions
-cmdoptions = pip.cmdoptions
+import uranium._vendor.pip.cmdoptions
+cmdoptions = uranium._vendor.pip.cmdoptions
 
 # The version as used in the setup.py and the docs conf.py
 __version__ = "7.1.0"
@@ -235,7 +235,7 @@ class FrozenRequirement(object):
     def from_dist(cls, dist, dependency_links, find_tags=False):
         location = os.path.normcase(os.path.abspath(dist.location))
         comments = []
-        from pip.vcs import vcs, get_src_requirement
+        from uranium._vendor.pip.vcs import vcs, get_src_requirement
         if vcs.get_backend_name(location):
             editable = True
             try:

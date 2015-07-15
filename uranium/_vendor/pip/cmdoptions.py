@@ -13,10 +13,10 @@ from functools import partial
 from optparse import OptionGroup, SUPPRESS_HELP, Option
 import warnings
 
-from pip.index import (
+from uranium._vendor.pip.index import (
     PyPI, FormatControl, fmt_ctl_handle_mutual_exclude, fmt_ctl_no_binary,
     fmt_ctl_no_use_wheel)
-from pip.locations import CA_BUNDLE_PATH, USER_CACHE_DIR, src_prefix
+from uranium._vendor.pip.locations import CA_BUNDLE_PATH, USER_CACHE_DIR, src_prefix
 
 
 def make_option_group(group, parser):

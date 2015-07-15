@@ -5,7 +5,7 @@ import re
 
 import pkg_resources
 from pkg_resources import ResolutionError, ExtractionError
-from setuptools.compat import urllib2
+from uranium._vendor.setuptools.compat import urllib2
 
 try:
     import ssl

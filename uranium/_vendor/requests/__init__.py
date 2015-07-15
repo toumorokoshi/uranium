@@ -13,7 +13,7 @@ Requests is an HTTP library, written in Python, for human beings. Basic GET
 usage:
 
    >>> import requests
-   >>> r = requests.get('https://www.python.org')
+   >>> r = uranium._vendor.requests.get('https://www.python.org')
    >>> r.status_code
    200
    >>> 'Python is a programming language' in r.content
@@ -22,7 +22,7 @@ usage:
 ... or POST:
 
    >>> payload = dict(key1='value1', key2='value2')
-   >>> r = requests.post('http://httpbin.org/post', data=payload)
+   >>> r = uranium._vendor.requests.post('http://httpbin.org/post', data=payload)
    >>> print(r.text)
    {
      ...
@@ -33,8 +33,8 @@ usage:
      ...
    }
 
-The other HTTP methods are supported - see `requests.api`. Full documentation
-is at <http://python-requests.org>.
+The other HTTP methods are supported - see `uranium._vendor.requests.api`. Full documentation
+is at <http://python-uranium._vendor.requests.org>.
 
 :copyright: (c) 2015 by Kenneth Reitz.
 :license: Apache 2.0, see LICENSE for more details.

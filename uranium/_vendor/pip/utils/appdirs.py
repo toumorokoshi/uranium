@@ -7,7 +7,7 @@ from __future__ import absolute_import
 import os
 import sys
 
-from pip.compat import WINDOWS
+from uranium._vendor.pip.compat import WINDOWS
 
 
 def user_cache_dir(appname):

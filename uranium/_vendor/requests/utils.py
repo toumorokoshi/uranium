@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-requests.utils
+uranium._vendor.requests.utils
 ~~~~~~~~~~~~~~
 
 This module provides utility functions that are used within Requests

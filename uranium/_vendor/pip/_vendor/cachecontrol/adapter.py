@@ -1,6 +1,6 @@
 import functools
 
-from pip._vendor.requests.adapters import HTTPAdapter
+from uranium._vendor.pip._vendor.requests.adapters import HTTPAdapter
 
 from .controller import CacheController
 from .cache import DictCache

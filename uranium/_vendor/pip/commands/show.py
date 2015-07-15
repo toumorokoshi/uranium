@@ -4,9 +4,9 @@ from email.parser import FeedParser
 import logging
 import os
 
-from pip.basecommand import Command
-from pip.status_codes import SUCCESS, ERROR
-from pip._vendor import pkg_resources
+from uranium._vendor.pip.basecommand import Command
+from uranium._vendor.pip.status_codes import SUCCESS, ERROR
+from uranium._vendor import pkg_resources
 
 
 logger = logging.getLogger(__name__)

@@ -13,7 +13,7 @@
 ## limitations under the License.
 
 import random
-from pip._vendor import six
+from uranium._vendor.pip._vendor import six
 import sys
 import time
 import traceback

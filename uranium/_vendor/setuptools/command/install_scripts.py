@@ -13,7 +13,7 @@ class install_scripts(orig.install_scripts):
         self.no_ep = False
 
     def run(self):
-        import setuptools.command.easy_install as ei
+        import uranium._vendor.setuptools.command.easy_install as ei
 
         self.run_command("egg_info")
         if self.distribution.scripts:
@@ -45,7 +45,7 @@ class install_scripts(orig.install_scripts):
 
     def write_script(self, script_name, contents, mode="t", *ignored):
         """Write an executable file to the scripts directory"""
-        from setuptools.command.easy_install import chmod, current_umask
+        from uranium._vendor.setuptools.command.easy_install import chmod, current_umask
 
         log.info("Installing %s script to %s", script_name, self.install_dir)
         target = os.path.join(self.install_dir, script_name)

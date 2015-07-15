@@ -6,9 +6,9 @@ import sys
 from pkg_resources import (resource_listdir, resource_exists, normalize_path,
                            working_set, _namespace_packages,
                            add_activation_listener, require, EntryPoint)
-from setuptools import Command
-from setuptools.compat import PY3
-from setuptools.py31compat import unittest_main
+from uranium._vendor.setuptools import Command
+from uranium._vendor.setuptools.compat import PY3
+from uranium._vendor.setuptools.py31compat import unittest_main
 
 
 class ScanningLoader(TestLoader):
@@ -79,7 +79,7 @@ class test(Command):
         if self.test_loader is None:
             self.test_loader = getattr(self.distribution, 'test_loader', None)
         if self.test_loader is None:
-            self.test_loader = "setuptools.command.test:ScanningLoader"
+            self.test_loader = "uranium._vendor.setuptools.command.test:ScanningLoader"
         if self.test_runner is None:
             self.test_runner = getattr(self.distribution, 'test_runner', None)
 

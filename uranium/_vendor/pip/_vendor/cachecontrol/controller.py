@@ -6,7 +6,7 @@ import calendar
 import time
 from email.utils import parsedate_tz
 
-from pip._vendor.requests.structures import CaseInsensitiveDict
+from uranium._vendor.pip._vendor.requests.structures import CaseInsensitiveDict
 
 from .cache import DictCache
 from .serialize import Serializer

@@ -2,10 +2,10 @@ from __future__ import absolute_import
 
 import sys
 
-import pip
-from pip.basecommand import Command
-from pip.operations.freeze import freeze
-from pip.wheel import WheelCache
+import uranium._vendor.pip
+from uranium._vendor.pip.basecommand import Command
+from uranium._vendor.pip.operations.freeze import freeze
+from uranium._vendor.pip.wheel import WheelCache
 
 
 class FreezeCommand(Command):
@@ -56,7 +56,7 @@ class FreezeCommand(Command):
         self.parser.insert_option_group(0, self.cmd_opts)
 
     def run(self, options, args):
-        format_control = pip.index.FormatControl(set(), set())
+        format_control = uranium._vendor.pip.index.FormatControl(set(), set())
         wheel_cache = WheelCache(options.cache_dir, format_control)
         freeze_kwargs = dict(
             requirement=options.requirement,

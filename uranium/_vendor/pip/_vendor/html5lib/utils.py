@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, unicode_literals
 
 from types import ModuleType
 
-from pip._vendor.six import text_type
+from uranium._vendor.pip._vendor.six import text_type
 
 try:
     import xml.etree.cElementTree as default_etree

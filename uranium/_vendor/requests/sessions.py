@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-requests.session
+uranium._vendor.requests.session
 ~~~~~~~~~~~~~~~~
 
 This module provides a Session object to manage and persist settings across
@@ -272,7 +272,7 @@ class Session(SessionRedirectMixin):
     Basic Usage::
 
       >>> import requests
-      >>> s = requests.Session()
+      >>> s = uranium._vendor.requests.Session()
       >>> s.get('http://httpbin.org/get')
       200
     """
@@ -325,7 +325,7 @@ class Session(SessionRedirectMixin):
 
         #: A CookieJar containing all currently outstanding cookies set on this
         #: session. By default it is a
-        #: :class:`RequestsCookieJar <requests.cookies.RequestsCookieJar>`, but
+        #: :class:`RequestsCookieJar <uranium._vendor.requests.cookies.RequestsCookieJar>`, but
         #: may be any other ``cookielib.CookieJar`` compatible object.
         self.cookies = cookiejar_from_dict({})
 

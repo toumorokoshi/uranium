@@ -8,7 +8,7 @@ import os
 import sys
 import itertools
 
-from setuptools.extension import Library
+from uranium._vendor.setuptools.extension import Library
 
 try:
     # Attempt to use Cython for building extensions, if available

@@ -84,9 +84,9 @@ try:
 except ImportError:
     pass
 
-import pip._vendor.packaging.version
-import pip._vendor.packaging.specifiers
-packaging = pip._vendor.packaging
+import uranium._vendor.pip._vendor.packaging.version
+import uranium._vendor.pip._vendor.packaging.specifiers
+packaging = uranium._vendor.pip._vendor.packaging
 
 
 # declare some globals that will be defined later to
@@ -1519,7 +1519,7 @@ class MarkerEvaluation(object):
         Return a boolean indicating the marker result in this environment.
         Raise SyntaxError if marker is invalid.
         """
-        from pip._vendor import _markerlib
+        from uranium._vendor.pip._vendor import _markerlib
         # markerlib implements Metadata 1.2 (PEP 345) environment markers.
         # Translate the variables to Metadata 2.0 (PEP 426).
         env = _markerlib.default_environment()
@@ -2811,7 +2811,7 @@ class DistInfoDistribution(Distribution):
 
     def _compute_dependencies(self):
         """Recompute this distribution's dependencies."""
-        from pip._vendor._markerlib import compile as compile_marker
+        from uranium._vendor.pip._vendor._markerlib import compile as compile_marker
         dm = self.__dep_map = {None: []}
 
         reqs = []

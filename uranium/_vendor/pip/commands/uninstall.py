@@ -1,10 +1,10 @@
 from __future__ import absolute_import
 
-import pip
-from pip.wheel import WheelCache
-from pip.req import InstallRequirement, RequirementSet, parse_requirements
-from pip.basecommand import Command
-from pip.exceptions import InstallationError
+import uranium._vendor.pip
+from uranium._vendor.pip.wheel import WheelCache
+from uranium._vendor.pip.req import InstallRequirement, RequirementSet, parse_requirements
+from uranium._vendor.pip.basecommand import Command
+from uranium._vendor.pip.exceptions import InstallationError
 
 
 class UninstallCommand(Command):
@@ -44,7 +44,7 @@ class UninstallCommand(Command):
 
     def run(self, options, args):
         with self._build_session(options) as session:
-            format_control = pip.index.FormatControl(set(), set())
+            format_control = uranium._vendor.pip.index.FormatControl(set(), set())
             wheel_cache = WheelCache(options.cache_dir, format_control)
             requirement_set = RequirementSet(
                 build_dir=None,

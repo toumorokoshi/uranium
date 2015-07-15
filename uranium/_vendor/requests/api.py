@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-requests.api
+uranium._vendor.requests.api
 ~~~~~~~~~~~~
 
 This module implements the Requests API.
@@ -37,12 +37,12 @@ def request(method, url, **kwargs):
     :param stream: (optional) if ``False``, the response content will be immediately downloaded.
     :param cert: (optional) if String, path to ssl client cert file (.pem). If Tuple, ('cert', 'key') pair.
     :return: :class:`Response <Response>` object
-    :rtype: requests.Response
+    :rtype: uranium._vendor.requests.Response
 
     Usage::
 
       >>> import requests
-      >>> req = requests.request('GET', 'http://httpbin.org/get')
+      >>> req = uranium._vendor.requests.request('GET', 'http://httpbin.org/get')
       <Response [200]>
     """
 
@@ -62,7 +62,7 @@ def get(url, params=None, **kwargs):
     :param params: (optional) Dictionary or bytes to be sent in the query string for the :class:`Request`.
     :param \*\*kwargs: Optional arguments that ``request`` takes.
     :return: :class:`Response <Response>` object
-    :rtype: requests.Response
+    :rtype: uranium._vendor.requests.Response
     """
 
     kwargs.setdefault('allow_redirects', True)
@@ -75,7 +75,7 @@ def options(url, **kwargs):
     :param url: URL for the new :class:`Request` object.
     :param \*\*kwargs: Optional arguments that ``request`` takes.
     :return: :class:`Response <Response>` object
-    :rtype: requests.Response
+    :rtype: uranium._vendor.requests.Response
     """
 
     kwargs.setdefault('allow_redirects', True)
@@ -88,7 +88,7 @@ def head(url, **kwargs):
     :param url: URL for the new :class:`Request` object.
     :param \*\*kwargs: Optional arguments that ``request`` takes.
     :return: :class:`Response <Response>` object
-    :rtype: requests.Response
+    :rtype: uranium._vendor.requests.Response
     """
 
     kwargs.setdefault('allow_redirects', False)
@@ -103,7 +103,7 @@ def post(url, data=None, json=None, **kwargs):
     :param json: (optional) json data to send in the body of the :class:`Request`.
     :param \*\*kwargs: Optional arguments that ``request`` takes.
     :return: :class:`Response <Response>` object
-    :rtype: requests.Response
+    :rtype: uranium._vendor.requests.Response
     """
 
     return request('post', url, data=data, json=json, **kwargs)
@@ -116,7 +116,7 @@ def put(url, data=None, **kwargs):
     :param data: (optional) Dictionary, bytes, or file-like object to send in the body of the :class:`Request`.
     :param \*\*kwargs: Optional arguments that ``request`` takes.
     :return: :class:`Response <Response>` object
-    :rtype: requests.Response
+    :rtype: uranium._vendor.requests.Response
     """
 
     return request('put', url, data=data, **kwargs)
@@ -129,7 +129,7 @@ def patch(url, data=None, **kwargs):
     :param data: (optional) Dictionary, bytes, or file-like object to send in the body of the :class:`Request`.
     :param \*\*kwargs: Optional arguments that ``request`` takes.
     :return: :class:`Response <Response>` object
-    :rtype: requests.Response
+    :rtype: uranium._vendor.requests.Response
     """
 
     return request('patch', url,  data=data, **kwargs)
@@ -141,7 +141,7 @@ def delete(url, **kwargs):
     :param url: URL for the new :class:`Request` object.
     :param \*\*kwargs: Optional arguments that ``request`` takes.
     :return: :class:`Response <Response>` object
-    :rtype: requests.Response
+    :rtype: uranium._vendor.requests.Response
     """
 
     return request('delete', url, **kwargs)

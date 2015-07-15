@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import os.path
 import tempfile
 
-from pip.utils import rmtree
+from uranium._vendor.pip.utils import rmtree
 
 
 class BuildDirectory(object):

@@ -7,7 +7,7 @@ import fnmatch
 import textwrap
 
 try:
-    from setuptools.lib2to3_ex import Mixin2to3
+    from uranium._vendor.setuptools.lib2to3_ex import Mixin2to3
 except ImportError:
     class Mixin2to3:
         def run_2to3(self, files, doctests=True):
@@ -18,7 +18,7 @@ class build_py(orig.build_py, Mixin2to3):
     """Enhanced 'build_py' command that includes data files with packages
 
     The data files are specified via a 'package_data' argument to 'setup()'.
-    See 'setuptools.dist.Distribution' for more details.
+    See 'uranium._vendor.setuptools.dist.Distribution' for more details.
 
     Also, this version of the 'build_py' command allows you to specify both
     'py_modules' and 'packages' in the same setup operation.

@@ -59,13 +59,13 @@ def parse_requirements(filename, finder=None, comes_from=None, options=None,
     """Parse a requirements file and yield InstallRequirement instances.
 
     :param filename:    Path or url of requirements file.
-    :param finder:      Instance of pip.index.PackageFinder.
+    :param finder:      Instance of uranium._vendor.pip.index.PackageFinder.
     :param comes_from:  Origin description of requirements.
     :param options:     Global options.
-    :param session:     Instance of pip.download.PipSession.
+    :param session:     Instance of uranium._vendor.pip.download.PipSession.
     :param constraint:  If true, parsing a constraint file rather than
         requirements file.
-    :param wheel_cache: Instance of pip.wheel.WheelCache
+    :param wheel_cache: Instance of uranium._vendor.pip.wheel.WheelCache
     """
     if session is None:
         raise TypeError(
@@ -178,7 +178,7 @@ def process_line(line, filename, line_number, finder=None, comes_from=None,
             finder.index_urls = [opts.index_url]
         if opts.use_wheel is False:
             finder.use_wheel = False
-            pip.index.fmt_ctl_no_use_wheel(finder.format_control)
+            uranium._vendor.pip.index.fmt_ctl_no_use_wheel(finder.format_control)
         if opts.no_index is True:
             finder.index_urls = []
         if opts.allow_all_external:

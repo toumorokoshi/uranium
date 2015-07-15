@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-requests.hooks
+uranium._vendor.requests.hooks
 ~~~~~~~~~~~~~~
 
 This module provides the capabilities for the Requests hooks system.

@@ -13,31 +13,31 @@ from distutils.util import change_root
 from distutils import sysconfig
 from email.parser import FeedParser
 
-from pip._vendor import pkg_resources, six
-from pip._vendor.distlib.markers import interpret as markers_interpret
-from pip._vendor.six.moves import configparser
+from uranium._vendor import pkg_resources, six
+from uranium._vendor.pip._vendor.distlib.markers import interpret as markers_interpret
+from uranium._vendor.pip._vendor.six.moves import configparser
 
-import pip.wheel
+import uranium._vendor.pip.wheel
 
-from pip.compat import native_str, WINDOWS
-from pip.download import is_url, url_to_path, path_to_url, is_archive_file
-from pip.exceptions import (
+from uranium._vendor.pip.compat import native_str, WINDOWS
+from uranium._vendor.pip.download import is_url, url_to_path, path_to_url, is_archive_file
+from uranium._vendor.pip.exceptions import (
     InstallationError, UninstallationError, UnsupportedWheel,
 )
-from pip.locations import (
+from uranium._vendor.pip.locations import (
     bin_py, running_under_virtualenv, PIP_DELETE_MARKER_FILENAME, bin_user,
 )
-from pip.utils import (
+from uranium._vendor.pip.utils import (
     display_path, rmtree, ask_path_exists, backup_dir, is_installable_dir,
     dist_in_usersite, dist_in_site_packages, egg_link_path, make_path_relative,
     call_subprocess, read_text_file, FakeFile, _make_build_dir, ensure_dir,
 )
-from pip.utils.deprecation import RemovedInPip8Warning
-from pip.utils.logging import indent_log
-from pip.req.req_uninstall import UninstallPathSet
-from pip.vcs import vcs
-from pip.wheel import move_wheel_files, Wheel
-from pip._vendor.packaging.version import Version
+from uranium._vendor.pip.utils.deprecation import RemovedInPip8Warning
+from uranium._vendor.pip.utils.logging import indent_log
+from uranium._vendor.pip.req.req_uninstall import UninstallPathSet
+from uranium._vendor.pip.vcs import vcs
+from uranium._vendor.pip.wheel import move_wheel_files, Wheel
+from uranium._vendor.pip._vendor.packaging.version import Version
 
 
 logger = logging.getLogger(__name__)
@@ -111,7 +111,7 @@ class InstallRequirement(object):
     def from_editable(cls, editable_req, comes_from=None, default_vcs=None,
                       isolated=False, options=None, wheel_cache=None,
                       constraint=False):
-        from pip.index import Link
+        from uranium._vendor.pip.index import Link
 
         name, url, extras_override, editable_options = parse_editable(
             editable_req, default_vcs)
@@ -141,7 +141,7 @@ class InstallRequirement(object):
         """Creates an InstallRequirement from a name, which might be a
         requirement, directory containing 'setup.py', filename, or URL.
         """
-        from pip.index import Link
+        from uranium._vendor.pip.index import Link
 
         if is_url(name):
             marker_sep = '; '
@@ -680,7 +680,7 @@ exec(compile(
             paths_to_remove.add_pth(easy_install_pth, dist.location)
 
         elif egg_info_exists and dist.egg_info.endswith('.dist-info'):
-            for path in pip.wheel.uninstallation_paths(dist):
+            for path in uranium._vendor.pip.wheel.uninstallation_paths(dist):
                 paths_to_remove.add(path)
 
         else:
@@ -807,8 +807,8 @@ exec(compile(
             self.install_editable(install_options, global_options)
             return
         if self.is_wheel:
-            version = pip.wheel.wheel_version(self.source_dir)
-            pip.wheel.check_compatibility(version, self.name)
+            version = uranium._vendor.pip.wheel.wheel_version(self.source_dir)
+            uranium._vendor.pip.wheel.check_compatibility(version, self.name)
 
             self.move_wheel_files(self.source_dir, root=root)
             self.install_succeeded = True

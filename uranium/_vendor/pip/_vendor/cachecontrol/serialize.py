@@ -3,7 +3,7 @@ import io
 import json
 import zlib
 
-from pip._vendor.requests.structures import CaseInsensitiveDict
+from uranium._vendor.pip._vendor.requests.structures import CaseInsensitiveDict
 
 from .compat import HTTPResponse, pickle
 

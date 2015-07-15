@@ -4,7 +4,7 @@ from distutils.errors import DistutilsOptionError
 import distutils
 import os
 
-from setuptools import Command
+from uranium._vendor.setuptools import Command
 
 
 __all__ = ['config_file', 'edit_config', 'option_base', 'setopt']
@@ -37,7 +37,7 @@ def edit_config(filename, settings, dry_run=False):
     while a dictionary lists settings to be changed or deleted in that section.
     A setting of ``None`` means to delete that setting.
     """
-    from setuptools.compat import ConfigParser
+    from uranium._vendor.setuptools.compat import ConfigParser
 
     log.debug("Reading configuration from %s", filename)
     opts = ConfigParser.RawConfigParser()

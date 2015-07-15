@@ -15,7 +15,7 @@ You can install them with the following command:
 
 To activate certificate checking, call
 :func:`~urllib3.contrib.pyopenssl.inject_into_urllib3` from your Python code
-before you begin making HTTP requests. This can be done in a ``sitecustomize``
+before you begin making HTTP uranium._vendor.requests. This can be done in a ``sitecustomize``
 module, or at any other time before your application begins using ``urllib3``,
 like this::
 

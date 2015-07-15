@@ -1,8 +1,8 @@
 from distutils import log, dir_util
 import os
 
-from setuptools import Command
-from setuptools.archive_util import unpack_archive
+from uranium._vendor.setuptools import Command
+from uranium._vendor.setuptools.archive_util import unpack_archive
 import pkg_resources
 
 

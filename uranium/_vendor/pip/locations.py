@@ -10,8 +10,8 @@ import sys
 from distutils import sysconfig
 from distutils.command.install import install, SCHEME_KEYS  # noqa
 
-from pip.compat import WINDOWS
-from pip.utils import appdirs
+from uranium._vendor.pip.compat import WINDOWS
+from uranium._vendor.pip.utils import appdirs
 
 
 # CA Bundle Locations
@@ -52,7 +52,7 @@ USER_CACHE_DIR = appdirs.user_cache_dir("pip")
 
 DELETE_MARKER_MESSAGE = '''\
 This file is placed here by pip to indicate the source was put
-here by pip.
+here by uranium._vendor.pip.
 
 Once this package is successfully installed this source code will be
 deleted (unless you remove this file).
@@ -132,7 +132,7 @@ if WINDOWS:
         bin_py = os.path.join(sys.prefix, 'bin')
         bin_user = os.path.join(user_site, 'bin')
 
-    config_basename = 'pip.ini'
+    config_basename = 'uranium._vendor.pip.ini'
 
     legacy_storage_dir = os.path.join(user_dir, 'pip')
     legacy_config_file = os.path.join(
@@ -143,7 +143,7 @@ else:
     bin_py = os.path.join(sys.prefix, 'bin')
     bin_user = os.path.join(user_site, 'bin')
 
-    config_basename = 'pip.conf'
+    config_basename = 'uranium._vendor.pip.conf'
 
     legacy_storage_dir = os.path.join(user_dir, '.pip')
     legacy_config_file = os.path.join(

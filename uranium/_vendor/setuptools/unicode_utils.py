@@ -1,6 +1,6 @@
 import unicodedata
 import sys
-from setuptools.compat import unicode as decoded_string
+from uranium._vendor.setuptools.compat import unicode as decoded_string
 
 
 # HFS Plus uses decomposed UTF-8
