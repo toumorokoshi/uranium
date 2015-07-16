@@ -3,7 +3,7 @@ import os
 import sys
 import pkg_resources
 from pip._vendor import pkg_resources as pip_pkg_resources
-from uranium._vendor.virtualenv import create_environment
+from virtualenv import create_environment
 
 LOGGER = logging.getLogger(__name__)
 

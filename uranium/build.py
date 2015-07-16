@@ -1,11 +1,11 @@
 import logging
 import os
+import virtualenv
 from .packages import Packages
 from .environment import Environment
 from .lib.script_runner import run_script
 from .lib.asserts import get_assert_function
 from .exceptions import UraniumException
-from uranium._vendor import virtualenv
 from .lib.virtualenv_utils import write_activate_this
 from .lib.log_templates import STARTING_URANIUM, ENDING_URANIUM
 from .lib.utils import log_multiline

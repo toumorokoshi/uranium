@@ -14,12 +14,12 @@ file in the current directory uranium was
 invoked in. this can be overridden by passing in a
 path to a <build_file>
 """
+import docopt
 import logging
-from uranium._vendor import docopt
-from ..lib.sandbox import Sandbox
-from ..build import Build
 import os
 import sys
+from ..lib.sandbox import Sandbox
+from ..build import Build
 
 DEFAULT_BUILD_FILE = "uranium.py"
 DEFAULT_DIRECTIVE = "main"
@@ -36,22 +36,11 @@ def main(argv=sys.argv[1:]):
     build_file = options['<build_file>'] or DEFAULT_BUILD_FILE
     method = options['<directive>'] or DEFAULT_DIRECTIVE
 
-    if _executed_within_sandox(root):
+    sandbox = Sandbox(root)
+    with sandbox:
         build = Build(root)
         build.run(build_file, method)
-    else:
-        _install_and_run_uranium(root, argv)
-
-
-def _executed_within_sandox(root):
-    return hasattr(sys, "real_prefix") and root == sys.prefix
-
-
-def _install_and_run_uranium(path, argv):
-    LOGGER.info("instantiating virtualenv...")
-    sandbox = Sandbox(path)
-    sandbox.initialize()
-    sandbox.execute("uranium", argv, link_pipes=True)
+    sandbox.finalize()
 
 
 def _create_stdout_logger():

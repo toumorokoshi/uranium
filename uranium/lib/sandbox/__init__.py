@@ -2,7 +2,6 @@
 import os
 import subprocess
 import sys
-from uranium._vendor import virtualenv
 from .virtualenv_utils import install_virtualenv
 
 
@@ -43,5 +42,18 @@ class Sandbox(object):
         returncode = process.returncode
         return (returncode, stdout, stderr)
 
+    def activate(self):
+        pass
+
+    def deactivate(self):
+        pass
+
     def finalize(self):
         pass
+
+    # support the use of sandbox as a contextmanager
+    def __enter__(self):
+        self.activate()
+
+    def __exit__(self, type, value, traceback):
+        self.deactivate()

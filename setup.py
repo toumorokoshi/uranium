@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
-install_requires = []
+install_requires = [
+    "docopt==0.6.2",
+    "pip==7.1.0",
+    "requests==2.7.0",
+    "six==1.9.0",
+    "virtualenv==13.1.0"
+]
 
 tests_require = [
     'httpretty',

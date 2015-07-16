@@ -11,4 +11,7 @@ def test_install(tmpdir, sandbox):
     # we need to create a virtualenv
     tmpdir.join("uranium.py").write(URANIUM_PY)
     code, out, err = sandbox.execute("uranium")
-    assert code == 0
+    if code != 0:
+        print(out)
+        import pdb; pdb.set_trace()
+        assert code == 0

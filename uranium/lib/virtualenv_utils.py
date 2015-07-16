@@ -2,7 +2,7 @@ import logging
 import os
 import re
 import subprocess
-from uranium._vendor.virtualenv import create_environment, make_environment_relocatable
+from virtualenv import create_environment, make_environment_relocatable
 
 LOGGER = logging.getLogger(__name__)
 BASE = os.path.dirname(os.path.abspath(__file__))
