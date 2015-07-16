@@ -20,7 +20,6 @@ class Sandbox(object):
         install_virtualenv(self._root_dir)
         self._initialized = True
         self.execute("easy_install", ["pip"])
-        self.execute("pip", ["install", self._uranium_to_install])
 
     def execute(self, executable_name, args=None, link_pipes=False):
         executable = os.path.join(self._root_dir, "bin", executable_name)
@@ -43,6 +42,8 @@ class Sandbox(object):
         return (returncode, stdout, stderr)
 
     def activate(self):
+        if not self._initialized:
+            self.initialize()
         activate_virtualenv(self._root_dir)
 
     def deactivate(self):
