@@ -6,7 +6,7 @@ from .environment import Environment
 from .lib.script_runner import run_script
 from .lib.asserts import get_assert_function
 from .exceptions import UraniumException
-from .lib.virtualenv_utils import write_activate_this
+from .lib.sandbox.venv.activate_this import write_activate_this
 from .lib.log_templates import STARTING_URANIUM, ENDING_URANIUM
 from .lib.utils import log_multiline
 

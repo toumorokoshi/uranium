@@ -2,7 +2,7 @@
 import os
 import subprocess
 import sys
-from .virtualenv_utils import install_virtualenv
+from .venv import install_virtualenv, activate_virtualenv
 
 
 class Sandbox(object):
@@ -43,7 +43,7 @@ class Sandbox(object):
         return (returncode, stdout, stderr)
 
     def activate(self):
-        pass
+        activate_virtualenv(self._root_dir)
 
     def deactivate(self):
         pass
