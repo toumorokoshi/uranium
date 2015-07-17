@@ -14,7 +14,7 @@ dist/
 downloads/
 eggs/
 lib/
-!uranium/lib
+!uranium/lib/
 lib64/
 parts/
 sdist/
@@ -69,6 +69,4 @@ pip-selfcheck.json
 *.whl
 
 !uranium/parts/
-# uranium/_vendor/
-# !uranium/_vendor/__init__.py
 *dist-info*

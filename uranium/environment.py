@@ -10,8 +10,25 @@ class Environment(dict):
     """
 
     def __setitem__(self, key, item):
+        """
+        set an environment variable, both in the current environment
+        and for future environments.
+
+        .. code:: python
+
+            environment["EDITOR"] = "emacs"
+        """
         super(Environment, self).__setitem__(key, item)
         os.environ[key] = item
+
+    def __getitem__(self, key):
+        """
+        retrieve an environment variable.
+
+        .. code:: python
+
+            environment["PYTHONPATH"]
+        """
 
     def generate_activate_content(self):
         """

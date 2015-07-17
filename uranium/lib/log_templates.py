@@ -6,6 +6,6 @@ STARTING URANIUM
 
 ENDING_URANIUM = """
 ================
- ENDING URANIUM
+URANIUM FINISHED
 ================
 """.strip()

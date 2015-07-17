@@ -18,6 +18,7 @@ import sys
 import tarfile
 import tempfile
 from optparse import OptionParser
+from pkg_resources import load_entry_point
 
 try:
     from urllib2 import urlopen as urlopen
@@ -46,9 +47,20 @@ def main(argv):
     options, args = parser.parse_args(argv)
 
     current_dir = os.getcwd()
-    install_dir = os.path.join(current_dir, URANIUM_TARGET)
     uranium_dir = options.uranium_dir
 
+    # first we try to see if Uranium is already installed
+    # on the system.
+    uranium = retrieve_system_uranium()
+
+    if uranium and not options.uranium_dir:
+        LOGGER.info("using system uranium...")
+        sys.exit(uranium())
+
+    # if not, we install it in a sandbox and execute it from
+    # there.
+
+    install_dir = os.path.join(current_dir, URANIUM_TARGET)
     _install_virtualenv(install_dir)
 
     LOGGER.debug("activating virtualenv...")
@@ -64,6 +76,14 @@ def main(argv):
 
         LOGGER.debug("running uranium...")
         _run_uranium(install_dir)
+
+
+def retrieve_system_uranium():
+    """ if uranium already exists on the system path, use that instead. """
+    try:
+        return load_entry_point("uranium", "console_scripts", "uranium")
+    except ImportError:
+        return None
 
 
 def _install_virtualenv(install_dir):

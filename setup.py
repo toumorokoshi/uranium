@@ -14,7 +14,7 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.2.8b1',
+      version='0.2.9b1',
       description='a build system for python',
       long_description='a build system for python',
       author='Yusuke Tsutsumi',
@@ -39,7 +39,7 @@ setup(name='uranium',
       ],
       entry_points={
           'console_scripts': [
-              'uranium=uranium.scripts.uranium:main'
+              'uranium=uranium.scripts.main:main'
           ],
       },
       tests_require=tests_require
