@@ -18,7 +18,6 @@ import docopt
 import logging
 import os
 import sys
-from ..lib.sandbox import Sandbox
 from ..build import Build
 
 DEFAULT_BUILD_FILE = "ubuild.py"
@@ -36,11 +35,8 @@ def main(argv=sys.argv[1:]):
     build_file = options['<build_file>'] or DEFAULT_BUILD_FILE
     method = options['<directive>'] or DEFAULT_DIRECTIVE
 
-    sandbox = Sandbox(root)
-    with sandbox:
-        build = Build(root)
-        build.run(build_file, method)
-    sandbox.finalize()
+    build = Build(root, with_sandbox=True)
+    build.run(build_py_name=build_file, method=method)
 
 
 def _create_stdout_logger():

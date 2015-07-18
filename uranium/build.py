@@ -7,6 +7,7 @@ from .lib.script_runner import run_script
 from .lib.asserts import get_assert_function
 from .exceptions import UraniumException
 from .lib.sandbox.venv.activate_this import write_activate_this
+from .lib.sandbox import Sandbox
 from .lib.log_templates import STARTING_URANIUM, ENDING_URANIUM
 from .lib.utils import log_multiline
 
@@ -27,10 +28,11 @@ class Build(object):
     lead to corruption of the python environment.
     """
 
-    def __init__(self, root):
+    def __init__(self, root, with_sandbox=True):
         self._root = root
         self._packages = Packages()
         self._environment = Environment()
+        self._sandbox = Sandbox(root) if with_sandbox else None
 
     @property
     def root(self):
@@ -44,7 +46,16 @@ class Build(object):
     def packages(self):
         return self._packages
 
-    def run(self, build_py_name="uranium.py", method="main"):
+    def run(self, *args, **kwargs):
+        if not self._sandbox:
+            return self._run(*args, **kwargs)
+
+        with self._sandbox:
+            output = self._run(*args, **kwargs)
+        self._sandbox.finalize()
+        return output
+
+    def _run(self, build_py_name="ubuild.py", method="main"):
         log_multiline(LOGGER, logging.INFO, STARTING_URANIUM)
         path = os.path.join(self.root, build_py_name)
         u_assert(os.path.exists(path),

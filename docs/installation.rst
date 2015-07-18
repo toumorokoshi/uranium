@@ -32,8 +32,8 @@ Use the Uranium Script
 
 The Uranium script can handle the installation and execution of uranium for you. There are two versions of the script:
 
-* ./scripts/uranium_standalone, which downloads a local copy of uranium and executes it.
-* ./scripts/uranium, a thin wrapper that downloads and executes the standalone version.
+* `./scripts/uranium_standalone <https://github.com/toumorokoshi/uranium/blob/master/uranium/scripts/uranium_standalone>`_, which downloads a local copy of uranium and executes it.
+* `./scripts/uranium <https://github.com/toumorokoshi/uranium/blob/master/uranium/scripts/uranium>`_ , a thin wrapper that downloads and executes the standalone version.
 
 You would then execute the local uranium script instead:
 

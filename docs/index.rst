@@ -49,7 +49,7 @@ Contents:
    managing_packages
    envs
    indexes
-   versions
+   utils
 
 
 Indices and tables

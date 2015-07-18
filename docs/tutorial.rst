@@ -30,16 +30,24 @@ You should download a copy and add the script into the root directory:
 
 .. code-block:: bash
 
-  $ curl -s https://raw.githubusercontent.com/toumorokoshi/uranium/master/scripts/uranium > uranium
+  $ curl -s https://raw.githubusercontent.com/toumorokoshi/uranium/master/uranium/scripts/uranium > uranium
   $ chmod +x uranium  # the script should be executable.
 
-Now you need a uranium.yaml file. Let's make one now:
+Now you need a ubuild.py file. Let's make one now:
 
-  $ touch uranium.yaml
+  $ touch ubuild.py
 
-This is all you need to run uranium. Let's run them now:
+And we'll need to fill it in with at the very least, a main method:
 
-.. code-block:: yaml
+.. code-block:: python
+
+    def main(build):
+        print("Uranium works!")
+
+
+Now, you can run uranium. Try it now:
+
+.. code-block:: python
 
     $ ./uranium
     installing virtualenv...
@@ -48,34 +56,29 @@ This is all you need to run uranium. Let's run them now:
     [HH:MM:SS] ================
     [HH:MM:SS] STARTING URANIUM
     [HH:MM:SS] ================
-    [HH:MM:SS] installing eggs...
     [HH:MM:SS] ================
     [HH:MM:SS] URANIUM FINISHED
     [HH:MM:SS] ================
 
 And congrats, you've had your first Uranium run! Of course, all this
-did was run virtualenv and install Uranium. Now let's get some real
-functionality.
+did was set up a virtualenv. Now let's start working on real functionality.
 
 ------------------------------
 Developing and Installing Eggs
 ------------------------------
 
-We started with a blank Uranium file. To add eggs and develop-eggs,
-you can add a couple new section to the uranium file:
+We started with an empty main method. To add eggs and develop-eggs,
+you can use the packages object attached to the build:
 
-.. code-block:: yaml
+.. code-block:: python
 
-  # this is the uranium.yaml from the first part
-  develop-eggs:
-    - .
-  eggs:
-    nose: ==1.3.4
+    def main(build):
+        build.packages.install("nose", version="==1.3.4")
 
 And let's run uranium again:
 
 
-.. code-block::
+.. code-block:: python
 
     $ ./uranium
     setting up uranium...
@@ -84,16 +87,41 @@ And let's run uranium again:
     [HH:MM:SS] STARTING URANIUM
     [HH:MM:SS] ================
     [HH:MM:SS] installing eggs...
-    [HH:MM:SS] WARNING: Unable to install develop egg at /tmp/uranium-tut: Directory '/tmp/uranium-tut' is not installable. File 'setup.py' not found.
     [HH:MM:SS] Adding requirement nose==1.3.4...
     [HH:MM:SS] ================
     [HH:MM:SS] URANIUM FINISHED
     [HH:MM:SS] ================
 
-Note the:
 
-    WARNING:  Unable to install develop egg at /tmp/uranium-tut: Directory '/tmp/uranium-tut' is not installable
+If you want to install an egg for development purposes, you can use:
 
-This is because we don't have any egg source (setup.py) in the current
-directory. If you did this in such a directory, you would notice the
-develop-egg was installed for you.
+.. code-block:: python
+
+    def main(build):
+        build.packages.install(".", develop=True)
+
+------------------------------
+Executing Different Directives
+------------------------------
+
+the ubuild.py can define other methods, and they can be executed as well. Any
+method that accepts a single parameter build can be a directive that's executed:
+
+
+
+.. code-block:: python
+
+    import subprocess
+
+    # $ uranium
+    def main(build):
+        print("this is the main method!")
+        return 0
+
+    # $ uranium test
+    def test(build):
+        build.packages.install("nose")
+
+        # the return code is the integer returned
+        # back.
+        return subprocess.call(["nose"])

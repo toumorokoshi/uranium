@@ -27,8 +27,7 @@ def main(build):
 
 def test(build):
     main(build)
-    pytest = os.path.join(build.root, "bin", "py.test")
-    subprocess.call([pytest,
+    subprocess.call(["py.test",
                      os.path.join("uranium", "newtests"),
                      "--cov", "uranium",
                      "--cov-config", "coverage.cfg"],

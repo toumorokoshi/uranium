@@ -8,13 +8,9 @@ from .venv import install_virtualenv, activate_virtualenv
 class Sandbox(object):
     """ a class that controls a python sandbox """
 
-    def __init__(self, root_dir, uranium_to_install="uranium"):
+    def __init__(self, root_dir):
         self._root_dir = root_dir
         self._initialized = False
-        self._uranium_to_install = uranium_to_install
-        self._python = os.path.join(self._root_dir, "bin", "python")
-        self._pip = os.path.join(self._root_dir, "bin", "pip")
-        self._uranium = os.path.join(self._root_dir, "bin", "uranium")
 
     def initialize(self):
         install_virtualenv(self._root_dir)
