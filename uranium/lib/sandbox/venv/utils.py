@@ -13,15 +13,9 @@ def install_virtualenv(install_dir):
     if is_virtualenv(install_dir):
         return
 
-    original_prefix = sys.prefix
-    if hasattr(sys, "real_prefix"):
-        sys.prefix = sys.real_prefix
-
     create_environment(install_dir, no_setuptools=False,
                        no_pip=True, site_packages=False,
                        symlink=False)
-
-    sys.prefix = original_prefix
 
 
 VIRTUALENV_FILES = {
