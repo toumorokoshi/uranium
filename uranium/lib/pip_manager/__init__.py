@@ -60,7 +60,7 @@ class PipManager(object):
                  "only lists can be set as a value for indexes")
         self._finder.index_urls = value
 
-    def install(self, package_name, version=None):
+    def install(self, package_name, version=None, upgrade=False):
         requirement_string = package_name
         if version:
             requirement_string += version
@@ -68,15 +68,16 @@ class PipManager(object):
         requirement = InstallRequirement.from_line(requirement_string)
         # in the case where a version is explicitly set,
         # we allow it to override the version specification.
-        self._install(requirement)
+        self._install(requirement, upgrade=upgrade)
 
     def install_develop(self, path):
         requirement = InstallRequirement.from_editable(path)
         self._install(requirement)
 
-    def _install(self, requirement):
+    def _install(self, requirement, upgrade=False):
         with BuildDirectory() as build_dir:
-            req_set = self._create_req_set(build_dir, self.versions)
+            req_set = self._create_req_set(build_dir, self.versions,
+                                           upgrade=upgrade)
             req_set.add_requirement(requirement)
             req_set.prepare_files(self._finder)
             req_set.install([], [])
@@ -105,12 +106,13 @@ class PipManager(object):
                              session=PipSession())
 
     @staticmethod
-    def _create_req_set(build_dir, versions):
+    def _create_req_set(build_dir, versions, **options):
         req_set = UraniumRequirementSet(
             build_dir=build_dir,
             src_dir=src_prefix,
-            download_dir=None, upgrade=False,
-            session=PipSession()
+            download_dir=None,
+            session=PipSession(),
+            **options
         )
         req_set.uranium_versions = versions
         return req_set

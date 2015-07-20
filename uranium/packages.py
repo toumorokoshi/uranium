@@ -56,7 +56,7 @@ class Packages(object):
                  "only lists can be set as a value for indexes")
         self._pip.indexes = value
 
-    def install(self, name, version=None, develop=None):
+    def install(self, name, version=None, develop=None, upgrade=False):
         """
         install is used when installing a python package into the environment.
 
@@ -74,4 +74,4 @@ class Packages(object):
         else:
             if version:
                 self.versions.update({name: version})
-            self._pip.install(name)
+            self._pip.install(name, upgrade=upgrade)

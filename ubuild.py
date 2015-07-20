@@ -28,7 +28,7 @@ def main(build):
 def test(build):
     main(build)
     subprocess.call(["py.test",
-                     os.path.join("uranium", "newtests"),
+                     os.path.join("tests"),
                      "--cov", "uranium",
                      "--cov-config", "coverage.cfg"],
                     cwd=build.root)
