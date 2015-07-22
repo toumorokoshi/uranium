@@ -70,3 +70,11 @@ pip-selfcheck.json
 
 !uranium/parts/
 *dist-info*
+
+man/
+.Python
+pip-selfcheck.json
+include/
+.uranium/
+.eggs/
+lib/

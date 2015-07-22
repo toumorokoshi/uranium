@@ -26,3 +26,9 @@ try:
     from subprocess import check_output
 except:
     from .check_output import check_output
+
+
+try:
+    from urllib.parse import urlparse
+except:
+    from urlparse import urlparse

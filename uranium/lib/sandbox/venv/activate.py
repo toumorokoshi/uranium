@@ -42,7 +42,8 @@ def _clean_package_resources(_pkg_resources, old_prefix):
     # the requirement from the current virtualenv
     for name, req in list(_pkg_resources.working_set.by_key.items()):
         if old_prefix in req.location:
-            del _pkg_resources.working_set.by_key[name]
+            pass
+            # del _pkg_resources.working_set.by_key[name]
 
     # ensure that pkg_resources only searches the
     # existing sys.path. These variables are set on

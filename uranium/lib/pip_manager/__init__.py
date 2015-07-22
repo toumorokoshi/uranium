@@ -9,6 +9,7 @@ from pip.utils.build import BuildDirectory
 from .req_set import UraniumRequirementSet
 from uranium.lib.utils import log_exception
 from uranium.lib.asserts import get_assert_function
+from uranium.lib.compat import urlparse
 
 DEFAULT_INDEX_URLS = ['https://pypi.python.org/simple/']
 LOGGER = logging.getLogger(__name__)
@@ -58,7 +59,7 @@ class PipManager(object):
     def index_urls(self, value):
         p_assert(isinstance(value, list),
                  "only lists can be set as a value for indexes")
-        self._finder.index_urls = value
+        self._finder = self._create_package_finder(value)
 
     def install(self, package_name, version=None, upgrade=False):
         requirement_string = package_name
@@ -101,9 +102,19 @@ class PipManager(object):
 
     @staticmethod
     def _create_package_finder(index_urls):
-        return PackageFinder(find_links=[],
-                             index_urls=index_urls,
-                             session=PipSession())
+        trusted_hosts = []
+        for index in index_urls:
+            url = urlparse(index)
+            if url.scheme != "https":
+                trusted_hosts.append(url.netloc)
+
+        session = PipSession(insecure_hosts=trusted_hosts)
+        return PackageFinder(
+            find_links=[],
+            index_urls=index_urls,
+            trusted_hosts=trusted_hosts,
+            session=session
+        )
 
     @staticmethod
     def _create_req_set(build_dir, versions, **options):
