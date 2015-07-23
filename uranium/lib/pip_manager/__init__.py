@@ -1,5 +1,7 @@
 import os
 import logging
+import site
+import sys
 from pip.index import PackageFinder
 from pip.req import InstallRequirement
 from pip.locations import src_prefix
@@ -86,19 +88,10 @@ class PipManager(object):
             req_set.cleanup_files()
             # except DistributionNotFound as e:
             #   raise PackageNotFound(str(e))
-
-    def add_develop_eggs(self, develop_egg_list):
-        errors = []
-        for egg_path in develop_egg_list:
-            egg_path = _expand_dir(egg_path)
-            try:
-                egg_requirement = InstallRequirement.from_editable(egg_path)
-                self._req_set.add_requirement(egg_requirement)
-                self._develop_egg_original_paths[egg_path] = egg_requirement
-            except InstallationError as e:
-                log_exception(LOGGER, logging.DEBUG)
-                errors.append((egg_path, str(e)))
-        return errors
+        # at the end, we reload the site-packages
+        # path. this ensures that it can be used
+        # immediately.
+        site.addsitedir(sys.path[0])
 
     @staticmethod
     def _create_package_finder(index_urls):
