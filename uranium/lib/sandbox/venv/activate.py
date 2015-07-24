@@ -32,6 +32,7 @@ def activate_virtualenv(root):
     # generated when using uranium. it looks like sys.prefix
     # works as a replacement, so let's use that.
     # sys.real_prefix = sys.prefix
+    _load_distutils(root)
 
 
 def _clean_package_resources(_pkg_resources, old_prefix):
@@ -51,3 +52,10 @@ def _clean_package_resources(_pkg_resources, old_prefix):
     # initialization, so we have to reset them
     # when activating a sandbox.
     _pkg_resources.working_set.entries = sys.path
+
+def _load_distutils(root):
+    distutils_path = os.path.join(root, 'lib', 'python%s' % sys.version[:3], 'distutils', '__init__.py')
+    execfile(distutils_path, {
+        "__file__": distutils_path,
+        "__path__": []
+    })

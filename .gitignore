@@ -78,3 +78,4 @@ include/
 .uranium/
 .eggs/
 lib/
+.pydistutils.cfg
