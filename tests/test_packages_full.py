@@ -12,6 +12,7 @@ def main(build):
     build.packages.install("nose" {0})
     import nose
     print(nose.__version__)
+    print("test")
 """.strip()
 
 from uranium.scripts import execute_script
@@ -35,18 +36,18 @@ def test_update(tmpdir):
     status, out, err = execute_script("uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
                                       cwd=tmpdir.strpath)
 
-    assert "\n1.3.1\n" in out.decode("utf-8")
+    assert "1.3.1" in out.decode("utf-8")
 
     no_version = URANIUM_PY_UPDATE.format('')
     tmpdir.join("ubuild.py").write(no_version)
     status, out, err = execute_script("uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
                                       cwd=tmpdir.strpath)
 
-    assert "\n1.3.1\n" in out.decode("utf-8")
+    assert "1.3.1" in out.decode("utf-8")
 
     update_version = URANIUM_PY_UPDATE.format(',upgrade=True')
     tmpdir.join("ubuild.py").write(update_version)
     status, out, err = execute_script("uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
                                       cwd=tmpdir.strpath)
 
-    assert "\n1.3.1\n" not in out.decode("utf-8")
+    assert "1.3.1" not in out.decode("utf-8")

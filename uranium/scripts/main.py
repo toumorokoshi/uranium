@@ -22,7 +22,7 @@ from ..build import Build
 
 DEFAULT_BUILD_FILE = "ubuild.py"
 DEFAULT_DIRECTIVE = "main"
-LOGGING_NAMES = ["uranium", "pip"]
+LOGGING_NAMES = ["uranium"]
 URANIUM_ROOT = os.path.dirname(os.path.dirname(__file__))
 LOGGER = logging.getLogger(__name__)
 

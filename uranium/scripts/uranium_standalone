@@ -55,7 +55,7 @@ def main(argv):
 
     if uranium and not options.uranium_dir:
         LOGGER.info("using system uranium...")
-        sys.exit(uranium())
+        sys.exit(uranium(args))
 
     # if not, we install it in a sandbox and execute it from
     # there.
@@ -68,14 +68,13 @@ def main(argv):
 
     os.chdir(current_dir)
 
-    if options.with_uranium:
-        LOGGER.info("setting up uranium...")
-        _install_uranium(install_dir, uranium_dir=uranium_dir,
-                         version=options.version)
-        LOGGER.info("done!")
+    LOGGER.info("setting up uranium...")
+    _install_uranium(install_dir, uranium_dir=uranium_dir,
+                     version=options.version)
+    LOGGER.info("done!")
 
-        LOGGER.debug("running uranium...")
-        _run_uranium(install_dir)
+    LOGGER.debug("running uranium...")
+    sys.exit(_run_uranium(install_dir, args))
 
 
 def retrieve_system_uranium():
@@ -155,9 +154,9 @@ def _install_uranium(virtualenv_dir, uranium_dir=None, version=None):
             exit(1)
 
 
-def _run_uranium(virtualenv_dir):
+def _run_uranium(virtualenv_dir, args):
     uranium_executable = os.path.join(virtualenv_dir, 'bin', 'uranium')
-    subprocess.call([uranium_executable],
+    subprocess.call([uranium_executable] + args,
                     stdin=sys.stdin,
                     stdout=sys.stdout,
                     stderr=sys.stderr)

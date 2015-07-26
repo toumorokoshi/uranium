@@ -53,9 +53,11 @@ def _clean_package_resources(_pkg_resources, old_prefix):
     # when activating a sandbox.
     _pkg_resources.working_set.entries = sys.path
 
+
 def _load_distutils(root):
     distutils_path = os.path.join(root, 'lib', 'python%s' % sys.version[:3], 'distutils', '__init__.py')
-    execfile(distutils_path, {
-        "__file__": distutils_path,
-        "__path__": []
-    })
+    with open(distutils_path) as f:
+        exec(f.read(), {
+            "__file__": distutils_path,
+            "__path__": []
+        })
