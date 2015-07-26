@@ -18,7 +18,7 @@ import sys
 import tarfile
 import tempfile
 from optparse import OptionParser
-from pkg_resources import load_entry_point
+from pkg_resources import load_entry_point, DistributionNotFound
 
 try:
     from urllib2 import urlopen as urlopen
@@ -82,7 +82,7 @@ def retrieve_system_uranium():
     """ if uranium already exists on the system path, use that instead. """
     try:
         return load_entry_point("uranium", "console_scripts", "uranium")
-    except ImportError:
+    except (ImportError, DistributionNotFound):
         return None
 
 
@@ -158,9 +158,9 @@ def _install_uranium(virtualenv_dir, uranium_dir=None, version=None):
 def _run_uranium(virtualenv_dir):
     uranium_executable = os.path.join(virtualenv_dir, 'bin', 'uranium')
     subprocess.call([uranium_executable],
-                    stdin=subprocess.PIPE,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE)
+                    stdin=sys.stdin,
+                    stdout=sys.stdout,
+                    stderr=sys.stderr)
 
 
 def _download_virtualenv(target_dir=None):
