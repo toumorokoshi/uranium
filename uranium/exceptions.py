@@ -14,3 +14,7 @@ class PackageException(UraniumException):
 
 class ScriptException(UraniumException):
     pass
+
+
+class HistoryException(UraniumException):
+    pass

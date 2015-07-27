@@ -1,6 +1,7 @@
 import logging
 import os
 import virtualenv
+from .history import History
 from .packages import Packages
 from .environment import Environment
 from .lib.script_runner import run_script
@@ -27,11 +28,16 @@ class Build(object):
     itself. Attempting to execute this outside of the sandbox could
     lead to corruption of the python environment.
     """
+    URANIUM_CACHE_DIR = ".uranium"
+    HISTORY_NAME = "history.json"
 
     def __init__(self, root, with_sandbox=True):
         self._root = root
         self._packages = Packages()
         self._environment = Environment()
+        self._history = History(
+            os.path.join(self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
+        )
         self._sandbox = Sandbox(root) if with_sandbox else None
 
     @property
@@ -45,6 +51,10 @@ class Build(object):
     @property
     def packages(self):
         return self._packages
+
+    @property
+    def history(self):
+        return self._history
 
     def run(self, *args, **kwargs):
         if not self._sandbox:
