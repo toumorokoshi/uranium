@@ -66,6 +66,7 @@ class Build(object):
         return output
 
     def _run(self, build_py_name="ubuild.py", method="main"):
+        self._warmup()
         log_multiline(LOGGER, logging.INFO, STARTING_URANIUM)
         path = os.path.join(self.root, build_py_name)
         u_assert(os.path.exists(path),
@@ -74,8 +75,12 @@ class Build(object):
         self._finalize()
         log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
 
+    def _warmup(self):
+        self.history.load()
+
     def _finalize(self):
         virtualenv.make_environment_relocatable(self._root)
         activate_content = ""
         activate_content += self.environment.generate_activate_content()
         write_activate_this(self._root, additional_content=activate_content)
+        self.history.save()

@@ -29,3 +29,14 @@ def test_not_able_to_serialize(history):
     history["unserializable"] = re.compile("foo")
     with pytest.raises(HistoryException):
         history.save()
+
+
+def test_not_able_to_serialize_subattribute(history):
+    import re
+    history["unserializable"] = [re.compile("foo")]
+    with pytest.raises(HistoryException):
+        history.save()
+
+    history["unserializable"] = {"foo": re.compile("foo")}
+    with pytest.raises(HistoryException):
+        history.save()
