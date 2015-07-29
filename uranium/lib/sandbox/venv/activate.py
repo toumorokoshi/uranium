@@ -7,7 +7,10 @@ from pip._vendor import pkg_resources as pip_pkg_resources
 
 def activate_virtualenv(root):
     """ this will activate a virtualenv in the case one exists """
-    # sys.prefix = os.path.join(*sys.prefix.split(os.sep)[:-2])
+
+    # in the case that we are already activated, we don't activate again.
+    if sys.prefix == root:
+        return
 
     site_package_dirs = [p for p in sys.path if "site-packages" in p]
     sys.path = [p for p in sys.path if "site-packages" not in p]
