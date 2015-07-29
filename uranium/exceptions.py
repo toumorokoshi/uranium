@@ -12,6 +12,11 @@ class PackageException(UraniumException):
     pass
 
 
+class PluginException(UraniumException):
+    """ an exception that occurred with the plugin """
+    pass
+
+
 class ScriptException(UraniumException):
     pass
 

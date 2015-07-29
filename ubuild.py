@@ -27,13 +27,17 @@ def main(build):
 
 def test(build):
     main(build)
-    subprocess.call(["py.test",
-                     os.path.join("tests"),
-                     "--cov", "uranium",
-                     "--cov-config", "coverage.cfg"],
-                    cwd=build.root)
+    return subprocess.call(["py.test",
+                            os.path.join("tests"),
+                            "--cov", "uranium",
+                            "--cov-config", "coverage.cfg"],
+                           cwd=build.root)
 
 
 def build_docs(build):
     main(build)
     build.packages.install("sphinx")
+    return subprocess.call([
+        "sphinx-build", "docs",
+        os.path.join("docs", "_build")
+    ])

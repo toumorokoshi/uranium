@@ -48,6 +48,7 @@ Contents:
    tutorial
    managing_packages
    envs
+   history
    indexes
    utils
 
