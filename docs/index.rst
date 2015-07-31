@@ -36,7 +36,7 @@ An example configuration looks like this:
         # eggs are installed this way.
         build.packages.install("py.test")
         # you can execute arbitrary scripts that are installed within a sandbox.
-        build.bin.execute("py.test", ["mytests"])
+        build.executables.run(["py.test", "mytests"])
 
 
 Contents:
@@ -47,6 +47,7 @@ Contents:
    installation
    tutorial
    managing_packages
+   executables
    envs
    history
    indexes

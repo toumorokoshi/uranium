@@ -124,4 +124,4 @@ method that accepts a single parameter build can be a directive that's executed:
 
         # the return code is the integer returned
         # back.
-        return subprocess.call(["nose"])
+        build.executables.run(["nose"])

@@ -1,6 +1,7 @@
 import logging
 import os
 import virtualenv
+from .executables import Executables
 from .history import History
 from .packages import Packages
 from .environment import Environment
@@ -33,12 +34,17 @@ class Build(object):
 
     def __init__(self, root, with_sandbox=True):
         self._root = root
+        self._executables = Executables(root)
         self._packages = Packages()
         self._environment = Environment()
         self._history = History(
             os.path.join(self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
         )
         self._sandbox = Sandbox(root) if with_sandbox else None
+
+    @property
+    def executables(self):
+        return self._executables
 
     @property
     def root(self):
@@ -71,8 +77,10 @@ class Build(object):
         path = os.path.join(self.root, build_py_name)
         u_assert(os.path.exists(path),
                  "build file at {0} does not exist".format(path))
-        run_script(path, method, build=self)
-        self._finalize()
+        try:
+            run_script(path, method, build=self)
+        finally:
+            self._finalize()
         log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
 
     def _warmup(self):

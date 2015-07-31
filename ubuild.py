@@ -1,6 +1,5 @@
 import os
 import subprocess
-import sys
 
 
 def _install_test_modules(build):
@@ -16,8 +15,10 @@ def _install_test_modules(build):
 
 def distribute(build):
     build.packages.install("wheel")
-    subprocess.call([sys.executable, "setup.py",
-                     "bdist_wheel", "--universal", "upload"])
+    build.executables.run([
+        "python", "setup.py",
+        "bdist_wheel", "--universal", "upload"
+    ])
 
 
 def main(build):
@@ -27,17 +28,18 @@ def main(build):
 
 def test(build):
     main(build)
-    return subprocess.call(["py.test",
-                            os.path.join("tests"),
-                            "--cov", "uranium",
-                            "--cov-config", "coverage.cfg"],
-                           cwd=build.root)
+    _install_test_modules(build)
+    build.executables.run([
+        "py.test", os.path.join(build.root, "tests"),
+        #"--cov", "uranium",
+        #"--cov-config", "coverage.cfg"
+    ])
 
 
 def build_docs(build):
     main(build)
     build.packages.install("sphinx")
-    return subprocess.call([
+    build.executables.run([
         "sphinx-build", "docs",
         os.path.join("docs", "_build")
     ])

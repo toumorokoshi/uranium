@@ -21,5 +21,9 @@ class ScriptException(UraniumException):
     pass
 
 
+class NonZeroExitCodeException(UraniumException):
+    pass
+
+
 class HistoryException(UraniumException):
     pass
