@@ -28,15 +28,16 @@ class UraniumRequirementSet(RequirementSet):
             if new_spec:
                 install_req.req.specifier = old_specifier & new_spec
 
+    def install(self, *args, **kwargs):
+        super(UraniumRequirementSet, self).install(*args, **kwargs)
+        for requirement in self.requirements.values():
+            self.uranium_versions[requirement.name] = str(requirement.req.specifier)
+
     @property
     def uranium_versions(self):
-        if hasattr(self, '_uranium_versions'):
-            if isinstance(self._uranium_versions, Callable):
-                return self._uranium_versions()
-            else:
-                return self._uranium_versions
-        else:
-            return {}
+        if not hasattr(self, '_uranium_versions'):
+            self._uranium_versions = {}
+        return self._uranium_versions
 
     @uranium_versions.setter
     def uranium_versions(self, val):

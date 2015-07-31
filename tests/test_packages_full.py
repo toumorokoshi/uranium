@@ -22,10 +22,12 @@ from .conftest import URANIUM_SOURCE_ROOT
 def test_install(tmpdir):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(URANIUM_PY)
-    code, _, _ = execute_script(
+    code, out, err = execute_script(
         "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
         cwd=tmpdir.strpath
     )
+    print("stdout:\n" + str(out))
+    print("stderr:\n" + str(err))
     assert code == 0
 
 
@@ -51,3 +53,25 @@ def test_update(tmpdir):
                                       cwd=tmpdir.strpath)
 
     assert "1.3.1" not in out.decode("utf-8")
+
+
+def test_versions_dict_updated(tmpdir):
+    """ the versions dict should be updated once a version is installed. """
+
+    UBUILD = """
+def main(build):
+
+    build.packages.install("nose")
+    print(build.packages.versions["nose"])
+    print("fooo")
+""".strip()
+
+    # we need to create a virtualenv
+    tmpdir.join("ubuild.py").write(UBUILD)
+    code, out, err = execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
+        cwd=tmpdir.strpath
+    )
+    print("stdout:\n" + str(out))
+    print("stderr:\n" + str(err))
+    assert code == 0
