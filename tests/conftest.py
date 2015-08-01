@@ -1,6 +1,7 @@
 import os
 import pytest
 from uranium.lib.sandbox import Sandbox
+from uranium.executables import Executables
 from uranium.history import History
 
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -18,3 +19,9 @@ def sandbox(tmpdir):
 def history(tmpdir):
     history_file = os.path.join(tmpdir.strpath, "history.json")
     return History(history_file)
+
+
+@pytest.fixture
+def executables(tmpdir):
+    executables = Executables(tmpdir.strpath)
+    return executables

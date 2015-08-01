@@ -31,8 +31,8 @@ def test(build):
     _install_test_modules(build)
     build.executables.run([
         "py.test", os.path.join(build.root, "tests"),
-        #"--cov", "uranium",
-        #"--cov-config", "coverage.cfg"
+        "--cov", "uranium",
+        "--cov-config", "coverage.cfg"
     ])
 
 

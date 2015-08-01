@@ -24,7 +24,7 @@ class Executables(object):
     def __init__(self, root):
         self.root = root
 
-    def run(self, args, link_streams=True, fail_on_error=True):
+    def run(self, args, link_streams=True, fail_on_error=True, subprocess_args=None):
         """
         execute an executable. by default,
         this method links the stdin, stdout, and stderr streams.
@@ -35,6 +35,8 @@ class Executables(object):
         alternative. run() just has some defaults that are more
         suitable for builds.
 
+        returns a tuple of (exit_code, stdout, stderr)
+
         args: a list of command line arguments
 
         link_streams (default True): if set to true, stdin, stdout
@@ -43,6 +45,9 @@ class Executables(object):
 
         fail_on_error: (default True): if set to true, raise an
         exception on a non-zero exit code.
+
+        subprocess_args: if set to a dictionary, these arguments
+        will be passed into the popen statement.
 
         example:
 
@@ -58,11 +63,15 @@ class Executables(object):
                 "stdout": sys.stdout,
                 "stderr": sys.stderr
             })
-        exit_code = subprocess.call(args, **kwargs)
+        if subprocess_args:
+            kwargs.update(subprocess_args)
+        popen = subprocess.Popen(args, **kwargs)
+        out, err = popen.communicate()
+        exit_code = popen.returncode
 
         if exit_code != 0 and fail_on_error:
             raise NonZeroExitCodeException("received non-zero exit code: {0}".format(exit_code))
-        return exit_code
+        return exit_code, out, err
 
     def install_script(self, name, body, execution_dir="base"):
         """ install a python script. """
