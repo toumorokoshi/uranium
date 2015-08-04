@@ -1,5 +1,4 @@
 import os
-import subprocess
 
 
 def _install_test_modules(build):
@@ -33,7 +32,7 @@ def test(build):
         "py.test", os.path.join(build.root, "tests"),
         "--cov", "uranium",
         "--cov-config", "coverage.cfg"
-    ])
+    ] + build.options.args)
 
 
 def build_docs(build):
@@ -42,4 +41,4 @@ def build_docs(build):
     build.executables.run([
         "sphinx-build", "docs",
         os.path.join("docs", "_build")
-    ])
+    ] + build.options.args)

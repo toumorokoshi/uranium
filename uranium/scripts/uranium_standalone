@@ -49,7 +49,7 @@ class PassThroughOptionParser(OptionParser):
         while rargs:
             try:
                 OptionParser._process_args(self, largs, rargs, values)
-            except (BadOptionError, AmbiguousOptionError), e:
+            except (BadOptionError, AmbiguousOptionError) as e:
                 largs.append(e.opt_str)
 
 
@@ -65,7 +65,7 @@ URANIUM_TARGET = ".uranium"
 
 
 def main(argv):
-    options, args = parser.parse_args(argv)
+    options, remaining_args = parser.parse_args(argv)
 
     current_dir = os.getcwd()
     uranium_dir = options.uranium_dir
@@ -76,7 +76,7 @@ def main(argv):
 
     if uranium and not options.uranium_dir:
         LOGGER.info("using system uranium...")
-        return uranium(args)
+        return uranium(remaining_args)
 
     # if not, we install it in a sandbox and execute it from
     # there.
@@ -95,7 +95,7 @@ def main(argv):
     LOGGER.info("done!")
 
     LOGGER.debug("running uranium...")
-    return _run_uranium(install_dir, args)
+    return _run_uranium(install_dir, remaining_args)
 
 
 def retrieve_system_uranium():

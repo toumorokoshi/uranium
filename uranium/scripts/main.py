@@ -1,24 +1,33 @@
 """Uranium, a build system for python
 
 Usage:
-  uranium [<directive> -p <build_file> -v]
+  uranium [-p <build_file> -v]
+  uranium [-p <build_file> -v] <directive> [DIRECTIVE_ARGS ...]
   uranium (-h | --help)
 
 Options:
   -h, --help        show this usage guide
   -v, --verbose     show verbose output
+  -p <build_file>, --path <build_file>  the build file to use.
   <directive>       the directive to execute (defaults to "main")
 
 By default, uranium will look for a ubuild.py
 file in the current directory uranium was
 invoked in. this can be overridden by passing in a
-path to a <build_file>
+path to a <build_file>.
+
+Uranium supports multiple directives, and you can specify which
+directive to use by passing in a <directive> argument matching the
+function name. You can also pass in as many arguments as you want,
+which are available in the build object as the build.options.directive
+and build.options.args, respectively.
 """
 import docopt
 import logging
 import os
 import sys
 from ..build import Build
+from ..options import BuildOptions
 
 DEFAULT_BUILD_FILE = "ubuild.py"
 DEFAULT_DIRECTIVE = "main"
@@ -29,14 +38,17 @@ LOGGER = logging.getLogger(__name__)
 
 def main(argv=sys.argv[1:]):
     _create_stdout_logger()
-    options = docopt.docopt(__doc__,  argv=argv)
+    options = docopt.docopt(__doc__,  argv=argv, options_first=True)
     root = os.path.abspath(os.curdir)
     LOGGER.info("executing uranium in {0}...".format(root))
-    build_file = options['<build_file>'] or DEFAULT_BUILD_FILE
-    method = options['<directive>'] or DEFAULT_DIRECTIVE
+    build_file = options['--path'] or DEFAULT_BUILD_FILE
+    directive = options['<directive>'] or DEFAULT_DIRECTIVE
+    args = options["DIRECTIVE_ARGS"] or []
+
+    build_options = BuildOptions(directive, args, build_file)
 
     build = Build(root, with_sandbox=True)
-    build.run(build_py_name=build_file, method=method)
+    build.run(build_options)
 
 
 def _create_stdout_logger():

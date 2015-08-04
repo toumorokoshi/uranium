@@ -37,6 +37,7 @@ class Build(object):
         self._executables = Executables(root)
         self._packages = Packages()
         self._environment = Environment()
+        self._options = None
         self._history = History(
             os.path.join(self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
         )
@@ -62,26 +63,34 @@ class Build(object):
     def history(self):
         return self._history
 
-    def run(self, *args, **kwargs):
+    @property
+    def options(self):
+        return self._options
+
+    def run(self, options):
         if not self._sandbox:
-            return self._run(*args, **kwargs)
+            return self._run(options)
 
         with self._sandbox:
-            output = self._run(*args, **kwargs)
+            output = self._run(options)
         self._sandbox.finalize()
         return output
 
-    def _run(self, build_py_name="ubuild.py", method="main"):
-        self._warmup()
-        log_multiline(LOGGER, logging.INFO, STARTING_URANIUM)
-        path = os.path.join(self.root, build_py_name)
-        u_assert(os.path.exists(path),
-                 "build file at {0} does not exist".format(path))
+    def _run(self, options):
+        self._options = options
         try:
-            run_script(path, method, build=self)
+            self._warmup()
+            log_multiline(LOGGER, logging.INFO, STARTING_URANIUM)
+            path = os.path.join(self.root, options.build_file)
+            u_assert(os.path.exists(path),
+                     "build file at {0} does not exist".format(path))
+            try:
+                run_script(path, options.directive, build=self)
+            finally:
+                self._finalize()
+            log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
         finally:
-            self._finalize()
-        log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
+            self._options = None
 
     def _warmup(self):
         self.history.load()
