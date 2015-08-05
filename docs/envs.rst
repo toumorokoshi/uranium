@@ -22,5 +22,5 @@ Full API Reference
 ------------------
 
 
-.. autoclass:: uranium.environment.Environment
+.. autoclass:: uranium.environment_variables.EnvironmentVariables
     :members: __setitem__, __getitem__

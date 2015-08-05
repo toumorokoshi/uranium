@@ -1,7 +1,7 @@
 import os
 
 
-class Environment(dict):
+class EnvironmentVariables(dict):
     """
     an interface exposed which allows the setting of
     environment variables.
@@ -16,9 +16,9 @@ class Environment(dict):
 
         .. code:: python
 
-            environment["EDITOR"] = "emacs"
+            envvars["EDITOR"] = "emacs"
         """
-        super(Environment, self).__setitem__(key, item)
+        super(EnvironmentVariables, self).__setitem__(key, item)
         os.environ[key] = item
 
     def __getitem__(self, key):
@@ -27,7 +27,7 @@ class Environment(dict):
 
         .. code:: python
 
-            environment["PYTHONPATH"]
+            envvars["PYTHONPATH"]
         """
 
     def generate_activate_content(self):

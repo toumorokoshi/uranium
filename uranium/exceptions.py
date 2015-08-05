@@ -7,6 +7,18 @@ class CacheException(UraniumException):
     pass
 
 
+class HistoryException(UraniumException):
+    pass
+
+
+class HooksException(UraniumException):
+    pass
+
+
+class NonZeroExitCodeException(UraniumException):
+    pass
+
+
 class PackageException(UraniumException):
     """ exceptions with the package object """
     pass
@@ -18,12 +30,4 @@ class PluginException(UraniumException):
 
 
 class ScriptException(UraniumException):
-    pass
-
-
-class NonZeroExitCodeException(UraniumException):
-    pass
-
-
-class HistoryException(UraniumException):
     pass

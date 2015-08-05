@@ -1,7 +1,7 @@
 import requests
 
 
-def get_remote_script(url):
+def get_remote_script(url, **params):
     """
     download a remote script, evaluate it, and return a dictionary
     containing all of the globals instantiated.
@@ -11,5 +11,6 @@ def get_remote_script(url):
     """
     resp = requests.get(url)
     script_locals = {}
+    script_locals.update(params)
     exec(resp.text, script_locals)
     return script_locals
