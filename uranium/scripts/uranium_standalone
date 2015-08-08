@@ -52,6 +52,47 @@ class PassThroughOptionParser(OptionParser):
             except (BadOptionError, AmbiguousOptionError) as e:
                 largs.append(e.opt_str)
 
+    def _process_short_opts(self, rargs, values):
+        arg = rargs.pop(0)
+        stop = False
+        i = 1
+        for ch in arg[1:]:
+            opt = "-" + ch
+            option = self._short_opt.get(opt)
+            i += 1                      # we have consumed a character
+
+            if not option:
+                raise BadOptionError(arg)
+            if option.takes_value():
+                # Any characters left in arg?  Pretend they're the
+                # next arg, and stop consuming characters of arg.
+                if i < len(arg):
+                    rargs.insert(0, arg[i:])
+                    stop = True
+
+                nargs = option.nargs
+                if len(rargs) < nargs:
+                    if nargs == 1:
+                        self.error(_("%s option requires an argument") % opt)
+                    else:
+                        self.error(_("%s option requires %d arguments")
+                                   % (opt, nargs))
+                elif nargs == 1:
+                    value = rargs.pop(0)
+                else:
+                    value = tuple(rargs[0:nargs])
+                    del rargs[0:nargs]
+
+            else:                       # option doesn't take a value
+                value = None
+
+            option.process(opt, value, values, self)
+
+            if stop:
+                break
+
+
+
 
 parser = PassThroughOptionParser()
 parser.add_option("--no-uranium", help="don't install uranium.",
