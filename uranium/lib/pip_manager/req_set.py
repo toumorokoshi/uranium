@@ -1,6 +1,6 @@
 import logging
+import pkg_resources
 from pip.req import RequirementSet
-from collections import Callable
 
 LOGGER = logging.getLogger(__name__)
 
@@ -31,7 +31,10 @@ class UraniumRequirementSet(RequirementSet):
     def install(self, *args, **kwargs):
         super(UraniumRequirementSet, self).install(*args, **kwargs)
         for requirement in self.requirements.values():
-            self.uranium_versions[requirement.name] = str(requirement.req.specifier)
+            specifier = str(requirement.req.specifier)
+            if specifier == "":
+                specifier = "==" + pkg_resources.get_distribution(requirement.name).version
+            self.uranium_versions[requirement.name] = specifier
 
     @property
     def uranium_versions(self):

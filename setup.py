@@ -15,7 +15,7 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.2.19b1',
+      version='0.2.20b1',
       description='a build system for python',
       long_description='a build system for python',
       author='Yusuke Tsutsumi',
