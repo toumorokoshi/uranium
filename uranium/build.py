@@ -19,6 +19,7 @@ u_assert = get_assert_function(UraniumException)
 LOGGER = logging.getLogger(__name__)
 
 
+
 class Build(object):
     """
     the build class is the object passed to the main method of the
@@ -44,7 +45,6 @@ class Build(object):
             os.path.join(self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
         )
         self._sandbox = Sandbox(root) if with_sandbox else None
-
 
     @property
     def envvars(self):
@@ -92,15 +92,24 @@ class Build(object):
             u_assert(os.path.exists(path),
                      "build file at {0} does not exist".format(path))
             try:
-                self._run_script(path, options.directive)
+                self._run_script(path, options.directive,
+                                 override_func=options.override_func)
             finally:
                 self._finalize()
             log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
         finally:
             self._options = None
 
-    def _run_script(self, path, directive):
+    def _run_script(self, path, directive, override_func=None):
+        """
+        override_func: if this is not None, the _run_script will
+        execute this function (passing in the script object) instead
+        of executing the directive.
+        """
         script = build_script(path, {"build": self})
+
+        if override_func:
+            return override_func(script)
 
         if directive not in script:
             raise ScriptException("{0} does not have a {1} function".format(

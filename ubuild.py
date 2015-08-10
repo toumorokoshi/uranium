@@ -36,6 +36,7 @@ def test(build):
 
 
 def build_docs(build):
+    """ build uranium documentation """
     main(build)
     build.packages.install("sphinx")
     build.executables.run([

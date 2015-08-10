@@ -3,12 +3,14 @@
 Usage:
   uranium [-p <build_file> -v]
   uranium [-p <build_file> -v] <directive> [DIRECTIVE_ARGS ...]
+  uranium [-p <build_file> -v] --directives
   uranium (-h | --help)
 
 Options:
   -h, --help        show this usage guide
   -v, --verbose     show verbose output
   -p <build_file>, --path <build_file>  the build file to use.
+  --directives      list all the directives available in a build file.
   <directive>       the directive to execute (defaults to "main")
 
 By default, uranium will look for a ubuild.py
@@ -29,10 +31,10 @@ import sys
 from ..build import Build
 from ..options import BuildOptions
 
-DEFAULT_BUILD_FILE = "ubuild.py"
-DEFAULT_DIRECTIVE = "main"
 LOGGING_NAMES = ["uranium"]
 URANIUM_ROOT = os.path.dirname(os.path.dirname(__file__))
+DEFAULT_BUILD_FILE = "ubuild.py"
+DEFAULT_DIRECTIVE = "main"
 LOGGER = logging.getLogger(__name__)
 
 
@@ -46,6 +48,8 @@ def main(argv=sys.argv[1:]):
     args = options["DIRECTIVE_ARGS"] or []
 
     build_options = BuildOptions(directive, args, build_file)
+    if options["--directives"]:
+        build_options.override_func = _print_directives
 
     build = Build(root, with_sandbox=True)
     build.run(build_options)
@@ -65,3 +69,16 @@ def _create_stdout_logger():
         log = logging.getLogger(name)
         log.addHandler(out_hdlr)
         log.setLevel(logging.INFO)
+
+
+def _print_directives(script):
+    public_func_names = []
+    for k, v in script.items():
+        if callable(v) and not k.startswith("_"):
+            public_func_names.append((k, v))
+
+    LOGGER.info("the following directives are available: ")
+    for name, func in sorted(public_func_names):
+        LOGGER.info("  {0}: {1}".format(
+            name, getattr(func, "__doc__", "") or ""
+        ))
