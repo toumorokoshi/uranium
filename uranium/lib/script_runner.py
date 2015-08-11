@@ -1,4 +1,7 @@
+import logging
 from uranium.exceptions import ScriptException
+
+LOGGER = logging.getLogger(__name__)
 
 
 def build_script(path, local_vars):
@@ -22,3 +25,11 @@ def run_script(path, method_name, **params):
             path, method_name
         ))
     script_locals[method_name](**params)
+
+
+def get_public_functions(script):
+    public_func_names = []
+    for k, v in script.items():
+        if callable(v) and not k.startswith("_"):
+            public_func_names.append(v)
+    return sorted(public_func_names, key=lambda f: f.__name__)

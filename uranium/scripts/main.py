@@ -30,6 +30,8 @@ import os
 import sys
 from ..build import Build
 from ..options import BuildOptions
+from ..lib.script_runner import get_public_functions
+from ..exceptions import UraniumException
 
 LOGGING_NAMES = ["uranium"]
 URANIUM_ROOT = os.path.dirname(os.path.dirname(__file__))
@@ -52,7 +54,10 @@ def main(argv=sys.argv[1:]):
         build_options.override_func = _print_directives
 
     build = Build(root, with_sandbox=True)
-    build.run(build_options)
+    try:
+        build.run(build_options)
+    except UraniumException as e:
+        LOGGER.info("An error occurred: " + str(e))
 
 
 def _create_stdout_logger():
@@ -72,13 +77,8 @@ def _create_stdout_logger():
 
 
 def _print_directives(script):
-    public_func_names = []
-    for k, v in script.items():
-        if callable(v) and not k.startswith("_"):
-            public_func_names.append((k, v))
-
     LOGGER.info("the following directives are available: ")
-    for name, func in sorted(public_func_names):
+    for func in get_public_functions(script):
         LOGGER.info("  {0}: {1}".format(
-            name, getattr(func, "__doc__", "") or ""
+            func.__name__, getattr(func, "__doc__", "") or ""
         ))

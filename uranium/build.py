@@ -6,7 +6,7 @@ from .hooks import Hooks
 from .history import History
 from .packages import Packages
 from .environment_variables import EnvironmentVariables
-from .lib.script_runner import build_script
+from .lib.script_runner import build_script, get_public_functions
 from .lib.asserts import get_assert_function
 from .exceptions import UraniumException, ScriptException
 from .lib.sandbox.venv.activate_this import write_activate_this
@@ -112,8 +112,8 @@ class Build(object):
             return override_func(script)
 
         if directive not in script:
-            raise ScriptException("{0} does not have a {1} function".format(
-                path, directive
+            raise ScriptException("{0} does not have a {1} function. available public directives: \n{2}".format(
+                path, directive, _get_formatted_public_directives(script)
             ))
         self.hooks.run("initialize", self)
         script[directive](build=self)
@@ -128,3 +128,12 @@ class Build(object):
         activate_content += self.envvars.generate_activate_content()
         write_activate_this(self._root, additional_content=activate_content)
         self.history.save()
+
+
+def _get_formatted_public_directives(script):
+    public_directives = get_public_functions(script)
+
+    def fmt(func):
+        return "  {0}: {1}".format(func.__name__, func.__doc__ or "")
+
+    return "\n".join([fmt(f) for f in public_directives])
