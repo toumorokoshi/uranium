@@ -13,6 +13,7 @@ def _install_test_modules(build):
 
 
 def distribute(build):
+    """ distribute the uranium package """
     build.packages.install("wheel")
     build.executables.run([
         "python", "setup.py",
@@ -26,6 +27,7 @@ def main(build):
 
 
 def test(build):
+    """ execute tests """
     main(build)
     _install_test_modules(build)
     build.executables.run([
@@ -36,7 +38,7 @@ def test(build):
 
 
 def build_docs(build):
-    """ build uranium documentation """
+    """ build documentation """
     main(build)
     build.packages.install("sphinx")
     build.executables.run([

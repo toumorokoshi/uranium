@@ -38,7 +38,6 @@ An example configuration looks like this:
         # you can execute arbitrary scripts that are installed within a sandbox.
         build.executables.run(["py.test", "mytests"])
 
-
 Contents:
 
 .. toctree::
@@ -46,6 +45,7 @@ Contents:
 
    installation
    tutorial
+   examples
    managing_packages
    executables
    envs

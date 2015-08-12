@@ -19,7 +19,6 @@ u_assert = get_assert_function(UraniumException)
 LOGGER = logging.getLogger(__name__)
 
 
-
 class Build(object):
     """
     the build class is the object passed to the main method of the
