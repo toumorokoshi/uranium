@@ -18,7 +18,6 @@ import sys
 import tarfile
 import tempfile
 from optparse import (OptionParser, BadOptionError, AmbiguousOptionError)
-from pkg_resources import load_entry_point, DistributionNotFound
 
 try:
     from urllib2 import urlopen as urlopen
@@ -142,8 +141,12 @@ def main(argv):
 def retrieve_system_uranium():
     """ if uranium already exists on the system path, use that instead. """
     try:
-        return load_entry_point("uranium", "console_scripts", "uranium")
-    except (ImportError, DistributionNotFound):
+        from pkg_resources import load_entry_point, DistributionNotFound
+        try:
+            return load_entry_point("uranium", "console_scripts", "uranium")
+        except (ImportError, DistributionNotFound):
+            return None
+    except ImportError:
         return None
 
 
