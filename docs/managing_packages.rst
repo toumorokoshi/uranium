@@ -2,7 +2,7 @@
 Managing Packages
 =================
 
-Any configuration related to packages is done so through the Packages object. Here's an example showing some of the more
+Any configuration related to packages is done through the Packages object. Here's an example showing some of the more
 common operations:
 
 .. code:: python
@@ -20,11 +20,15 @@ common operations:
 
               # if you want to set a specific version of a package to download, you can do so with versions
               build.packages.versions.update({
-                  "requests": "2.6.0"
+                  "requests": "==2.6.0"
               })
 
               # this takes effect on all subsequent installations. For example, it will be considered here:
               build.packages.install("requests")
+
+
+
+
 
 
 
