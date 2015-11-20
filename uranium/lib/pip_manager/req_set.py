@@ -1,6 +1,7 @@
 import logging
 import pkg_resources
 from pip.req import RequirementSet
+from .specifier_set import UraniumSpecifierSet
 
 LOGGER = logging.getLogger(__name__)
 
@@ -14,19 +15,19 @@ class UraniumRequirementSet(RequirementSet):
     def add_requirement(self, install_req, *args, **kwargs):
         if not install_req.editable:
             self._uranium_rectify_versions(install_req)
-        _log_requirement_added(install_req)
         return super(UraniumRequirementSet, self).add_requirement(install_req,
                                                                   *args, **kwargs)
 
     def _uranium_rectify_versions(self, install_req):
         name = install_req.req.project_name
+        old_specifier = install_req.req.specifier
         if name in self.uranium_versions:
-            old_specifier = install_req.specifier
             new_spec = self.uranium_versions[name]
             # new_spec is a string, but it works
             # because the & operator accepts string
             if new_spec:
                 install_req.req.specifier = old_specifier & new_spec
+        install_req.req.specifier = UraniumSpecifierSet(install_req.req.specifier)
 
     def install(self, *args, **kwargs):
         super(UraniumRequirementSet, self).install(*args, **kwargs)

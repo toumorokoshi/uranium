@@ -33,7 +33,7 @@ from ..options import BuildOptions
 from ..lib.script_runner import get_public_functions
 from ..exceptions import UraniumException
 
-LOGGING_NAMES = ["uranium", "pip.index"]
+LOGGING_NAMES = ["uranium", "pip"]
 URANIUM_ROOT = os.path.dirname(os.path.dirname(__file__))
 DEFAULT_BUILD_FILE = "ubuild.py"
 DEFAULT_DIRECTIVE = "main"
