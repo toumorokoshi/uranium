@@ -3,7 +3,8 @@ from .exceptions import HooksException
 
 class Hooks(dict):
     """
-    hooks are a way to add function to run at specific phases of the build process.
+    hooks are a way to add functions which run at specific phases of
+    the build process.
 
     the following phases are supported:
 
@@ -21,6 +22,7 @@ class Hooks(dict):
 
         def main(build):
             print("this will print finished right after I'm done!")
+
     """
 
     VALID_KEYS = ["initialize", "finalize"]

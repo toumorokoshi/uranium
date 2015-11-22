@@ -10,9 +10,10 @@ Uranium: a Python Build System
 What is Uranium?
 ----------------
 
-Uranium is a build system for Python. It's designed to help assist with the build process
-for Python services that require more than a virtualenv + "pip install -r requirements.txt". The
-built in features include:
+Uranium is a build utility for Python. It's designed to help assist
+with the build process for Python services that require more than a
+virtualenv + "pip install -r requirements.txt". The built in features
+include:
 
 * isolation via virtualenv
 * package installation via programatically driven pip
@@ -46,11 +47,13 @@ Contents:
    installation
    tutorial
    examples
-   managing_packages
-   executables
    envs
+   executables
    history
+   hooks
    indexes
+   managing_packages
+   options
    utils
 
 
