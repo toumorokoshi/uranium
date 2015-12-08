@@ -12,4 +12,4 @@ except:
 
 print("loading uranium bootstrapper...")
 body = urlopen(URANIUM_STANDALONE_URL).read()
-exec(body)
+exit(exec(body))

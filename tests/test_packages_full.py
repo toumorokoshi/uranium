@@ -52,7 +52,7 @@ def test_update(tmpdir):
     status, out, err = execute_script("uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
                                       cwd=tmpdir.strpath)
 
-    assert "1.3.1" not in out.decode("utf-8")
+    assert "1.3.1" in out.decode("utf-8")
 
 
 def test_versions_dict_updated(tmpdir):

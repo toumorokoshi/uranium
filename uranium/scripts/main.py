@@ -55,9 +55,10 @@ def main(argv=sys.argv[1:]):
 
     build = Build(root, with_sandbox=True)
     try:
-        build.run(build_options)
+        return build.run(build_options)
     except UraniumException as e:
         LOGGER.info("An error occurred: " + str(e))
+        return 1
 
 
 def _create_stdout_logger():

@@ -4,7 +4,7 @@ import os
 def _install_test_modules(build):
     build.packages.versions.update({
         "httpretty": "==0.8.10",
-        "pytest": "==2.7.0"
+        "pytest": "==2.8.2"
     })
 
     build.packages.install("pytest")

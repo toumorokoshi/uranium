@@ -84,6 +84,7 @@ class Build(object):
 
     def _run(self, options):
         self._options = options
+        code = 1
         try:
             self._warmup()
             log_multiline(LOGGER, logging.INFO, STARTING_URANIUM)
@@ -91,13 +92,14 @@ class Build(object):
             u_assert(os.path.exists(path),
                      "build file at {0} does not exist".format(path))
             try:
-                self._run_script(path, options.directive,
-                                 override_func=options.override_func)
+                code = self._run_script(path, options.directive,
+                                        override_func=options.override_func)
             finally:
                 self._finalize()
             log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
         finally:
             self._options = None
+            return code
 
     def _run_script(self, path, directive, override_func=None):
         """
@@ -115,8 +117,9 @@ class Build(object):
                 path, directive, _get_formatted_public_directives(script)
             ))
         self.hooks.run("initialize", self)
-        script[directive](build=self)
+        output = script[directive](build=self)
         self.hooks.run("finalize", self)
+        return output
 
     def _warmup(self):
         self.history.load()

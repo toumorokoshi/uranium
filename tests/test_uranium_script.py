@@ -12,5 +12,4 @@ def test_run_warmup(sandbox):
     }
 
     for name, path in desired_files.items():
-        assert os.path.exists(path),\
-            "{0} does not exist after warmup".format(name)
+        assert os.path.exists(path), "{0} does not exist after warmup".format(name)
