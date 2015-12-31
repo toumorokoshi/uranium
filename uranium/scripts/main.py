@@ -2,7 +2,7 @@
 
 Usage:
   uranium [-p <build_file> -v]
-  uranium [-p <build_file> -v] <directive> [DIRECTIVE_ARGS ...]
+  uranium [-p <build_file> -v -c <confarg>...] <directive> [DIRECTIVE_ARGS ...]
   uranium [-p <build_file> -v] --directives
   uranium (-h | --help)
 
@@ -29,6 +29,7 @@ import logging
 import os
 import sys
 from ..build import Build
+from ..config import parse_confargs
 from ..options import BuildOptions
 from ..lib.script_runner import get_public_functions
 from ..exceptions import UraniumException
@@ -53,7 +54,8 @@ def main(argv=sys.argv[1:]):
     if options["--directives"]:
         build_options.override_func = _print_directives
 
-    build = Build(root, with_sandbox=True)
+    config = parse_confargs(options['<confgarg>'])
+    build = Build(root, config=config, with_sandbox=True)
     try:
         return build.run(build_options)
     except UraniumException as e:

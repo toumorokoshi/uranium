@@ -31,3 +31,7 @@ class PluginException(UraniumException):
 
 class ScriptException(UraniumException):
     pass
+
+
+class ConfigException(UraniumException):
+    pass

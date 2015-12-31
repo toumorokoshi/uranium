@@ -1,6 +1,7 @@
 import logging
 import os
 import virtualenv
+from .config import Config
 from .executables import Executables
 from .hooks import Hooks
 from .history import History
@@ -33,7 +34,8 @@ class Build(object):
     URANIUM_CACHE_DIR = ".uranium"
     HISTORY_NAME = "history.json"
 
-    def __init__(self, root, with_sandbox=True):
+    def __init__(self, root, config=None, with_sandbox=True):
+        self._config = config or Config()
         self._root = root
         self._executables = Executables(root)
         self._hooks = Hooks()
