@@ -1,7 +1,7 @@
 """Uranium, a build system for python
 
 Usage:
-  uranium [-p <build_file> -v]
+  uranium [-p <build_file> -v -c <confarg>...]
   uranium [-p <build_file> -v -c <confarg>...] <directive> [DIRECTIVE_ARGS ...]
   uranium [-p <build_file> -v] --directives
   uranium (-h | --help)
@@ -10,6 +10,7 @@ Options:
   -h, --help        show this usage guide
   -v, --verbose     show verbose output
   -p <build_file>, --path <build_file>  the build file to use.
+  -c <confarg>,  --confarg <confarg> a configuration value to set.
   --directives      list all the directives available in a build file.
   <directive>       the directive to execute (defaults to "main")
 
@@ -54,7 +55,7 @@ def main(argv=sys.argv[1:]):
     if options["--directives"]:
         build_options.override_func = _print_directives
 
-    config = parse_confargs(options['<confgarg>'])
+    config = parse_confargs(options['-c'])
     build = Build(root, config=config, with_sandbox=True)
     try:
         return build.run(build_options)

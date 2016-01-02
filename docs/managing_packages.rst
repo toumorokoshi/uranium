@@ -2,7 +2,7 @@
 Managing Packages
 =================
 
-Any configuration related to packages is done through the Packages object. Here's an example showing some of the more
+Any configuration related to packages is done through the Packages object. Here is an example showing some of the more
 common operations:
 
 .. code:: python

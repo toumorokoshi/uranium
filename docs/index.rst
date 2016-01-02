@@ -47,6 +47,7 @@ Contents:
    installation
    tutorial
    examples
+   config
    envs
    executables
    history
