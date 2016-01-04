@@ -9,7 +9,6 @@ def test_config_parameters(tmpdir):
     """
     tmpdir.join("ubuild.py").write("""
 def main(build):
-    print("foo")
     print(build.config)
     """.strip())
     status, out, err = execute_script(

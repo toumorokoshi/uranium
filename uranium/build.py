@@ -48,6 +48,10 @@ class Build(object):
         self._sandbox = Sandbox(root) if with_sandbox else None
 
     @property
+    def config(self):
+        return self._config
+
+    @property
     def envvars(self):
         return self._envvars
 

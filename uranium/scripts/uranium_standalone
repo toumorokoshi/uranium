@@ -93,7 +93,7 @@ class PassThroughOptionParser(OptionParser):
 
 
 
-parser = PassThroughOptionParser()
+parser = PassThroughOptionParser(add_help_option=False)
 parser.add_option("--no-uranium", help="don't install uranium.",
                   default=True, action="store_false", dest="with_uranium")
 parser.add_option("--uranium-dir",

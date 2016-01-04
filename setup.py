@@ -15,9 +15,9 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.2.22',
+      version='0.2.23b',
       description='a build system for python',
-      long_description='a build system for python',
+      long_description=open('README.rst').read(),
       author='Yusuke Tsutsumi',
       author_email='yusuke@tsutsumi.io',
       url='http://uranium.readthedocs.org',

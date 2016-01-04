@@ -15,7 +15,7 @@ Options:
   <directive>       the directive to execute (defaults to "main")
 
 By default, uranium will look for a ubuild.py
-file in the current directory uranium was
+file in the directory uranium was
 invoked in. this can be overridden by passing in a
 path to a <build_file>.
 
