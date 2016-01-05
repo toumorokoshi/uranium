@@ -93,16 +93,18 @@ class Build(object):
         code = 1
         try:
             self._warmup()
-            log_multiline(LOGGER, logging.INFO, STARTING_URANIUM)
             path = os.path.join(self.root, options.build_file)
             u_assert(os.path.exists(path),
                      "build file at {0} does not exist".format(path))
             try:
+                log_multiline(LOGGER, logging.INFO, STARTING_URANIUM)
                 code = self._run_script(path, options.directive,
                                         override_func=options.override_func)
+            except ScriptException as e:
+                log_multiline(LOGGER, logging.INFO, str(e))
             finally:
                 self._finalize()
-            log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
+                log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
         finally:
             self._options = None
             return code
