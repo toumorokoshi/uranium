@@ -3,11 +3,10 @@ from setuptools import setup, find_packages
 
 install_requires = [
     "docopt==0.6.2",
-    "pip==7.1.2",
+    "pip==7.1.1",
     "requests==2.9.1",
-    "setuptools==18.0.1",
-    "six==1.9.0",
-    "virtualenv==13.1.0"
+    "setuptools==19.2",
+    "virtualenv==13.1.2"
 ]
 
 tests_require = [
