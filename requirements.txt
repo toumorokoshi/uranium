@@ -1,6 +1,5 @@
 # seems like this is the only way to get this to build on travis.
 -e .
 pip==7.1.2
-setuptools==19.2
 pytest
 pytest-cov
