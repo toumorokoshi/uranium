@@ -47,13 +47,13 @@ Contents:
    installation
    tutorial
    examples
+   cookbook/cookbook
    config
    envs
    executables
    history
    hooks
-   indexes
-   managing_packages
+   packages
    options
    utils
 

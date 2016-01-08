@@ -31,4 +31,4 @@ Full API Reference
 ------------------
 
 
-.. autoclass:: uranium.options.Options
+.. autoclass:: uranium.options.BuildOptions
