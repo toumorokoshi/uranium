@@ -29,6 +29,7 @@ class EnvironmentVariables(dict):
 
             envvars["PYTHONPATH"]
         """
+        return os.environ[key]
 
     def generate_activate_content(self):
         """

@@ -110,3 +110,9 @@ And your consumer script will look like:
     import mycompany_build
     mycompany_build.setup(build)
     globals().update(get_public_directives())
+
+
+Caveats
+=======
+
+*

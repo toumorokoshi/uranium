@@ -2,8 +2,13 @@
 Configuration
 =============
 
-Uranium provides infrastructure to pass in configuration variables, a
-common use case for a build framework with shared components:
+Uranium provides infrastructure to pass in configuration
+variables.
+
+Configuration variables are useful in a variety of situations, including:
+
+* choose whether to run in development mode
+* select the environment to run against
 
 .. code:: python
 
