@@ -45,7 +45,7 @@ class Build(object):
         self._envvars = EnvironmentVariables()
         self._options = None
         self._history = History(
-            os.path.join(self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
+            os.path.join(self._root, self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
         )
         self._sandbox = Sandbox(root) if with_sandbox else None
 
@@ -80,6 +80,9 @@ class Build(object):
     @property
     def root(self):
         return self._root
+
+    def run_task(self, task_name):
+        return self._tasks[task_name](self)
 
     def task(self, f):
         self._tasks.add(f)
@@ -125,12 +128,19 @@ class Build(object):
         if override_func:
             return override_func(script)
 
-        if task_name not in script:
+        for f in get_public_functions(script):
+            if f.__name__ not in self._tasks:
+                self._tasks.add(f)
+
+        if task_name not in self._tasks:
             raise ScriptException("{0} does not have a {1} function. available public task_names: \n{2}".format(
                 path, task_name, _get_formatted_public_tasks(script)
             ))
         self.hooks.run("initialize", self)
-        output = self._tasks.run(build, task_name)
+        if task_name in self._tasks:
+            output = self._tasks.run(task_name, self)
+        else:
+            output = script[task_name](build=self)
         self.hooks.run("finalize", self)
         return output
 

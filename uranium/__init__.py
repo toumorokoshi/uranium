@@ -7,3 +7,4 @@ import encodings.idna
 import setuptools
 
 from .remote import get_remote_script
+from .decorators import task_requires

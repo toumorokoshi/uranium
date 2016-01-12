@@ -3,6 +3,7 @@ import pytest
 from uranium.lib.sandbox import Sandbox
 from uranium.executables import Executables
 from uranium.history import History
+from uranium.build import Build
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 URANIUM_SOURCE_ROOT = os.path.dirname(BASE)
@@ -25,3 +26,9 @@ def history(tmpdir):
 def executables(tmpdir):
     executables = Executables(tmpdir.strpath)
     return executables
+
+
+@pytest.fixture
+def build(tmpdir):
+    b = Build(tmpdir.strpath, with_sandbox=False)
+    return b
