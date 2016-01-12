@@ -137,10 +137,7 @@ class Build(object):
                 path, task_name, _get_formatted_public_tasks(script)
             ))
         self.hooks.run("initialize", self)
-        if task_name in self._tasks:
-            output = self._tasks.run(task_name, self)
-        else:
-            output = script[task_name](build=self)
+        output = self._tasks.run(task_name, self)
         self.hooks.run("finalize", self)
         return output
 
