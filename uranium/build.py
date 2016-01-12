@@ -6,6 +6,7 @@ from .executables import Executables
 from .hooks import Hooks
 from .history import History
 from .packages import Packages
+from .tasks import Tasks
 from .environment_variables import EnvironmentVariables
 from .lib.script_runner import build_script, get_public_functions
 from .lib.asserts import get_assert_function
@@ -40,6 +41,7 @@ class Build(object):
         self._executables = Executables(root)
         self._hooks = Hooks()
         self._packages = Packages()
+        self._tasks = Tasks()
         self._envvars = EnvironmentVariables()
         self._options = None
         self._history = History(
@@ -79,6 +81,9 @@ class Build(object):
     def root(self):
         return self._root
 
+    def task(self, f):
+        self._tasks.add(f)
+
     def run(self, options):
         if not self._sandbox:
             return self._run(options)
@@ -109,23 +114,23 @@ class Build(object):
             self._options = None
             return code
 
-    def _run_script(self, path, directive, override_func=None):
+    def _run_script(self, path, task_name, override_func=None):
         """
         override_func: if this is not None, the _run_script will
         execute this function (passing in the script object) instead
-        of executing the directive.
+        of executing the task_name.
         """
         script = build_script(path, {"build": self})
 
         if override_func:
             return override_func(script)
 
-        if directive not in script:
-            raise ScriptException("{0} does not have a {1} function. available public directives: \n{2}".format(
-                path, directive, _get_formatted_public_directives(script)
+        if task_name not in script:
+            raise ScriptException("{0} does not have a {1} function. available public task_names: \n{2}".format(
+                path, task_name, _get_formatted_public_tasks(script)
             ))
         self.hooks.run("initialize", self)
-        output = script[directive](build=self)
+        output = self._tasks.run(build, task_name)
         self.hooks.run("finalize", self)
         return output
 
@@ -140,7 +145,7 @@ class Build(object):
         self.history.save()
 
 
-def _get_formatted_public_directives(script):
+def _get_formatted_public_tasks(script):
     public_directives = get_public_functions(script)
 
     def fmt(func):
