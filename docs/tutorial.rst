@@ -6,7 +6,7 @@ This tutorial is an introduction to the basic concepts around Uranium.
 
 Let's start with a simple example: setting up a virtualenv and install an egg.
 
-We'll use unix-based commands for the tutorial, but we will attempt to
+We will use unix-based commands for the tutorial, but attempt to
 describe the steps so these steps can be replicated on other operating
 systems.
 
@@ -16,7 +16,7 @@ For the purpose of the tutorial, let's create a root directory:
 
   $ mkdir -p /tmp/uranium-tut/ && cd /tmp/uranium-tut/
 
-We first start by downloading uranium. uranium is a python wrapper around the uranium library that handles the following:
+Start by downloading uranium. uranium is a python wrapper around the uranium library that handles the following:
 
 * downloading and setting up a virtualenv
 * installing the uranium script into the virtualenv
@@ -42,7 +42,7 @@ And we'll need to fill it in with at the very least, a main method:
 .. code-block:: python
 
     def main(build):
-        print("Uranium works!")
+        print("uranium works!")
 
 
 Now, you can run uranium. Try it now:
@@ -56,6 +56,7 @@ Now, you can run uranium. Try it now:
     [HH:MM:SS] ================
     [HH:MM:SS] STARTING URANIUM
     [HH:MM:SS] ================
+    [HH:MM:SS] uranium works!
     [HH:MM:SS] ================
     [HH:MM:SS] URANIUM FINISHED
     [HH:MM:SS] ================
@@ -100,12 +101,12 @@ If you want to install an egg for development purposes, you can use:
     def main(build):
         build.packages.install(".", develop=True)
 
-------------------------------
-Executing Different Directives
-------------------------------
+-------------------------
+Executing Different Tasks
+-------------------------
 
 the ubuild.py can define other methods, and they can be executed as well. Any
-method that accepts a single parameter build can be a directive that's executed:
+method that accepts a single parameter build can be a task that's executed:
 
 
 

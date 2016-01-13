@@ -12,13 +12,13 @@ Configuration variables are useful in a variety of situations, including:
 
 .. code:: python
 
-    # config.defaults can be used to set some defaults.
+    # config.set_defaults can be used to set some default values.
     build.config.set_defaults({
         "development": "false"
     })
 
     def test(build):
-        # one can set development mode by adding a -c development=true before the directive:
+        # one can set development mode by adding a -c development=true before the task:
         # ./uranium -c development=true test
         if build.config["development"].startswith("t"):
             build.packages.install(".", develop=True)

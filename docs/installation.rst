@@ -2,7 +2,7 @@
 Installation
 ============
 
-There are two ways you can invoke uranium:
+There are two ways one can run uranium:
 
 * install it globally
 * use the uranium script
@@ -12,14 +12,14 @@ There are two ways you can invoke uranium:
 Installing it globally
 ----------------------
 
-You can install Uranium globally with any Python package manager:
+You can install uranium globally with any Python package manager:
 
 .. code::
 
     pip install uranium
 
 
-You would then enter a directory with a uranium.py, and execute the uranium entry point:
+You would then enter a directory with a ubuild.py, and execute the uranium entry point:
 
 .. code::
 
@@ -41,10 +41,24 @@ You would then execute the local uranium script instead:
 
   ./uranium
 
-It's recommended to use the uranium script rather than the standalone,
-which will ensure that your project will pick up future updates to
-Uranium and the setup script.
 
-The uranium script also provides a blueprint on how to provide your own bootstrapping script. This is recommended when
-setting a pattern for an organization, as a common standalone script ensures that any changes the version of Uranium used,
-or custom configuration can be applied globally, in contrast to updating each uranium script individually.
+--------------------------
+Which method should I use?
+--------------------------
+
+Utilizing the uranium_standalone or uranium script is recommended. The
+standalone scripts allow consumers to assemble your code without the
+need for any modification of their machine globally. It also allows
+for each individual project to choose their version of uranium, if that becomes
+necessary.
+
+The uranium script requires trust in the uranium project and the
+developers, as it is downloads the standalone script from the git
+repository and executes that script.
+
+The uranium script also provides a blueprint on how to provide your
+own bootstrapping script. This is recommended when setting a pattern
+for an organization, as a common standalone script ensures that any
+changes the version of Uranium used, or custom configuration can be
+applied globally, in contrast to updating each uranium script
+individually.

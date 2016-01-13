@@ -3,7 +3,7 @@ Options
 =======
 
 With uranium, arguments that configure uranium itself should be passed
-in before the directive, and any argument passed in afterward
+in before the task name, and any argument passed in afterward
 should be specific for the function.
 
 For example, consider the following scenario:

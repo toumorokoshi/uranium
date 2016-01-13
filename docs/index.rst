@@ -10,23 +10,26 @@ Uranium: a Python Build System
 What is Uranium?
 ----------------
 
-Uranium is a build utility for Python. It's designed to help assist
-with the build process for Python services that require more than a
-virtualenv + "pip install -r requirements.txt". The built in features
-include:
+Uranium is an assembly framework for Python, designed to help
+assist with the assembling Python services. Uranium provides
+tools for dependency management, reuse of assembly scripts, configuration, and
+other common requirements for an assembly system.
 
-* isolation via virtualenv
-* package installation via programatically driven pip
+Uranium provides package isolation and management via virtualenv and
+pip, and is a good solution to problems that arise in large-scale
+assembly systems:
 
-Some of the reasons you may want to use Uranium include:
-
-* installing native dependencies
-* executing arbitrary scripts
+* setting a version pin across multiple projects.
+* reusing common assembly tasks, such as downloading configuration, or
+  compiling native dependencies.
+* providing a simple configuration system that can be consumed by
+  multiple projects.
 
 An example configuration looks like this:
 
 .. code:: python
 
+    import subprocess
     # this is a uranium.py file
     # it requires at the minimum a function
     # main that accepts a parameter build.
@@ -34,10 +37,11 @@ An example configuration looks like this:
         # you can change the index urls as desired.
         build.packages.index_urls = ["http://www.mycompany.com/index",
                                      "http://pypi.python.org"]
-        # eggs are installed this way.
+        # packages are installed using the packages.install method.
         build.packages.install("py.test")
-        # you can execute arbitrary scripts that are installed within a sandbox.
-        build.executables.run(["py.test", "mytests"])
+        # once an egg is installed, you can run arbitrary scripts installed
+        # into the sandbox:
+        return subprocess.call(["py.test", "mytests"] + build.options.args)
 
 Contents:
 

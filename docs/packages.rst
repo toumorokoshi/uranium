@@ -2,8 +2,8 @@
 Managing Packages
 =================
 
-Any configuration related to packages is done through the Packages object. Here is an example showing some of the more
-common operations:
+Any configuration related to packages is done through the Packages
+object. Here is an example showing some common operations:
 
 .. code:: python
 
@@ -11,7 +11,7 @@ common operations:
               # it's possible to set the index urls that packages will be installed from:
               build.packages.index_urls = ["http://www.mycompany.com/python_index"]
 
-              # this directive installs the package "py.test" with version 2.7.0. It's
+              # this method installs the package "py.test" with version 2.7.0. It's
               # available in the sandbox as soon as the package is installed.
               build.packages.install("py.test", version="==2.7.0")
 

@@ -15,6 +15,7 @@ from .lib.sandbox.venv.activate_this import write_activate_this
 from .lib.sandbox import Sandbox
 from .lib.log_templates import STARTING_URANIUM, ENDING_URANIUM
 from .lib.utils import log_multiline
+from .remote import get_remote_script
 
 u_assert = get_assert_function(UraniumException)
 
@@ -85,7 +86,24 @@ class Build(object):
         return self._tasks[task_name](self)
 
     def task(self, f):
+        """
+        a decorator that adds the given function as a task.
+
+        e.g.
+
+        @build.task
+        def main(build):
+            build.packages.install("httpretty")
+
+        this is useful in the case where tasks are being sourced from
+        a different file, besides ubuild.py
+        """
         self._tasks.add(f)
+        return f
+
+    def include(self, script_path):
+        """ executes the script at the specified path. """
+        get_remote_script(script_path, build=self)
 
     def run(self, options):
         if not self._sandbox:
