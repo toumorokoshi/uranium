@@ -5,16 +5,20 @@ uranium
     :alt: build status
     :target: https://travis-ci.org/toumorokoshi/uranium
 
-Uranium: a build tool for python, in python.
 
-uranium is a build tool that facilitates build tool reuse and allows
-for execution of arbitrary setup code for Python services. Example
+
+Uranium: an assembly tool for python, in python.
+
+uranium is an assembly tool that facilitates reuse and allows
+for execution of arbitrary setup code for Python services. Examples
 include:
 
 * downloading and installing eggs in a sandbox (using virtualenv internally)
-* compiling and installing native libraries
+* compiling and installing native c code.
 * downloading remote configuration
-* any other arbitrary build steps through plugins
+* providing a framework for assembly configuration (e.g. differences
+  between dev and test mode)
+* any other arbitrary tasks
 
 You can find out more here:
 
