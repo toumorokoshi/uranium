@@ -1,14 +1,29 @@
-from uranium import rule
+from uranium.rules import rule, RuleBase
+
+
+class AlwaysPass(RuleBase):
+
+    def before(self, build):
+        return True
+
+    def after(self, build):
+        pass
+
+
+class AlwaysFail(RuleBase):
+
+    def before(self, build):
+        return False
+
+    def after(self, build):
+        pass
 
 
 def test_rule_does_not_execute(build):
 
     g = []
 
-    def rule_func(build):
-        return True
-
-    @rule(rule_func)
+    @rule(AlwaysPass())
     def main(build):
         g.append("main")
 
@@ -23,14 +38,8 @@ def test_all_true_multiple_rules(build):
 
     g = []
 
-    def rule_func(build):
-        return True
-
-    def rule_func_2(build):
-        return True
-
-    @rule(rule_func)
-    @rule(rule_func_2)
+    @rule(AlwaysPass())
+    @rule(AlwaysPass())
     def main(build):
         g.append("main")
 
@@ -45,14 +54,8 @@ def test_one_false_multiple_rules(build):
 
     g = []
 
-    def rule_func(build):
-        return True
-
-    def rule_func_2(build):
-        return False
-
-    @rule(rule_func)
-    @rule(rule_func_2)
+    @rule(AlwaysPass())
+    @rule(AlwaysFail())
     def main(build):
         g.append("main")
 

@@ -7,4 +7,7 @@ import encodings.idna
 import setuptools
 
 from .remote import get_remote_script
-from .decorators import task_requires, rule
+from .decorators import task_requires
+from .rules import rule
+
+__all__ = ["get_remote_script", "task_requires", "rule"]
