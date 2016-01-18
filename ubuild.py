@@ -40,7 +40,8 @@ def test(build):
 def build_docs(build):
     """ build documentation """
     main(build)
-    build.packages.install("sphinx")
+    build.packages.install("Babel")
+    build.packages.install("Sphinx")
     return build.executables.run([
         "sphinx-build", "docs",
         os.path.join("docs", "_build")
