@@ -57,6 +57,7 @@ Contents:
    executables
    history
    hooks
+   rules
    packages
    options
    utils

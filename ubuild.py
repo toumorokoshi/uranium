@@ -41,7 +41,7 @@ def build_docs(build):
     """ build documentation """
     main(build)
     build.packages.install("sphinx")
-    build.executables.run([
+    return build.executables.run([
         "sphinx-build", "docs",
         os.path.join("docs", "_build")
     ] + build.options.args)
