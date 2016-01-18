@@ -1,25 +1,9 @@
 import functools
-from abc import ABCMeta, abstractmethod
 from ..experimental import experimental
+from .base import RuleBase
+from .was_changed import WasChanged
 
-
-class RuleBase(object):
-    """
-    an example of a rule.
-
-    * func gets set during the initialization process.
-    """
-    func = None
-
-    __metaclass__ = ABCMeta
-
-    @abstractmethod
-    def before(self, build):
-        pass
-
-    @abstractmethod
-    def after(self, build):
-        pass
+__all__ = ["RuleBase", "WasChanged", "rule"]
 
 
 @experimental

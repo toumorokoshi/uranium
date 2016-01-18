@@ -1,6 +1,6 @@
 import os
 import time
-from . import RuleBase
+from .base import RuleBase
 KEY = "_uranium.rules.was_changed"
 
 
@@ -9,15 +9,18 @@ class WasChanged(RuleBase):
     def __init__(self, path):
         self._path = path
 
+    def path(self, build):
+        return os.path.join(build.root, self._path)
+
     def before(self, build):
         previous_timestamp = build.history.get(self.key)
         if not previous_timestamp:
             return False
-        current_timestamp = self._get_timestamp(self.path)
-        return current_timestamp > previous_timestamp
+        current_timestamp = self._get_timestamp(self.path(build))
+        return current_timestamp <= previous_timestamp
 
     def after(self, build):
-        current_timestamp = self._get_timestamp(self.path)
+        current_timestamp = self._get_timestamp(self.path(build))
         build.history[self.key] = current_timestamp
 
     @property
