@@ -7,7 +7,7 @@
 VENV_URL = "https://pypi.python.org/packages/source/v/virtualenv/virtualenv-{major}.{minor}.{rev}.tar.gz"
 VENV_MAJOR = 13
 VENV_MINOR = 1
-VENV_REV = 0
+VENV_REV = 2
 
 import io
 import logging
