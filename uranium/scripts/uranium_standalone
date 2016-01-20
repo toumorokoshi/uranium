@@ -166,7 +166,6 @@ def _install_virtualenv(install_dir):
         os.chdir(virtualenv_dir)  # virtualenv only works in the cwd it is installed in
         subprocess.call([sys.executable, virtualenv_executable,
                          '--no-site-packages',
-                         '--always-copy',
                          install_dir])
         site_py_file = _get_site_file_path(install_dir)
         _inject_to_site_py(site_py_file)
