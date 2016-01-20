@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 import virtualenv
 from .config import Config
 from .executables import Executables
@@ -20,6 +21,8 @@ from .remote import get_remote_script
 u_assert = get_assert_function(UraniumException)
 
 LOGGER = logging.getLogger(__name__)
+
+HISTORY_KEY = "_uranium"
 
 
 class Build(object):
@@ -106,6 +109,7 @@ class Build(object):
         get_remote_script(script_path, build=self)
 
     def run(self, options):
+        self._warmup()
         if not self._sandbox:
             return self._run(options)
 
@@ -118,7 +122,6 @@ class Build(object):
         self._options = options
         code = 1
         try:
-            self._warmup()
             path = os.path.join(self.root, options.build_file)
             u_assert(os.path.exists(path),
                      "build file at {0} does not exist".format(path))
@@ -128,6 +131,8 @@ class Build(object):
                                         override_func=options.override_func)
             except ScriptException as e:
                 log_multiline(LOGGER, logging.INFO, str(e))
+            except Exception as e:
+                LOGGER.exception("")
             finally:
                 self._finalize()
                 log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
@@ -161,12 +166,19 @@ class Build(object):
 
     def _warmup(self):
         self.history.load()
+        current_version = "{0}.{1}".format(*sys.version_info[:2])
+        ran_version = self.history.get(HISTORY_KEY, {}).get("python_version", current_version)
+        if ran_version != current_version:
+            raise UraniumException("current version of python ({0}) is not the same version that was used before ({1}). Please use {1} to execute uranium, or clean the project.".format(
+                current_version, ran_version
+            ))
 
     def _finalize(self):
         virtualenv.make_environment_relocatable(self._root)
         activate_content = ""
         activate_content += self.envvars.generate_activate_content()
         write_activate_this(self._root, additional_content=activate_content)
+        self.history[HISTORY_KEY]["python_version"] = "{0}.{1}".format(*sys.version_info[:2])
         self.history.save()
 
 

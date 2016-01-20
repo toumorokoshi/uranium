@@ -18,6 +18,8 @@ def activate_virtualenv(root):
     activate_this_path = os.path.join(root, 'bin', 'activate_this.py')
     with open(activate_this_path) as fh:
         exec(fh.read(), {'__file__': activate_this_path}, {})
+    sys.exec_prefix = sys.prefix
+    sys.base_exec_prefix = sys.prefix
 
     # sys.path += [
     #   os.path.join(root, 'lib', 'python%s' % sys.version[:3], 'lib-dynload')

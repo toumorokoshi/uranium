@@ -14,6 +14,8 @@ INJECT_MATCH = re.compile("(\n?{0}.*{0}\n)".format(INJECT_WRAPPER), re.DOTALL)
 
 INJECT_TEMPLATE = """
 sys.executable = os.path.join(base, "bin", "python")
+sys.exec_prefix = sys.prefix
+sys.base_exec_prefix = sys.prefix
 
 {0}
 {{body}}
