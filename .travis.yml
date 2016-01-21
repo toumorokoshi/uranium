@@ -6,3 +6,6 @@ python:
   - "3.3"
 install: "pip install -r requirements.txt"
 script: "uranium test"
+env:
+  - URANIUM_GITHUB_ACCOUNT='GreenGremlin'
+  - URANIUM_GITHUB_BRANCH='master'
