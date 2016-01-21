@@ -110,9 +110,6 @@ def main(argv):
     current_dir = os.getcwd()
     uranium_dir = options.uranium_dir
 
-    if sys.prefix:
-        _write_pydistutils_cfg(current_dir)
-
     # first we try to see if Uranium is already installed
     # on the system.
     uranium = retrieve_system_uranium()
@@ -160,9 +157,6 @@ def _install_virtualenv(install_dir):
 
     LOGGER.info("installing virtualenv...")
 
-    if sys.prefix:
-        _write_pydistutils_cfg(install_dir)
-
     temp_dir = tempfile.mkdtemp()
     try:
         _download_virtualenv(temp_dir)
@@ -189,26 +183,6 @@ def _get_site_file_path(venv_directory):
     # we strip the last character 'c' in case it's a .pyc file
     # want the .py
     ).communicate()[0].decode('utf-8').rstrip('c\n')
-
-
-def _write_pydistutils_cfg(install_dir):
-    """
-    write a .pydistutils.cfg file to override the prefix variable
-    """
-    if os.name == 'posix':
-        env_distutils_filename = '.pydistutils.cfg'
-    else:
-        env_distutils_filename = 'pydistutils.cfg'
-
-    if not os.path.exists(install_dir):
-        os.makedirs(install_dir)
-    env_distutils_file = os.path.join(install_dir, env_distutils_filename)
-
-    with open(env_distutils_file, 'w') as fh:
-        fh.write("""
-[install]
-prefix={prefix_path}
-        """.format(prefix_path=install_dir).strip())
 
 
 def _inject_to_site_py(site_py_file):
