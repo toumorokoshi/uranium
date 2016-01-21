@@ -3,13 +3,22 @@
 # * download and set up a virtualenv
 # * install uranium
 # * run uranium
-URANIUM_STANDALONE_URL = "https://raw.githubusercontent.com/toumorokoshi/uranium/master/uranium/scripts/uranium_standalone"
 
-try:
-    from urllib2 import urlopen as urlopen
-except:
-    from urllib.request import urlopen as urlopen
+URANIUM_PATH = os.getenv('URANIUM_PATH', None)
+URANIUM_GITHUB_ACCOUNT = os.getenv('URANIUM_GITHUB_ACCOUNT', 'toumorokoshi')
+URANIUM_GITHUB_BRANCH = os.getenv('URANIUM_GITHUB_BRANCH', 'master')
+URANIUM_STANDALONE_URL = "https://raw.githubusercontent.com/{account}/uranium/{branch}/uranium/scripts/uranium_standalone".format(account=URANIUM_GITHUB_ACCOUNT, branch=URANIUM_GITHUB_BRANCH)
 
-print("loading uranium bootstrapper...")
-body = urlopen(URANIUM_STANDALONE_URL).read()
-exec(body)
+if URANIUM_PATH is not None:
+    print("Executing uranium from " + URANIUM_PATH)
+    execfile(os.path.realpath(URANIUM_PATH))
+else:
+    print("Downloading uranium from " + URANIUM_STANDALONE_URL)
+    try:
+        from urllib2 import urlopen as urlopen
+    except:
+        from urllib.request import urlopen as urlopen
+
+    print("loading uranium bootstrapper...")
+    body = urlopen(URANIUM_STANDALONE_URL).read()
+    exec(body)
