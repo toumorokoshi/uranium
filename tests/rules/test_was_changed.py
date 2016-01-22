@@ -40,6 +40,6 @@ def test_changed(tmpdir, build):
     # here. I think it's not considering
     # milliseconds.
     time.sleep(1)
-    os.utime(f_path)
+    os.utime(f_path, None)
     build.run_task("main")
     assert len(g) == 2

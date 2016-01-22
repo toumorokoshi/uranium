@@ -25,7 +25,7 @@ class WasChanged(RuleBase):
 
     @property
     def key(self):
-        return "{}.{}.{}".format(
+        return "{0}.{1}.{2}".format(
             KEY, self._path, self.func.__name__
         )
 
