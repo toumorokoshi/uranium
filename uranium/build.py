@@ -178,7 +178,9 @@ class Build(object):
         activate_content = ""
         activate_content += self.envvars.generate_activate_content()
         write_activate_this(self._root, additional_content=activate_content)
-        self.history[HISTORY_KEY]["python_version"] = "{0}.{1}".format(*sys.version_info[:2])
+        self.history[HISTORY_KEY] = {
+            "python_version": "{0}.{1}".format(*sys.version_info[:2])
+        }
         self.history.save()
 
 

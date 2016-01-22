@@ -40,3 +40,15 @@ def test_not_able_to_serialize_subattribute(history):
     history["unserializable"] = {"foo": re.compile("foo")}
     with pytest.raises(HistoryException):
         history.save()
+
+
+def test_history_with_build(tmpdir, build):
+
+    @build.task
+    def main(build):
+        was_set = build.history.get("set", False)
+        build.history["set"] = True
+        return was_set
+
+    assert build.run_task("main") is False
+    assert build.run_task("main") is True
