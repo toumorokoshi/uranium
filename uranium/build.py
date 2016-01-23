@@ -17,6 +17,7 @@ from .lib.sandbox import Sandbox
 from .lib.log_templates import STARTING_URANIUM, ENDING_URANIUM
 from .lib.utils import log_multiline
 from .remote import get_remote_script
+from .app_globals import _build_proxy
 
 u_assert = get_assert_function(UraniumException)
 
@@ -85,8 +86,11 @@ class Build(object):
     def root(self):
         return self._root
 
+    def as_current_build(self):
+        return _build_proxy.create_context(self)
+
     def run_task(self, task_name):
-        return self._tasks[task_name](self)
+        return self._tasks.run(task_name, self)
 
     def task(self, f):
         """
@@ -160,7 +164,7 @@ class Build(object):
                 path, task_name, _get_formatted_public_tasks(script)
             ))
         self.hooks.run("initialize", self)
-        output = self._tasks.run(task_name, self)
+        output = self.run_task(task_name)
         self.hooks.run("finalize", self)
         return output
 
