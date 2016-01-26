@@ -2,7 +2,7 @@
 History
 =======
 
-** Warning: This is an experimental api. It is not a decided implementation, and could be modified in the future. **
+** Warning: This is an experimental api. It is not a final design, and could be modified in the future. **
 
 Sometimes, you'll need to store a history of what happened previously,
 for caching or re-use purposes. In that case, there is a history

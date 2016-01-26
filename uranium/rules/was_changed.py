@@ -5,6 +5,22 @@ KEY = "_uranium.rules.was_changed"
 
 
 class WasChanged(RuleBase):
+    """
+    WasChanged is a rule that activates if the task has never run, or
+    if a path has a file modified since the task last ran.
+
+    .. code:: python
+
+        import subprocess
+        from uranium import rule
+        from uranium.rules import WasChanged
+
+        # only run tests if the code changed.
+        @rule(WasChanged("./my_module"))
+        def test(build):
+            build.packages.install("pytest")
+            return subprocess.call(["py.test", build.root])
+    """
 
     def __init__(self, path):
         self._path = path

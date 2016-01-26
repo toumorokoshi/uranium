@@ -17,6 +17,7 @@ can host a file uranium_base.py that looks like:
 
 .. code:: python
     # http://internalgit.mycompany.com/shared-python/uranium_base.py
+    from uranium import current_build
     import subprocess
 
     build.packages.index_urls = [
@@ -24,11 +25,11 @@ can host a file uranium_base.py that looks like:
         "https://internalpypi.mycompany.com/"
     ]
 
-    @build.task
+    @current_build.task
     def main(build):
         build.packages.install(".", develop=True)
 
-    @build.task
+    @current_build.task
     @uranium.requires("main")
     def test(build):
         build.packages.install("pytest")

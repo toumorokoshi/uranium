@@ -3,6 +3,7 @@
 # * download and set up a virtualenv
 # * install uranium
 # * run uranium
+import os
 
 URANIUM_PATH = os.getenv('URANIUM_PATH', None)
 URANIUM_GITHUB_ACCOUNT = os.getenv('URANIUM_GITHUB_ACCOUNT', 'toumorokoshi')
