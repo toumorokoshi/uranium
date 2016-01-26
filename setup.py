@@ -14,7 +14,7 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.2.26',
+      version='0.2.28b',
       description='a build system for python',
       long_description=open('README.rst').read(),
       author='Yusuke Tsutsumi',
@@ -33,9 +33,6 @@ setup(name='uranium',
           'Programming Language :: Python :: 2.6',
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.2',
-          'Programming Language :: Python :: 3.3',
-          'Programming Language :: Python :: 3.4',
       ],
       entry_points={
           'console_scripts': [
