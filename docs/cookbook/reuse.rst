@@ -15,7 +15,8 @@ script. For example, let's say you want to share a common test
 function, as well as ensure builds are using a private repository. You
 can host a file uranium_base.py that looks like:
 
-.. code:: python
+.. code-block:: python
+
     # http://internalgit.mycompany.com/shared-python/uranium_base.py
     from uranium import current_build
     import subprocess
@@ -41,7 +42,8 @@ can host a file uranium_base.py that looks like:
 
 And your consumer script will look like:
 
-.. code:: python
+.. code-block:: python
+
     # ubuild.py in the project.
     from uranium import get_remote_script
     build.include("https://internalgit.mycompany.com/shared-python/uranium_base.py")
