@@ -150,7 +150,8 @@ class Build(object):
         execute this function (passing in the script object) instead
         of executing the task_name.
         """
-        script = build_script(path, {"build": self})
+        with self.as_current_build():
+            script = build_script(path, {"build": self})
 
         if override_func:
             return override_func(script)

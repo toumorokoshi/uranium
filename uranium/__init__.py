@@ -5,6 +5,8 @@ import encodings.idna
 # we import setuptools to ensure it's provided
 # when attempting to use uranium within a sandbox.
 import setuptools
+# same with markerlib
+import _markerlib
 
 from .remote import get_remote_script
 from .decorators import task_requires
