@@ -2,8 +2,9 @@ import functools
 from ..experimental import experimental
 from .base import RuleBase
 from .was_changed import WasChanged
+from .once import Once
 
-__all__ = ["RuleBase", "WasChanged", "rule"]
+__all__ = ["Once", "RuleBase", "WasChanged", "rule"]
 
 
 @experimental
