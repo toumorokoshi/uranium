@@ -8,7 +8,7 @@ lifetime of the build, but for any entry points or scripts generated as well.
 environment variables can be modified as a regular dictionary:
 
 
-.. code:: python
+.. code-block:: python
 
     import os
 

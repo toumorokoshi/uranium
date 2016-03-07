@@ -76,7 +76,7 @@ reuse. Supply an package in your index repository that contains
 all the tasks, and download it in your ubuild.py.
 
 
-.. code:: python
+.. code-block:: python
     # in a module mycompany_build
     import subprocess
     import uranium
@@ -104,7 +104,7 @@ all the tasks, and download it in your ubuild.py.
 
 And your consumer script will look like:
 
-.. code:: python
+.. code-block:: python
     # ubuild.py in the project.
     from uranium import get_remote_script
 

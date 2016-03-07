@@ -10,7 +10,7 @@ Configuration variables are useful in a variety of situations, including:
 * choose whether to run in development mode
 * select the environment to run against
 
-.. code:: python
+.. code-block:: python
 
     # config.set_defaults can be used to set some default values.
     build.config.set_defaults({
