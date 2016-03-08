@@ -12,7 +12,7 @@ def activate_virtualenv(root):
     if sys.prefix == root:
         return
 
-    site_package_dirs = [p for p in sys.path if "site-packages" in p]
+    site_package_dirs = ["site-packages"]
     sys.path = [p for p in sys.path if "site-packages" not in p]
 
     activate_this_path = os.path.join(root, 'bin', 'activate_this.py')
