@@ -129,11 +129,8 @@ def main(argv):
 
     os.chdir(current_dir)
 
-    LOGGER.info("setting up uranium...")
     _install_uranium(install_dir, uranium_dir=uranium_dir,
                      version=options.version)
-
-    LOGGER.info("done!")
 
     LOGGER.debug("running uranium...")
     return _run_uranium(install_dir, remaining_args)
@@ -199,6 +196,11 @@ sys.path += paths_to_append
 
 
 def _install_uranium(virtualenv_dir, uranium_dir=None, version=None):
+    uranium_executable = os.path.join(virtualenv_dir, 'bin', 'uranium')
+    if os.path.exists(uranium_executable):
+        return
+
+    LOGGER.info("setting up uranium...")
     if uranium_dir:
         uranium_dir = os.path.expanduser(uranium_dir)
 
@@ -221,6 +223,7 @@ def _install_uranium(virtualenv_dir, uranium_dir=None, version=None):
                 log_file
             ))
             exit(1)
+    LOGGER.info("done!")
 
 
 def _run_uranium(virtualenv_dir, args):
