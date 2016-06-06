@@ -1,6 +1,8 @@
 import logging
 import os
+import subprocess
 import sys
+import virtualenv
 from virtualenv import create_environment
 
 LOGGER = logging.getLogger(__name__)
@@ -13,9 +15,14 @@ def install_virtualenv(install_dir):
     if is_virtualenv(install_dir):
         return
 
-    create_environment(install_dir, no_setuptools=False,
-                       no_pip=True, site_packages=False,
-                       symlink=False)
+    subprocess.call([
+        sys.executable,
+        virtualenv.__file__.rstrip("c"),
+        "--no-site-packages",
+        "--no-pip",
+        "--always-copy",
+        install_dir
+    ])
 
 VIRTUALENV_FILES = {
     'activate file': os.path.join('bin', 'activate')

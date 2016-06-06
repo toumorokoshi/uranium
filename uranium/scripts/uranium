@@ -18,13 +18,13 @@ def get_cached_standalone():
     if not os.path.isfile(CACHED_URANIUM_STANDALONE):
         return None
     with open(CACHED_URANIUM_STANDALONE) as fh:
-        return fh.read().decode("UTF-8")
+        return fh.read()
 
 
 def store_cached_standalone(body):
     if not os.path.exists(CACHE_DIRECTORY):
         os.makedirs(CACHE_DIRECTORY)
-    with open(CACHED_URANIUM_STANDALONE, "w+") as fh:
+    with open(CACHED_URANIUM_STANDALONE, "wb+") as fh:
         fh.write(body)
 
 cached_standalone = get_cached_standalone()
