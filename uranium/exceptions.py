@@ -15,15 +15,6 @@ class HooksException(UraniumException):
     pass
 
 
-class NonZeroExitCodeException(UraniumException):
-    pass
-
-
-class PackageException(UraniumException):
-    """ exceptions with the package object """
-    pass
-
-
 class PluginException(UraniumException):
     """ an exception that occurred with the plugin """
     pass
@@ -33,5 +24,14 @@ class ScriptException(UraniumException):
     pass
 
 
-class ConfigException(UraniumException):
+class ConfigException(ScriptException):
+    pass
+
+
+class NonZeroExitCodeException(ScriptException):
+    pass
+
+
+class PackageException(UraniumException):
+    """ exceptions with the package object """
     pass

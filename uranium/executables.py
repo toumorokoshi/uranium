@@ -70,7 +70,11 @@ class Executables(object):
         exit_code = popen.returncode
 
         if exit_code != 0 and fail_on_error:
-            raise NonZeroExitCodeException("received non-zero exit code: {0}".format(exit_code))
+            raise NonZeroExitCodeException(
+                "{0} returned non-zero exit code: {1}".format(
+                    args[0], exit_code
+                )
+            )
         return exit_code, out, err
 
     def install_script(self, name, body, execution_dir="base"):

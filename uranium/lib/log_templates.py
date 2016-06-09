@@ -1,11 +1,7 @@
 STARTING_URANIUM = """
-================
-STARTING URANIUM
-================
+=== START URANIUM ===
 """.strip()
 
 ENDING_URANIUM = """
-================
-URANIUM FINISHED
-================
+=== URANIUM FINISHED ===
 """.strip()
