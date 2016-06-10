@@ -9,9 +9,9 @@ def test_hello_world(capfd, executables):
     assert out.strip() == "hello, world"
 
 
-def test_exception_contains_executable_name(capfd, executables):
+def test_exception_contains_executable_name(executables):
     try:
-        executables.run(["grep"])
+        executables.run(["grep"], link_streams=False)
     except NonZeroExitCodeException as e:
         assert "grep" in str(e)
     else:

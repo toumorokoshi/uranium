@@ -33,7 +33,7 @@ def test(build):
     build.executables.run([
         "py.test", os.path.join(build.root, "tests"),
         "--cov", "uranium",
-        "--cov-config", "coverage.cfg"
+        "--cov-config", "coverage.cfg",
     ] + build.options.args)
 
 
