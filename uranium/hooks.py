@@ -18,7 +18,7 @@ class Hooks(dict):
         def print_finished_message(build):
             print("finished!")
 
-        build.hooks["finalize"].append(print_finished_message)
+        current_build.hooks["finalize"].append(print_finished_message)
 
         def main(build):
             print("this will print finished right after I'm done!")

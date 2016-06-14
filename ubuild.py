@@ -1,4 +1,5 @@
 import os
+from uranium import task_requires
 
 
 def _install_test_modules(build):
@@ -26,10 +27,14 @@ def main(build):
     build.packages.install(".", develop=True)
 
 
+@task_requires("main")
 def test(build):
-    """ execute tests """
-    main(build)
     _install_test_modules(build)
+    test_no_deps(build)
+
+
+def test_no_deps(build):
+    """ execute tests """
     build.executables.run([
         "py.test", os.path.join(build.root, "tests"),
         "--cov", "uranium",

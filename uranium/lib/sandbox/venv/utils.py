@@ -3,7 +3,6 @@ import os
 import subprocess
 import sys
 import virtualenv
-from virtualenv import create_environment
 
 LOGGER = logging.getLogger(__name__)
 

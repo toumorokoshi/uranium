@@ -3,18 +3,13 @@ from uranium import current_build
 
 @current_build.task
 def main(build):
-    print("ok")
+    current_build.history["test"] = True
 """
-from uranium.scripts import execute_script
-from .conftest import URANIUM_SOURCE_ROOT
 
 
-def test_current_build_in_ubuild(tmpdir):
+def test_current_build_in_ubuild(tmpdir, build):
     """ current_build shoud be valid in the ubuild.py """
-    tmpdir.join("ubuild.py").write(URANIUM_PY)
-
-    status, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
-    )
-    assert "ok" in out.decode("utf-8")
+    script = tmpdir.join("ubuild.py")
+    script.write(URANIUM_PY)
+    build._run_script(script.strpath, "main")
+    assert build.history["test"] is True

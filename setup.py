@@ -3,10 +3,10 @@ from setuptools import setup, find_packages
 
 install_requires = [
     "docopt==0.6.2",
-    "pip==7.1.2",
+    "pip==8.1.2",
     "requests==2.9.1",
-    "setuptools==18.2",
-    "virtualenv==13.1.2"
+    "setuptools==21.2.1",
+    "virtualenv==15.0.2"
 ]
 
 tests_require = [
@@ -23,15 +23,13 @@ setup(name='uranium',
       packages=find_packages(),
       install_requires=install_requires,
       classifiers=[
-          'Development Status :: 3 - Alpha',
+          'Development Status :: 4 - Beta',
           'Operating System :: MacOS',
           'Operating System :: POSIX :: Linux',
           'Topic :: System :: Software Distribution',
           'License :: OSI Approved :: MIT License',
           'Programming Language :: Python',
           'Programming Language :: Python :: 2',
-          'Programming Language :: Python :: 2.6',
-          'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
       ],
       entry_points={
