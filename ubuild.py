@@ -5,10 +5,9 @@ from uranium import task_requires
 def _install_test_modules(build):
     build.packages.versions.update({
         "httpretty": "==0.8.10",
-        "pytest": "==2.8.2"
     })
 
-    build.packages.install("pytest")
+    build.packages.install("pytest", version="==2.9.2")
     build.packages.install("pytest-cov")
     build.packages.install("httpretty")
 

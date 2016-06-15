@@ -8,6 +8,7 @@ VENV_URL = "https://pypi.python.org/packages/source/v/virtualenv/virtualenv-{maj
 VENV_MAJOR = 15
 VENV_MINOR = 0
 VENV_REV = 2
+FALLBACK_URL = "https://github.com/pypa/virtualenv/archive/{major}.{minor}.{rev}.tar.gz"
 
 import io
 import logging
@@ -238,10 +239,17 @@ def _run_uranium(virtualenv_dir, args):
 
 def _download_virtualenv(target_dir=None):
     target_dir = target_dir or os.path.abspath(os.curdir)
-    venv_url = VENV_URL.format(
-        major=VENV_MAJOR, minor=VENV_MINOR, rev=VENV_REV
-    )
-    _extract_tar(venv_url, target_dir)
+    try:
+        venv_url = VENV_URL.format(
+            major=VENV_MAJOR, minor=VENV_MINOR, rev=VENV_REV
+        )
+        _extract_tar(venv_url, target_dir)
+    except:
+        LOGGER.info("url {} failed. Attempting fallback...".format(venv_url))
+        venv_url = FALLBACK_URL.format(
+            major=VENV_MAJOR, minor=VENV_MINOR, rev=VENV_REV
+        )
+        _extract_tar(venv_url, target_dir)
 
 
 def _extract_tar(url, target_dir):

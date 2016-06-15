@@ -1,6 +1,6 @@
-from .lib.pip_manager import PipManager
-from .lib.asserts import get_assert_function
-from .exceptions import PackageException
+from ..lib.asserts import get_assert_function
+from ..exceptions import PackageException
+from .install_command import install
 
 p_assert = get_assert_function(PackageException)
 
@@ -17,7 +17,7 @@ class Packages(object):
 
     def __init__(self):
         self._versions = {}
-        self._pip = PipManager(self._versions)
+        self._index_urls = list(DEFAULT_INDEX_URLS)
 
     @property
     def versions(self):
@@ -47,16 +47,15 @@ class Packages(object):
         index urls is a list of the urls that Packages queries when
         looking for packages.
         """
-        return self._pip.index_urls
+        return self._index_urls
 
     @index_urls.setter
     def index_urls(self, value):
-        self._pip.index_urls = value
         p_assert(isinstance(value, list),
                  "only lists can be set as a value for indexes")
-        self._pip.indexes = value
+        self._index_urls = value
 
-    def install(self, name, version=None, develop=None, upgrade=False):
+    def install(self, name, version=None, develop=False, upgrade=False):
         """
         install is used when installing a python package into the environment.
 
@@ -66,12 +65,18 @@ class Packages(object):
         in the directory passed will be used when using that package.
         """
         p_assert(
-            version is None or develop is None,
+            not (develop and version),
             "unable to set both version and develop flags when installing packages"
         )
-        if develop:
-            self._pip.install_develop(name)
-        else:
-            if version:
-                self.versions.update({name: version})
-            self._pip.install(name, upgrade=upgrade)
+        if name in self.versions:
+            if version is None:
+                version = self.versions[name]
+            del self.versions[name]
+        req_set = install(
+            name, upgrade=upgrade, develop=develop, version=version,
+            index_urls=self.index_urls, constraint_dict=self.versions
+        )
+        if req_set:
+            for req in req_set.requirements.values():
+                if req.installed_version:
+                    self.versions[req.name] = ("==" + req.installed_version)
