@@ -33,13 +33,13 @@ class UraniumInstallCommand(InstallCommand):
                     requirement_set.add_requirement(req)
 
 
-def install(*args, constraint_dict=None, **kwargs):
+def install(package_name, constraint_dict=None, **kwargs):
     """
     a convenience function to create and use an
     install command to install a package.
     """
     constraint_dict = constraint_dict or {}
-    args = _create_args(*args, **kwargs)
+    args = _create_args(package_name, **kwargs)
     command = UraniumInstallCommand()
     if constraint_dict:
         command.constraint_dict = constraint_dict
