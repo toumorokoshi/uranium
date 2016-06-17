@@ -33,19 +33,30 @@ class UraniumInstallCommand(InstallCommand):
                     requirement_set.add_requirement(req)
 
 
-def install(package_name, upgrade=False, develop=False,
-            version=None, index_urls=None, constraint_dict=None):
+def install(*args, constraint_dict=None, **kwargs):
     """
     a convenience function to create and use an
     install command to install a package.
     """
     constraint_dict = constraint_dict or {}
+    args = _create_args(*args, **kwargs)
+    command = UraniumInstallCommand()
+    if constraint_dict:
+        command.constraint_dict = constraint_dict
+    options, args = command.parse_args(args)
+    return command.run(options, args)
+
+
+def _create_args(package_name, upgrade=False, develop=False,
+                 version=None, index_urls=None):
     args = []
 
     if index_urls:
         args += ["-i", index_urls[0]]
+        args += ["--trusted-host", index_urls[0]]
         for url in index_urls[1:]:
             args += ["--extra-index-url", url]
+            args += ["--trusted-host", url]
 
     if upgrade:
         args.append("--upgrade")
@@ -57,9 +68,4 @@ def install(package_name, upgrade=False, develop=False,
     if version:
         requirement += version
     args.append(requirement)
-
-    command = UraniumInstallCommand()
-    if constraint_dict:
-        command.constraint_dict = constraint_dict
-    options, args = command.parse_args(args)
-    return command.run(options, args)
+    return args
