@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 install_requires = [
     "docopt==0.6.2",
-    "pip==8.1.2",
+    "pip==8.1.1",
     "requests==2.9.1",
     "setuptools==21.2.1",
     "virtualenv==15.0.2"
