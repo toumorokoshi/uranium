@@ -1,5 +1,6 @@
 from pip.commands import InstallCommand
 from pip.req.req_file import process_line
+from ..lib.compat import urlparse
 
 
 class UraniumInstallCommand(InstallCommand):
@@ -30,7 +31,19 @@ class UraniumInstallCommand(InstallCommand):
                         options=options, session=session,
                         wheel_cache=wheel_cache, constraint=True
                 ):
-                    requirement_set.add_requirement(req)
+                    try:
+                        existing_req = requirement_set.get_requirement(
+                            package_name)
+                        existing_req.req.specifier &= req.specifier
+                    except KeyError:
+                        requirement_set.add_requirement(req)
+        for r in requirement_set.unnamed_requirements:
+            if r.editable:
+                r.run_egg_info()
+                name = r.pkg_info()["name"]
+                if name in requirement_set.requirements:
+                    del requirement_set.requirements._dict[name]
+                    requirement_set.requirements._keys.remove(name)
 
 
 def install(package_name, constraint_dict=None, **kwargs):
@@ -47,16 +60,21 @@ def install(package_name, constraint_dict=None, **kwargs):
     return command.run(options, args)
 
 
+def _get_netloc(url):
+    parsed_url = urlparse(url)
+    return parsed_url.netloc
+
+
 def _create_args(package_name, upgrade=False, develop=False,
                  version=None, index_urls=None):
     args = []
 
     if index_urls:
         args += ["-i", index_urls[0]]
-        args += ["--trusted-host", index_urls[0]]
+        args += ["--trusted-host", _get_netloc(index_urls[0])]
         for url in index_urls[1:]:
             args += ["--extra-index-url", url]
-            args += ["--trusted-host", url]
+            args += ["--trusted-host", _get_netloc(url)]
 
     if upgrade:
         args.append("--upgrade")
