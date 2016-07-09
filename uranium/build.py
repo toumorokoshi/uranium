@@ -49,6 +49,7 @@ class Build(object):
         self._tasks = Tasks()
         self._envvars = EnvironmentVariables()
         self._options = None
+        self._cache_requests = False
         self._history = History(
             os.path.join(self._root, self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
         )
@@ -108,9 +109,14 @@ class Build(object):
         self._tasks.add(f)
         return f
 
-    def include(self, script_path):
+    def include(self, script_path, cache=False):
         """ executes the script at the specified path. """
-        get_remote_script(script_path, build=self)
+        if cache and self._cache_requests:
+            cache_dir = os.path.join(self.URANIUM_CACHE_DIR, "include_cache")
+        else:
+            cache_dir = None
+        get_remote_script(script_path, local_vars={"build": self},
+                          cache_dir=cache_dir)
 
     def run(self, options):
         self._warmup()

@@ -19,3 +19,13 @@ def test_get_remote_script(tmpdir):
     script["setup"](build)
     httpretty.disable()
     httpretty.reset()
+
+
+def test_get_remote_script_with_cache(tmpdir):
+    httpretty.enable()
+    httpretty.register_uri(httpretty.GET, SCRIPT_URL,
+                           body=REMOTE_SCRIPT)
+    get_remote_script(SCRIPT_URL, cache_dir=tmpdir.strpath)
+    httpretty.disable()
+    httpretty.reset()
+    get_remote_script(SCRIPT_URL, cache_dir=tmpdir.strpath)

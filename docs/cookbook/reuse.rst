@@ -45,7 +45,6 @@ And your consumer script will look like:
 .. code-block:: python
 
     # ubuild.py in the project.
-    from uranium import get_remote_script
     build.include("https://internalgit.mycompany.com/shared-python/uranium_base.py")
 
 
