@@ -2,8 +2,8 @@
 
 Usage:
   uranium [-p <build_file> -v -c <confarg>...]
-  uranium [-p <build_file> -v -c <confarg>...] <directive> [DIRECTIVE_ARGS ...]
-  uranium [-p <build_file> -v] --directives
+  uranium [-p <build_file> -v -c <confarg>...] <task> [TASK_ARGS ...]
+  uranium [-p <build_file> -v] --tasks
   uranium (-h | --help)
 
 Options:
@@ -11,34 +11,33 @@ Options:
   -v, --verbose     show verbose output
   -p <build_file>, --path <build_file>  the build file to use.
   -c <confarg>,  --confarg <confarg> a configuration value to set.
-  --directives      list all the directives available in a build file.
-  <directive>       the directive to execute (defaults to "main")
+  --tasks           list all the tasks available in a build file.
+  <task>       the task to execute (defaults to "main")
 
 By default, uranium will look for a ubuild.py
 file in the directory uranium was
 invoked in. this can be overridden by passing in a
 path to a <build_file>.
 
-Uranium supports multiple directives, and you can specify which
-directive to use by passing in a <directive> argument matching the
+Uranium supports multiple tasks, and you can specify which
+task to use by passing in a <task> argument matching the
 function name. You can also pass in as many arguments as you want,
-which are available in the build object as the build.options.directive
+which are available in the build object as the build.options.task
 and build.options.args, respectively.
 """
 import docopt
 import logging
 import os
 import sys
-from ..build import Build
-from ..config import parse_confargs
-from ..options import BuildOptions
-from ..lib.script_runner import get_public_functions
-from ..exceptions import UraniumException
+from .build import Build
+from .config import parse_confargs
+from .options import BuildOptions
+from .exceptions import UraniumException
 
 LOGGING_NAMES = ["uranium", "pip"]
 URANIUM_ROOT = os.path.dirname(os.path.dirname(__file__))
 DEFAULT_BUILD_FILE = "ubuild.py"
-DEFAULT_DIRECTIVE = "main"
+DEFAULT_TASK = "main"
 LOGGER = logging.getLogger(__name__)
 
 
@@ -48,12 +47,12 @@ def main(argv=sys.argv[1:]):
     root = os.path.abspath(os.curdir)
     LOGGER.info("executing uranium in {0}...".format(root))
     build_file = options['--path'] or DEFAULT_BUILD_FILE
-    directive = options['<directive>'] or DEFAULT_DIRECTIVE
-    args = options["DIRECTIVE_ARGS"] or []
+    task = options['<task>'] or DEFAULT_TASK
+    args = options["TASK_ARGS"] or []
 
-    build_options = BuildOptions(directive, args, build_file)
-    if options["--directives"]:
-        build_options.override_func = _print_directives
+    build_options = BuildOptions(task, args, build_file)
+    if options["--tasks"]:
+        build_options.override_func = _print_tasks
 
     config = parse_confargs(options['-c'])
     build = Build(root, config=config, with_sandbox=True)
@@ -80,9 +79,9 @@ def _create_stdout_logger():
         log.setLevel(logging.INFO)
 
 
-def _print_directives(script):
-    LOGGER.info("the following directives are available: ")
-    for func in get_public_functions(script):
+def _print_tasks(build, script):
+    LOGGER.info("the following tasks are available: ")
+    for task, func in build.tasks.items():
         LOGGER.info("  {0}: {1}".format(
-            func.__name__, getattr(func, "__doc__", "") or ""
+            task, getattr(func, "__doc__", "") or ""
         ))

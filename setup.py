@@ -34,7 +34,7 @@ setup(name='uranium',
       ],
       entry_points={
           'console_scripts': [
-              'uranium=uranium.scripts.main:main'
+              'uranium=uranium.main:main'
           ],
       },
       tests_require=tests_require

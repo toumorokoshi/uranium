@@ -87,6 +87,10 @@ class Build(object):
     def root(self):
         return self._root
 
+    @property
+    def tasks(self):
+        return self._tasks
+
     def as_current_build(self):
         return _build_proxy.create_context(self)
 
@@ -159,12 +163,12 @@ class Build(object):
         with self.as_current_build():
             script = build_script(path, {"build": self})
 
-        if override_func:
-            return override_func(script)
-
         for f in get_public_functions(script):
             if f.__name__ not in self._tasks:
                 self._tasks.add(f)
+
+        if override_func:
+            return override_func(self, script)
 
         if task_name not in self._tasks:
             raise ScriptException("{0} does not have a {1} function. available public task_names: \n{2}".format(
