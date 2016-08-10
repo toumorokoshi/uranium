@@ -31,6 +31,21 @@ def test_install(tmpdir):
     assert code == 0
 
 
+def test_package_cache(tmpdir):
+    """ don't event attempt to call pip, if a package already exists. """
+    tmpdir.join("ubuild.py").write(URANIUM_PY)
+    execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
+        cwd=tmpdir.strpath
+    )
+    code, out, err = execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
+        cwd=tmpdir.strpath
+    )
+    assert "Requirement already satisified" not in str(out)
+    assert code == 0
+
+
 def test_update(tmpdir):
     """ update should update versions to the latest. """
     hard_version = URANIUM_PY_UPDATE.format(',version="==1.3.1"')

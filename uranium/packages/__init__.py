@@ -92,7 +92,6 @@ class Packages(object):
                 package_name += version
             pkg_resources.get_distribution(package_name)
             return True
-        except (pkg_resources.VersionConflict,
-                pkg_resources.DistributionNotFound):
+        except Exception:
             pass
         return False

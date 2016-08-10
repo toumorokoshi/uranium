@@ -79,3 +79,4 @@ include/
 .eggs/
 lib/
 .pydistutils.cfg
+.coverage*
