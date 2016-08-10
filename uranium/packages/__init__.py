@@ -64,6 +64,8 @@ class Packages(object):
         if develop is set to True, the package will be installed as editable: the source
         in the directory passed will be used when using that package.
         """
+        if self._is_package_already_installed(name, version):
+            return
         p_assert(
             not (develop and version),
             "unable to set both version and develop flags when installing packages"
@@ -80,3 +82,17 @@ class Packages(object):
             for req in req_set.requirements.values():
                 if req.installed_version:
                     self.versions[req.name] = ("==" + req.installed_version)
+
+    @staticmethod
+    def _is_package_already_installed(name, version):
+        import pkg_resources
+        try:
+            package_name = name
+            if version:
+                package_name += version
+            pkg_resources.get_distribution(package_name)
+            return True
+        except (pkg_resources.VersionConflict,
+                pkg_resources.DistributionNotFound):
+            pass
+        return False
