@@ -60,9 +60,14 @@ def _clean_package_resources(_pkg_resources, old_prefix):
 
 
 def _load_distutils(root):
-    distutils_path = os.path.join(root, 'lib', 'python%s' % sys.version[:3], 'distutils', '__init__.py')
-    with open(distutils_path) as f:
-        exec(f.read(), {
-            "__file__": distutils_path,
-            "__path__": []
-        })
+    distutils_path_candidates = [
+        os.path.join(root, 'lib', 'python%s' % sys.version[:3], 'distutils', '__init__.py'),
+        os.path.join(root, 'lib64', 'python%s' % sys.version[:3], 'distutils', '__init__.py')
+    ]
+    for p in distutils_path_candidates:
+        if os.path.exists(p):
+            with open(p) as f:
+                exec(f.read(), {
+                    "__file__": p,
+                    "__path__": []
+                })
