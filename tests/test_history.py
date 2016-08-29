@@ -51,4 +51,5 @@ def test_history_with_build(tmpdir, build):
         return was_set
 
     assert build.run_task("main") is False
+    build.tasks.clear_cache()
     assert build.run_task("main") is True

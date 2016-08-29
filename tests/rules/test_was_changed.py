@@ -35,6 +35,7 @@ def test_changed(tmpdir, build):
         g.append("ran")
 
     build.run_task("main")
+    build.tasks.clear_cache()
     assert "ran" in g
     # for some reason we need a sleep
     # here. I think it's not considering

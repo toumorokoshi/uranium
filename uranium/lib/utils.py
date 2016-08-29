@@ -26,3 +26,7 @@ def ensure_file(path):
 
     if not os.path.exists(path):
         open(path, 'w+').close()
+
+
+def is_callable(maybe_func):
+    return hasattr(maybe_func, "__call__")
