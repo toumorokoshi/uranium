@@ -1,5 +1,6 @@
 import os
 import traceback
+from .compat import str_type
 
 
 def log_exception(logger, level):
@@ -30,3 +31,9 @@ def ensure_file(path):
 
 def is_callable(maybe_func):
     return hasattr(maybe_func, "__call__")
+
+
+def is_list_like(t):
+    if isinstance(t, str_type):
+        return False
+    return hasattr(t, "__iter__")
