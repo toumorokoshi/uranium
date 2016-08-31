@@ -53,6 +53,7 @@ Contents:
    examples
    cookbook/cookbook
    config
+   dependency
    envs
    executables
    history

@@ -1,7 +1,4 @@
 test:
-	./uranium/scripts/uranium_standalone --uranium-dir=. test_no_deps ${ARGS}
-
-test_full:
 	./uranium/scripts/uranium_standalone --uranium-dir=. test ${ARGS} -v
 
 build:
@@ -9,3 +6,6 @@ build:
 
 distribute:
 	./uranium/scripts/uranium_standalone --uranium-dir=. distribute
+
+docs:
+	./uranium/scripts/uranium_standalone --uranium-dir=. build_docs

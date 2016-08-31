@@ -4,11 +4,12 @@ Tutorial
 
 This tutorial is an introduction to the basic concepts around Uranium.
 
-Let's start with a simple example: setting up a virtualenv and install an egg.
+Let's start with a simple example: setting up a virtualenv and install
+an egg.
 
-We will use unix-based commands for the tutorial, but attempt to
-describe the steps so these steps can be replicated on other operating
-systems.
+unix-based commands are used for the tutorial, but this documentation
+attempts to describe these steps so they can be easily replicated on
+other operating systems.
 
 For the purpose of the tutorial, let's create a root directory:
 
@@ -16,7 +17,8 @@ For the purpose of the tutorial, let's create a root directory:
 
   $ mkdir -p /tmp/uranium-tut/ && cd /tmp/uranium-tut/
 
-Start by downloading uranium. uranium is a python wrapper around the uranium library that handles the following:
+Start by downloading the uranium script. The uranium script is a
+python wrapper around the uranium library that handles the following:
 
 * downloading and setting up a virtualenv
 * installing the uranium script into the virtualenv
@@ -37,7 +39,7 @@ Now you need a ubuild.py file. Let's make one now:
 
   $ touch ubuild.py
 
-And we'll need to fill it in with at the very least, a main method:
+And we'll need to fill it in with at the very least, a main function:
 
 .. code-block:: python
 
@@ -47,7 +49,7 @@ And we'll need to fill it in with at the very least, a main method:
 
 Now, you can run uranium. Try it now:
 
-.. code-block:: python
+.. code-block:: bash
 
     $ ./uranium
     installing virtualenv...
@@ -61,25 +63,27 @@ Now, you can run uranium. Try it now:
     [HH:MM:SS] URANIUM FINISHED
     [HH:MM:SS] ================
 
-And congrats, you've had your first Uranium run! Of course, all this
-did was set up a virtualenv. Now let's start working on real functionality.
+
+And congrats, you've had your first Uranium run! Uranium read the
+ubuild.py, found the main function, and executed it. However, the only
+result is having a set up virtualenv. The next step is working or real
+functionality.
 
 ------------------------------
 Developing and Installing Eggs
 ------------------------------
 
 We started with an empty main method. To add eggs and develop-eggs,
-you can use the packages object attached to the build:
+you can use the packages attribute of build:
 
 .. code-block:: python
 
     def main(build):
-        build.packages.install("nose", version="==1.3.4")
+    build.packages.install("nose", version="==1.3.4")
 
 And let's run uranium again:
 
-
-.. code-block:: python
+.. code-block:: bash
 
     $ ./uranium
     setting up uranium...

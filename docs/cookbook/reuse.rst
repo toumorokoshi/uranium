@@ -10,7 +10,7 @@ works for you.
 build.includes
 --------------
 
-Uranium provides an icludes function to download and execute a remote
+Uranium provides an includes function to download and execute a remote
 script. For example, let's say you want to share a common test
 function, as well as ensure builds are using a private repository. You
 can host a file uranium_base.py that looks like:
@@ -76,6 +76,7 @@ all the tasks, and download it in your ubuild.py.
 
 
 .. code-block:: python
+
     # in a module mycompany_build
     import subprocess
     import uranium
@@ -104,6 +105,7 @@ all the tasks, and download it in your ubuild.py.
 And your consumer script will look like:
 
 .. code-block:: python
+
     # ubuild.py in the project.
     from uranium import get_remote_script
 

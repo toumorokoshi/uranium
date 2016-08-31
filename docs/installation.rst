@@ -25,6 +25,13 @@ You would then enter a directory with a ubuild.py, and execute the uranium entry
 
     uranium
 
+.. note::
+
+   This approach is not ideal, as it enforces strict version restrictions
+   of Uranium's dependencies onto your globally installed packages.
+
+   for most situations, it's suggested to use the uranium script.
+
 
 ----------------------
 Use the Uranium Script
@@ -57,8 +64,7 @@ developers, as it is downloads the standalone script from the git
 repository and executes that script.
 
 The uranium script also provides a blueprint on how to provide your
-own bootstrapping script. This is recommended when setting a pattern
-for an organization, as a common standalone script ensures that any
-changes the version of Uranium used, or custom configuration can be
-applied globally, in contrast to updating each uranium script
-individually.
+own bootstrapping script. This is recommended when setting up a
+structure for an organization, as a common standalone script ensures
+that changes can be applied globally with ease, in contrast to
+updating each uranium script in every location individually.

@@ -4,7 +4,9 @@ Rules
 
 **Warning: This is an experimental api. It is not a final design, and could be modified in the future.**
 
-Rules are a way to help prevent re-executing tasks unnecessarily. For example, not re-downloading a script if it has already been downloaded:
+Rules are a way to help prevent re-executing tasks unnecessarily. For
+example, not re-downloading a script if it has already been
+downloaded:
 
 .. code-block:: python
 
