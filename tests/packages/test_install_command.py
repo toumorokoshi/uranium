@@ -15,3 +15,14 @@ def test_create_args_includes_trusted_hosts():
         "--trusted-host", "pypi2.python.org",
         "pytest"
     ]
+
+
+def test_create_args_includes_install_options():
+    args = _create_args("pytest",
+                        install_options=["--prefix=/opt/srv",
+                                         "--install-lib=/opt/srv/lib"])
+    assert args == [
+        "--install-option", "--prefix=/opt/srv",
+        "--install-option", "--install-lib=/opt/srv/lib",
+        "pytest"
+    ]

@@ -65,7 +65,7 @@ class Packages(object):
         in the directory passed will be used when using that package.
 
         if install_options is provided, it should be a list of options, like
-        ["--prefix=/opt/srv", "--install-lib=/opt/lib"]
+        ["--prefix=/opt/srv", "--install-lib=/opt/srv/lib"]
         """
         if self._is_package_already_installed(name, version):
             return
