@@ -67,8 +67,9 @@ def _get_netloc(url):
 
 def _create_args(package_name, upgrade=False, develop=False,
                  version=None, index_urls=None,
-                 install_options=[]):
+                 install_options=None):
     args = []
+    install_options = install_options or []
 
     if index_urls:
         args += ["-i", index_urls[0]]
