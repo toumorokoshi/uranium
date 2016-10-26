@@ -55,7 +55,7 @@ class Packages(object):
                  "only lists can be set as a value for indexes")
         self._index_urls = value
 
-    def install(self, name, version=None, develop=False, upgrade=False):
+    def install(self, name, version=None, develop=False, upgrade=False, install_options=[]):
         """
         install is used when installing a python package into the environment.
 
@@ -63,6 +63,9 @@ class Packages(object):
 
         if develop is set to True, the package will be installed as editable: the source
         in the directory passed will be used when using that package.
+
+        if install_options is provided, it should be a list of options, like
+        ["--prefix=/opt/srv", "--install-lib=/opt/lib"]
         """
         if self._is_package_already_installed(name, version):
             return
@@ -76,7 +79,8 @@ class Packages(object):
             del self.versions[name]
         req_set = install(
             name, upgrade=upgrade, develop=develop, version=version,
-            index_urls=self.index_urls, constraint_dict=self.versions
+            index_urls=self.index_urls, constraint_dict=self.versions,
+            install_options=install_options
         )
         if req_set:
             for req in req_set.requirements.values():
