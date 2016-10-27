@@ -55,7 +55,7 @@ class Packages(object):
                  "only lists can be set as a value for indexes")
         self._index_urls = value
 
-    def install(self, name, version=None, develop=False, upgrade=False, install_options=[]):
+    def install(self, name, version=None, develop=False, upgrade=False, install_options=None):
         """
         install is used when installing a python package into the environment.
 
