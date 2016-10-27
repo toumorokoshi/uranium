@@ -66,8 +66,10 @@ def _get_netloc(url):
 
 
 def _create_args(package_name, upgrade=False, develop=False,
-                 version=None, index_urls=None):
+                 version=None, index_urls=None,
+                 install_options=None):
     args = []
+    install_options = install_options or []
 
     if index_urls:
         args += ["-i", index_urls[0]]
@@ -75,6 +77,10 @@ def _create_args(package_name, upgrade=False, develop=False,
         for url in index_urls[1:]:
             args += ["--extra-index-url", url]
             args += ["--trusted-host", _get_netloc(url)]
+
+    if install_options:
+        for option in install_options:
+            args += ["--install-option", option]
 
     if upgrade:
         args.append("--upgrade")
