@@ -13,8 +13,8 @@ environment variables can be modified as a regular dictionary:
     import os
 
     def main(build):
-        build.environment["EDITOR"] = "emacs"
-        build.environment["LD_LIBRARY_PATH"] = os.path.join(build.root, "lib")
+        build.envvars["EDITOR"] = "emacs"
+        build.envvars["LD_LIBRARY_PATH"] = os.path.join(build.root, "lib")
 
 
 ------------------
