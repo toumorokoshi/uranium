@@ -66,7 +66,10 @@ class Executables(object):
         if subprocess_args:
             kwargs.update(subprocess_args)
         popen = subprocess.Popen(args, **kwargs)
-        out, err = popen.communicate()
+        try:
+            out, err = popen.communicate()
+        except KeyboardInterrupt:
+            os.kill(popen.pid)
         exit_code = popen.returncode
 
         if exit_code != 0 and fail_on_error:

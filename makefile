@@ -4,8 +4,8 @@ test:
 build:
 	./uranium/scripts/uranium_standalone --uranium-dir=.
 
-distribute:
-	./uranium/scripts/uranium_standalone --uranium-dir=. distribute
+publish:
+	./uranium/scripts/uranium_standalone --uranium-dir=. publish
 
 docs:
 	./uranium/scripts/uranium_standalone --uranium-dir=. build_docs

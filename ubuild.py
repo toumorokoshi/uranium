@@ -31,10 +31,10 @@ def build_docs(build):
     ] + build.options.args)[0]
 
 
-def distribute(build):
+def publish(build):
     """ distribute the uranium package """
     build.packages.install("wheel")
     build.executables.run([
         "python", "setup.py",
-        "bdist_wheel", "--universal", "upload"
+        "bdist_wheel", "--universal", "upload", "--release"
     ])

@@ -1,7 +1,17 @@
 #!/usr/bin/env python
+import os
+import sys
 from setuptools import setup, find_packages
 
+is_release = False
+if "--release" in sys.argv:
+    sys.argv.remove("--release")
+    is_release = True
+
+base = os.path.dirname(os.path.abspath(__file__))
+
 install_requires = [
+    "deepmerge==0.0.3",
     "docopt==0.6.2",
     "pip==8.1.1",
     "requests==2.9.1",
@@ -14,7 +24,8 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      version='0.2.51b',
+      setup_requires=["vcver==0.0.5"],
+      vcver={"is_release": is_release, "path": base},
       description='a build system for python',
       long_description=open('README.rst').read(),
       author='Yusuke Tsutsumi',
