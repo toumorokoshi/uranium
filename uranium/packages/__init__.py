@@ -1,6 +1,7 @@
 from ..lib.asserts import get_assert_function
 from ..exceptions import PackageException
 from .install_command import install
+from .versions import Versions
 
 p_assert = get_assert_function(PackageException)
 
@@ -16,7 +17,7 @@ class Packages(object):
     """
 
     def __init__(self):
-        self._versions = {}
+        self._versions = Versions()
         self._index_urls = list(DEFAULT_INDEX_URLS)
 
     @property
