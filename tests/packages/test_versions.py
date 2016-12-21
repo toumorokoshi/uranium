@@ -33,3 +33,13 @@ def test_versions_coerce_lowercase_get(versions):
         "SQLAlchemy": "==1.0.11"
     })
     assert versions["SQLAlchemy"] == "==1.0.11"
+
+
+def test_delete_coerce_lowercase(versions):
+    """
+    getting a package name should also be lowercase.
+    """
+    versions.update({
+        "SQLAlchemy": "==1.0.11"
+    })
+    del versions["SQLAlchemy"]
