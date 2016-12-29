@@ -1,8 +1,3 @@
-.. Uranium documentation master file, created by
-   sphinx-quickstart on Mon Nov 24 22:26:57 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Uranium: a Python Build System
 ==============================
 
@@ -61,6 +56,7 @@ Contents:
    packages
    options
    utils
+   faq
 
 
 Indices and tables
