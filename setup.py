@@ -24,7 +24,7 @@ tests_require = [
 ]
 
 setup(name='uranium',
-      setup_requires=["vcver==0.0.5"],
+      setup_requires=["vcver==0.0.8"],
       vcver={"is_release": is_release, "path": base},
       description='a build system for python',
       long_description=open('README.rst').read(),
