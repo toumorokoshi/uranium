@@ -11,7 +11,9 @@ from .tasks import Tasks
 from .environment_variables import EnvironmentVariables
 from .lib.script_runner import build_script, get_public_functions
 from .lib.asserts import get_assert_function
-from .exceptions import UraniumException, ScriptException
+from .exceptions import (
+    UraniumException, ScriptException, ExitCodeException
+)
 from .lib.sandbox.venv.activate_this import write_activate_this
 from .lib.sandbox import Sandbox
 from .lib.log_templates import STARTING_URANIUM, ENDING_URANIUM

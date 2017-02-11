@@ -50,6 +50,6 @@ def test_history_with_build(tmpdir, build):
         build.history["set"] = True
         return was_set
 
-    assert build.run_task("main") is False
+    assert build.run_task("main") is 0
     build.tasks.clear_cache()
-    assert build.run_task("main") is True
+    assert build.run_task("main") is 1

@@ -2,6 +2,10 @@
 Declaring Task Dependencies
 ===========================
 
+----------------
+Prepending Tasks
+----------------
+
 Uranium provides a declarative task dependency system
 through task_requires::
 
@@ -25,3 +29,18 @@ through task_requires::
     @task_requires(["main", test])
     def build_docs(build):
         print("main was")
+
+
+This relationship can be created after the fact by add_requires::
+
+    # test requires main
+    build.tasks.prepend("test", "main")
+
+--------------------------------------
+Executing Tasks After an Existing Task
+--------------------------------------
+
+.. code:: python
+
+   # ensures test executes after main
+   build.tasks.append("main", "test")
