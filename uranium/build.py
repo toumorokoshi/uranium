@@ -148,7 +148,14 @@ class Build(object):
             except Exception as e:
                 LOGGER.exception("")
             finally:
-                self._finalize()
+                try:
+                    self._finalize()
+                except Exception as e:
+                    log_multiline(LOGGER, logging.ERROR,
+                                  "exception occurred on finalization:")
+                    LOGGER.debug("", exc_info=True)
+                    log_multiline(LOGGER, logging.ERROR, str(e))
+                    code = 1
                 log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
         finally:
             self._options = None

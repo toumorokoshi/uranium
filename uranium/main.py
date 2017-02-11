@@ -42,8 +42,9 @@ LOGGER = logging.getLogger(__name__)
 
 
 def main(argv=sys.argv[1:]):
-    _create_stdout_logger()
     options = docopt.docopt(__doc__,  argv=argv, options_first=True)
+    level = logging.DEBUG if options["--verbose"] else logging.INFO
+    _create_stdout_logger(level)
     root = os.path.abspath(os.curdir)
     LOGGER.info("executing uranium in {0}...".format(root))
     build_file = options['--path'] or DEFAULT_BUILD_FILE
@@ -63,7 +64,7 @@ def main(argv=sys.argv[1:]):
         return 1
 
 
-def _create_stdout_logger():
+def _create_stdout_logger(level):
     """
     create a logger to stdout. This creates logger for a series
     of module we would like to log information on.
@@ -72,11 +73,11 @@ def _create_stdout_logger():
     out_hdlr.setFormatter(logging.Formatter(
         '[%(asctime)s] %(message)s', "%H:%M:%S"
     ))
-    out_hdlr.setLevel(logging.INFO)
+    out_hdlr.setLevel(level)
     for name in LOGGING_NAMES:
         log = logging.getLogger(name)
         log.addHandler(out_hdlr)
-        log.setLevel(logging.INFO)
+        log.setLevel(level)
 
 
 def _print_tasks(build, script):
