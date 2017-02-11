@@ -1,6 +1,7 @@
 import json
 import os
 from .lib.utils import ensure_file
+from .lib.compat import str_type
 from .exceptions import HistoryException
 
 
@@ -34,11 +35,11 @@ class History(dict):
 def assert_is_serializable(obj):
     if isinstance(obj, dict):
         for k, v in obj.items():
-            if not isinstance(k, str):
-                raise HistoryException("unable to serialize dictionary with not-string key {0}".format(str(k)))
+            if not isinstance(k, str_type):
+                raise HistoryException("unable to serialize dictionary with non-string key {0}".format(str(k)))
             assert_is_serializable(v)
     elif isinstance(obj, list):
         for o in obj:
             assert_is_serializable(o)
-    elif not isinstance(obj, (str, int, float, bool)):
+    elif not isinstance(obj, (str_type, int, float, bool)):
         raise HistoryException("unable to serialize type {0}".format(type(obj)))

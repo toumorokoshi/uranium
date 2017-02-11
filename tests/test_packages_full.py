@@ -42,6 +42,8 @@ def test_package_cache(tmpdir):
         "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
         cwd=tmpdir.strpath
     )
+    print(out)
+    print(err)
     assert "Requirement already satisified" not in str(out)
     assert code == 0
 
