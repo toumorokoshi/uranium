@@ -1,5 +1,6 @@
 from uranium.scripts import execute_script
 from .conftest import URANIUM_SOURCE_ROOT
+from uranium.config import Config
 
 
 def test_config_parameters(tmpdir):
@@ -18,3 +19,22 @@ def main(build):
     assert err.decode("UTF-8") == ""
     assert "test_key" in out.decode("UTF-8")
     assert "test_value" in out.decode("UTF-8")
+
+
+def test_set_defaults():
+    """
+    ensure set_defaults writes values under.
+    """
+    config = Config()
+    config.set_defaults({"env": "production"})
+    assert config["env"] == "production"
+
+
+def test_set_defaults_does_not_overwrite():
+    """
+    ensure set_defaults writes values under.
+    """
+    config = Config()
+    config["env"] = "develop"
+    config.set_defaults({"env": "production"})
+    assert config["env"] == "develop"

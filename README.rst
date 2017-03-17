@@ -14,7 +14,6 @@ for execution of arbitrary setup code for Python services. Examples
 include:
 
 * downloading and installing eggs in a sandbox (using virtualenv internally)
-* compiling and installing native c code.
 * downloading remote configuration
 * providing a framework for assembly configuration (e.g. differences
   between dev and test mode)

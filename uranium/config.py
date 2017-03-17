@@ -1,4 +1,5 @@
 from .exceptions import ConfigException
+from deepmerge import Merger
 
 
 class Config(dict):
@@ -9,7 +10,7 @@ class Config(dict):
     config acts as a dictionary, and should be accessed as such.
     """
 
-    def set_defaults(default_dict):
+    def set_defaults(self, default_dict):
         """
         as a convenience for setting multiple defaults, set_defaults will set
         keys that are not yet set to the values from default_dict.
@@ -20,6 +21,8 @@ class Config(dict):
                 "environment": "develop"
             })
         """
+        _merger.merge(default_dict, self)
+        self.update(default_dict)
 
 PROPER_FORMAT = """
 a properly formatted config argument has at least one colon. the first colon will split the key and the value.
@@ -43,3 +46,12 @@ def parse_confargs(config_arguments):
         config[key] = value
 
     return config
+
+_merger = Merger(
+    [
+        (list, ["override"]),
+        (dict, ["merge"])
+    ],
+    ["override"],
+    ["override"]
+)

@@ -1,8 +1,3 @@
-.. Uranium documentation master file, created by
-   sphinx-quickstart on Mon Nov 24 22:26:57 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Uranium: a Python Build System
 ==============================
 
@@ -20,8 +15,7 @@ pip, and is a good solution to problems that arise in large-scale
 assembly systems:
 
 * setting a version pin across multiple projects.
-* reusing common assembly tasks, such as downloading configuration, or
-  compiling native dependencies.
+* reusing common assembly tasks, such as downloading configuration
 * providing a simple configuration system that can be consumed by
   multiple projects.
 
@@ -62,6 +56,7 @@ Contents:
    packages
    options
    utils
+   faq
 
 
 Indices and tables

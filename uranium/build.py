@@ -11,7 +11,9 @@ from .tasks import Tasks
 from .environment_variables import EnvironmentVariables
 from .lib.script_runner import build_script, get_public_functions
 from .lib.asserts import get_assert_function
-from .exceptions import UraniumException, ScriptException
+from .exceptions import (
+    UraniumException, ScriptException, ExitCodeException
+)
 from .lib.sandbox.venv.activate_this import write_activate_this
 from .lib.sandbox import Sandbox
 from .lib.log_templates import STARTING_URANIUM, ENDING_URANIUM
@@ -148,7 +150,14 @@ class Build(object):
             except Exception as e:
                 LOGGER.exception("")
             finally:
-                self._finalize()
+                try:
+                    self._finalize()
+                except Exception as e:
+                    log_multiline(LOGGER, logging.ERROR,
+                                  "exception occurred on finalization:")
+                    LOGGER.debug("", exc_info=True)
+                    log_multiline(LOGGER, logging.ERROR, str(e))
+                    code = 1
                 log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
         finally:
             self._options = None
