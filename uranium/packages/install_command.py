@@ -1,4 +1,4 @@
-from pip.commands import InstallCommand
+from pip.commands import InstallCommand, UninstallCommand
 from pip.req.req_file import process_line
 from ..lib.compat import urlparse
 
@@ -56,6 +56,16 @@ def install(package_name, constraint_dict=None, **kwargs):
     command = UraniumInstallCommand()
     if constraint_dict:
         command.constraint_dict = constraint_dict
+    options, args = command.parse_args(args)
+    return command.run(options, args)
+
+
+def uninstall(package_name, **kwargs):
+    """
+    a convenience function to uninstall a package.
+    """
+    command = UninstallCommand()
+    args = ["--yes", package_name]
     options, args = command.parse_args(args)
     return command.run(options, args)
 
