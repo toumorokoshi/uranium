@@ -1,6 +1,6 @@
 from ..lib.asserts import get_assert_function
 from ..exceptions import PackageException
-from .install_command import install
+from .install_command import install, uninstall
 from .versions import Versions
 
 p_assert = get_assert_function(PackageException)
@@ -87,6 +87,16 @@ class Packages(object):
             for req in req_set.requirements.values():
                 if req.installed_version:
                     self.versions[req.name] = ("==" + req.installed_version)
+
+    def uninstall(self, package_name):
+        """
+        uninstall is used when uninstalling a python package from a environment.
+        """
+        p_assert(
+            self._is_package_already_installed(package_name, None),
+            "package {package} doesn't exist".format(package=package_name)
+        )
+        uninstall(package_name)
 
     @staticmethod
     def _is_package_already_installed(name, version):

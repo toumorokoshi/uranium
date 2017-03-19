@@ -15,6 +15,24 @@ def main(build):
     print("test")
 """.strip()
 
+URANIUM_PY_UNINSTALL = """
+def main(build):
+
+    build.packages.install("pyyaml")
+    import yaml
+    assert yaml is not None
+    build.packages.uninstall("pyyaml")
+
+    import importlib
+    try:
+        importlib.reload(yaml)
+        exist = True
+    except Exception:
+        exist = False
+
+    assert exist == False
+""".strip()
+
 from uranium.scripts import execute_script
 from .conftest import URANIUM_SOURCE_ROOT
 
@@ -22,6 +40,18 @@ from .conftest import URANIUM_SOURCE_ROOT
 def test_install(tmpdir):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(URANIUM_PY)
+    code, out, err = execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
+        cwd=tmpdir.strpath
+    )
+    print("stdout:\n" + str(out))
+    print("stderr:\n" + str(err))
+    assert code == 0
+
+
+def test_uninstall(tmpdir):
+    # we need to create a virtualenv
+    tmpdir.join("ubuild.py").write(URANIUM_PY_UNINSTALL)
     code, out, err = execute_script(
         "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
         cwd=tmpdir.strpath
