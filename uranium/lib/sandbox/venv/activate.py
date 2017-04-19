@@ -17,7 +17,9 @@ def activate_virtualenv(root):
 
     activate_this_path = os.path.join(root, 'bin', 'activate_this.py')
     with open(activate_this_path) as fh:
-        exec(fh.read(), {'__file__': activate_this_path}, {})
+        l = {"__file__": activate_this_path}
+        bytecode = compile(fh.read(), activate_this_path, "exec")
+        exec(bytecode, l, l)
     sys.exec_prefix = sys.prefix
     sys.base_exec_prefix = sys.prefix
 

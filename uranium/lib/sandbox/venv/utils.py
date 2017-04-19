@@ -3,6 +3,7 @@ import os
 import subprocess
 import sys
 import virtualenv
+from .activate_this import write_activate_this
 
 LOGGER = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ def install_virtualenv(install_dir):
         "--always-copy",
         install_dir
     ])
+    write_activate_this(install_dir)
 
 VIRTUALENV_FILES = {
     'activate file': os.path.join('bin', 'activate')
