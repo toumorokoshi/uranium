@@ -37,6 +37,8 @@ An example configuration looks like this:
         # into the sandbox:
         return subprocess.call(["py.test", "mytests"] + build.options.args)
 
+Uranium is compatible with python2, python3, and pypy
+
 Contents:
 
 .. toctree::
