@@ -4,7 +4,6 @@ python:
   - "2.7"
   - "3.5"
   - "3.6"
-  - "pypy-5.7.1"
-  - "pypy3-5.7.1"
+  - "pypy"
 
 script: "make test"
