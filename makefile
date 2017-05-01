@@ -1,5 +1,5 @@
 test:
-	./uranium/scripts/uranium_standalone --uranium-dir=. test ${ARGS} -v
+	./uranium/scripts/uranium_standalone --uranium-dir=. test ${ARGS} -v -sx
 
 build:
 	./uranium/scripts/uranium_standalone --uranium-dir=.

@@ -16,7 +16,9 @@ from .exceptions import (
 )
 from .lib.sandbox.venv.activate_this import write_activate_this
 from .lib.sandbox import Sandbox
-from .lib.log_templates import STARTING_URANIUM, ENDING_URANIUM
+from .lib.log_templates import (
+    STARTING_URANIUM, ENDING_URANIUM, ERRORED_URANIUM
+)
 from .lib.utils import log_multiline
 from .remote import get_remote_script
 from .app_globals import _build_proxy
@@ -158,7 +160,12 @@ class Build(object):
                     LOGGER.debug("", exc_info=True)
                     log_multiline(LOGGER, logging.ERROR, str(e))
                     code = 1
-                log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
+                if code:
+                    log_multiline(LOGGER, logging.ERROR,
+                                  "task returned error code {0}".format(code))
+                    log_multiline(LOGGER, logging.ERROR, ERRORED_URANIUM)
+                else:
+                    log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
         finally:
             self._options = None
             return code

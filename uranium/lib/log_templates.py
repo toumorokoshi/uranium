@@ -5,3 +5,7 @@ STARTING_URANIUM = """
 ENDING_URANIUM = """
 === URANIUM FINISHED ===
 """.strip()
+
+ERRORED_URANIUM = """
+=== URANIUM FAILED ===
+""".strip()

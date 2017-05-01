@@ -11,6 +11,7 @@ if "--release" in sys.argv:
 base = os.path.dirname(os.path.abspath(__file__))
 
 install_requires = [
+    "coloredlogs==6.1",
     "deepmerge==0.0.3",
     "docopt==0.6.2",
     "pip==9.0.1",

@@ -25,6 +25,7 @@ function name. You can also pass in as many arguments as you want,
 which are available in the build object as the build.options.task
 and build.options.args, respectively.
 """
+import coloredlogs
 import docopt
 import logging
 import os
@@ -60,7 +61,7 @@ def main(argv=sys.argv[1:]):
     try:
         return build.run(build_options)
     except UraniumException as e:
-        LOGGER.info("An error occurred: " + str(e))
+        LOGGER.error("An error occurred: " + str(e))
         return 1
 
 
@@ -69,15 +70,12 @@ def _create_stdout_logger(level):
     create a logger to stdout. This creates logger for a series
     of module we would like to log information on.
     """
-    out_hdlr = logging.StreamHandler(sys.stdout)
-    out_hdlr.setFormatter(logging.Formatter(
-        '[%(asctime)s] %(message)s', "%H:%M:%S"
-    ))
-    out_hdlr.setLevel(level)
     for name in LOGGING_NAMES:
         log = logging.getLogger(name)
-        log.addHandler(out_hdlr)
-        log.setLevel(level)
+        coloredlogs.install(level=level, logger=log,
+                            fmt="[%(asctime)s] %(message)s",
+                            datefmt="%H:%M:%S",
+                            stream=sys.stdout)
 
 
 def _print_tasks(build, script):
