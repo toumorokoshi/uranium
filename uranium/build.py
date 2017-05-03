@@ -61,38 +61,91 @@ class Build(object):
 
     @property
     def config(self):
+        """
+        :return: a uranium.config.Config object
+
+        this is a generic dict to store / retrieve config data
+        that tasks may find valuable
+        """
         return self._config
 
     @property
     def envvars(self):
+        """
+        :return: a uranium.environment_variables.EnvironmentVariables object
+
+        this is an interface to the environment variables of the
+        sandbox.  variables modified here will be preserved when
+        executing entry points in the sandbox.
+        """
         return self._envvars
 
     @property
     def executables(self):
+        """
+        :return: uranium.executables.Executables
+
+        an interface to execute scripts
+        """
         return self._executables
 
     @property
     def hooks(self):
+        """
+        :return: uranium.hooks.Hooks
+
+        provides hooks to attach functions to be executed during
+        various phases of Uranium (like initializiation and finalization)
+        """
         return self._hooks
 
     @property
     def history(self):
+        """
+        :return: uranium.history.History
+
+        a dictionary that can contain basic data structures, that is
+        preserved across executions.
+
+        ideal for storing state, such as if a file was already downloaded.
+        """
         return self._history
 
     @property
     def options(self):
+        """
+        :return: uranium.options.Options
+
+        an interface to arguments passed into the uranium command line.
+        """
         return self._options
 
     @property
     def packages(self):
+        """
+        :return: uranium.packages.Packages
+
+        an interface to the python packages currently installed.
+        """
         return self._packages
 
     @property
     def root(self):
+        """
+        :return: str
+
+        returns the root of the uranium build.
+        """
         return self._root
 
     @property
     def tasks(self):
+        """
+        :return: uranium.tasks.Tasks
+
+        an interface to the tasks that uranium has registered,
+        or has discovered in the ubuild.py
+        """
         return self._tasks
 
     def as_current_build(self):

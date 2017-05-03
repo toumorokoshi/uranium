@@ -46,6 +46,7 @@ Contents:
 
    installation
    tutorial
+   build
    examples
    cookbook/cookbook
    config
