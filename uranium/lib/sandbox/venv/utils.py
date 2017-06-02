@@ -19,7 +19,6 @@ def install_virtualenv(install_dir):
         sys.executable,
         virtualenv.__file__.rstrip("c"),
         "--no-site-packages",
-        "--no-pip",
         "--always-copy",
         install_dir
     ])

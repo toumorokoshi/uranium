@@ -17,7 +17,7 @@ install_requires = [
     "pip==9.0.1",
     "requests==2.13.0",
     "setuptools==35.0.1",
-    "virtualenv==15.1.0"
+    "virtualenv==15.1.0",
 ]
 
 tests_require = [
