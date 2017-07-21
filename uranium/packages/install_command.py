@@ -1,5 +1,7 @@
+import pkg_resources
 from pip.commands import InstallCommand, UninstallCommand
 from pip.req.req_file import process_line
+from ..exceptions import PackageException
 from ..lib.compat import urlparse
 
 
@@ -100,6 +102,12 @@ def _create_args(package_name, upgrade=False, develop=False,
 
     requirement = package_name
     if version:
-        requirement += version
+        versioned_requirement = requirement + version
+        if not pkg_resources.Requirement.parse(versioned_requirement).specs:
+            raise PackageException(
+                "Cannot parse requirement for package %s. " % requirement +
+                "Invalid version specifier: %s." % version
+            )
+        requirement = versioned_requirement
     args.append(requirement)
     return args
