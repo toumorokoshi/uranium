@@ -9,6 +9,7 @@ base = os.path.join(bin_directory, os.pardir)
 {body}
 """.strip()
 import os
+import signal
 import stat
 import subprocess
 import sys
@@ -69,7 +70,7 @@ class Executables(object):
         try:
             out, err = popen.communicate()
         except KeyboardInterrupt:
-            os.kill(popen.pid)
+            os.kill(popen.pid, signal.SIGINT)
         exit_code = popen.returncode
 
         if exit_code != 0 and fail_on_error:
