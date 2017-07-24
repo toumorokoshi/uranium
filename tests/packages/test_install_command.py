@@ -1,3 +1,5 @@
+import pytest
+from uranium.exceptions import PackageException
 from uranium.packages.install_command import _create_args
 
 
@@ -26,3 +28,14 @@ def test_create_args_includes_install_options():
         "--install-option", "--install-lib=/opt/srv/lib",
         "pytest"
     ]
+
+
+def test_create_args_raises_on_invalid_version():
+    with pytest.raises(PackageException) as exc:
+        _create_args("pytest", version="3.1.3")
+    assert "Invalid version specifier" in str(exc)
+
+
+def test_create_args_accepts_valid_version():
+    args = _create_args("pytest", version=">=3.1.3")
+    assert args == ["pytest>=3.1.3"]

@@ -61,6 +61,9 @@ class Packages(object):
         install is used when installing a python package into the environment.
 
         if version is set, the specified version of the package will be installed.
+        The specified version should be a full `PEP 440`_ version specifier (i.e. "==1.2.0")
+
+        .. _`PEP 440`: https://www.python.org/dev/peps/pep-0440/
 
         if develop is set to True, the package will be installed as editable: the source
         in the directory passed will be used when using that package.
