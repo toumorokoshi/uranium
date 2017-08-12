@@ -12,7 +12,7 @@ def activate_virtualenv(root):
     if sys.prefix == root:
         return
 
-    site_package_dirs = ["site-packages"]
+    site_package_dirs = [_get_site_packages(sys.prefix)]
     sys.path = [p for p in sys.path if "site-packages" not in p]
 
     activate_this_path = os.path.join(root, 'bin', 'activate_this.py')
@@ -53,6 +53,7 @@ def _clean_package_resources(_pkg_resources, old_prefix):
     for name, req in list(_pkg_resources.working_set.by_key.items()):
         if old_prefix in req.location:
             del _pkg_resources.working_set.by_key[name]
+    _pkg_resources._initialize_master_working_set()
 
     # ensure that pkg_resources only searches the
     # existing sys.path. These variables are set on
@@ -73,3 +74,21 @@ def _load_distutils(root):
                     "__file__": p,
                     "__path__": []
                 })
+
+
+def _get_site_packages(base):
+    """
+    try a variety of site package directories, finding one that works.
+    """
+    paths_to_try = [
+        # typically win32
+        os.path.join(base, 'Lib', 'site-packages'),
+        # standard
+        os.path.join(base, 'lib', 'python%s' % sys.version[:3], 'site-packages'),
+        # typically pypy
+        os.path.join(base, 'site-packages'),
+    ]
+    for p in paths_to_try:
+        if os.path.isdir(p):
+            return p
+    return os.path.join(base, 'lib', 'python%s' % sys.version[:3], 'site-packages'),
