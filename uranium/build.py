@@ -49,7 +49,8 @@ class Build(object):
         self._root = root
         self._executables = Executables(root)
         self._hooks = Hooks()
-        self._packages = Packages()
+        virtualenv_dir = root if with_sandbox else None
+        self._packages = Packages(virtualenv_dir=virtualenv_dir)
         self._tasks = Tasks()
         self._envvars = EnvironmentVariables()
         self._options = None

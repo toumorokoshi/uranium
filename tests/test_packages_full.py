@@ -122,3 +122,33 @@ def main(build):
     print("stdout:\n" + str(out))
     print("stderr:\n" + str(err))
     assert code == 0
+
+
+def test_executable_relocatable_after_install(tmpdir):
+    """
+    an executable installed from a package should be
+    using the virtualenv relocatable version.
+    """
+
+    UBUILD = """
+import os
+
+def main(build):
+
+    build.packages.install("tox")
+    nose_path = os.path.join(build.root, "bin", "tox")
+    with open(nose_path) as fh:
+        contents = fh.read()
+    print(contents)
+    assert build.root not in contents
+""".strip()
+
+    # we need to create a virtualenv
+    tmpdir.join("ubuild.py").write(UBUILD)
+    code, out, err = execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
+        cwd=tmpdir.strpath
+    )
+    print("stdout:\n" + str(out))
+    print("stderr:\n" + str(err))
+    assert code == 0
