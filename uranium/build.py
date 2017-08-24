@@ -44,7 +44,7 @@ class Build(object):
     URANIUM_CACHE_DIR = ".uranium"
     HISTORY_NAME = "history.json"
 
-    def __init__(self, root, config=None, with_sandbox=True):
+    def __init__(self, root, config=None, with_sandbox=True, cache_requests=True):
         self._config = config or Config()
         self._root = root
         self._executables = Executables(root)
@@ -54,7 +54,7 @@ class Build(object):
         self._tasks = Tasks()
         self._envvars = EnvironmentVariables()
         self._options = None
-        self._cache_requests = False
+        self._cache_requests = cache_requests
         self._history = History(
             os.path.join(self._root, self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
         )
