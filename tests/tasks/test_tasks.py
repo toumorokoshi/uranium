@@ -109,3 +109,13 @@ def test_donot_run_append_if_current_command_fails(tmpdir, build):
     t.append(bar, foo)
     assert t.run("bar", build) == 1
     assert x == ["bar"]
+
+
+def test_non_integer_result_types_are_considered_passing(tmpdir, build):
+    t = Tasks()
+
+    def foo(build):
+        return "oogecuaenuc"
+
+    t.add(foo)
+    assert t.run("foo", build) == 0

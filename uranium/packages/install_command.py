@@ -1,5 +1,7 @@
-from pip.commands import InstallCommand
+import pkg_resources
+from pip.commands import InstallCommand, UninstallCommand
 from pip.req.req_file import process_line
+from ..exceptions import PackageException
 from ..lib.compat import urlparse
 
 
@@ -60,6 +62,16 @@ def install(package_name, constraint_dict=None, **kwargs):
     return command.run(options, args)
 
 
+def uninstall(package_name, **kwargs):
+    """
+    a convenience function to uninstall a package.
+    """
+    command = UninstallCommand()
+    args = ["--yes", package_name]
+    options, args = command.parse_args(args)
+    return command.run(options, args)
+
+
 def _get_netloc(url):
     parsed_url = urlparse(url)
     return parsed_url.netloc
@@ -90,6 +102,12 @@ def _create_args(package_name, upgrade=False, develop=False,
 
     requirement = package_name
     if version:
-        requirement += version
+        versioned_requirement = requirement + version
+        if not pkg_resources.Requirement.parse(versioned_requirement).specs:
+            raise PackageException(
+                "Cannot parse requirement for package %s. " % requirement +
+                "Invalid version specifier: %s." % version
+            )
+        requirement = versioned_requirement
     args.append(requirement)
     return args

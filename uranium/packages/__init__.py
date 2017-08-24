@@ -1,7 +1,8 @@
 from ..lib.asserts import get_assert_function
 from ..exceptions import PackageException
-from .install_command import install
+from .install_command import install, uninstall
 from .versions import Versions
+import virtualenv
 
 p_assert = get_assert_function(PackageException)
 
@@ -16,7 +17,8 @@ class Packages(object):
     mutable: updating them will take immediate effect.
     """
 
-    def __init__(self):
+    def __init__(self, virtualenv_dir=None):
+        self._virtualenv_dir = virtualenv_dir
         self._versions = Versions()
         self._index_urls = list(DEFAULT_INDEX_URLS)
 
@@ -61,6 +63,9 @@ class Packages(object):
         install is used when installing a python package into the environment.
 
         if version is set, the specified version of the package will be installed.
+        The specified version should be a full `PEP 440`_ version specifier (i.e. "==1.2.0")
+
+        .. _`PEP 440`: https://www.python.org/dev/peps/pep-0440/
 
         if develop is set to True, the package will be installed as editable: the source
         in the directory passed will be used when using that package.
@@ -87,6 +92,22 @@ class Packages(object):
             for req in req_set.requirements.values():
                 if req.installed_version:
                     self.versions[req.name] = ("==" + req.installed_version)
+        # if virtualenv dir is set, we should make the environment relocatable.
+        # this will fix issues with commands not being usable by the
+        # uranium via build.executables.run
+        if self._virtualenv_dir:
+            virtualenv.make_environment_relocatable(self._virtualenv_dir)
+
+
+    def uninstall(self, package_name):
+        """
+        uninstall is used when uninstalling a python package from a environment.
+        """
+        p_assert(
+            self._is_package_already_installed(package_name, None),
+            "package {package} doesn't exist".format(package=package_name)
+        )
+        uninstall(package_name)
 
     @staticmethod
     def _is_package_already_installed(name, version):

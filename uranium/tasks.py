@@ -47,8 +47,9 @@ class Tasks(dict):
             with build.as_current_build():
                 self._execute_prepends_for(name, build)
                 result = func(build)
-                if result is not None and result != 0:
-                    raise ExitCodeException(name, int(result))
+                result = _coerce_to_int(name, result)
+                if result != 0:
+                    raise ExitCodeException(name, result)
                 self._execute_appends_for(name, build)
 
     def _execute_prepends_for(self, task_name, build):
@@ -81,3 +82,17 @@ def _extract_name(name_or_func):
     if is_callable(name_or_func):
         return name_or_func.__name__
     return name_or_func
+
+
+def _coerce_to_int(task_name, maybe_int):
+    if maybe_int is None:
+        maybe_int = 0
+    try:
+        maybe_int = int(maybe_int)
+    except ValueError:
+        LOGGER.warn(
+            "non-integer or none result received from task '{0}'".format(task_name) +
+            ". Non-integer results are not valid and default to passing."
+        )
+        maybe_int = 0
+    return maybe_int

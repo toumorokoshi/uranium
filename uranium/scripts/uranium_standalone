@@ -6,8 +6,8 @@
 
 VENV_URL = "https://pypi.python.org/packages/source/v/virtualenv/virtualenv-{major}.{minor}.{rev}.tar.gz"
 VENV_MAJOR = 15
-VENV_MINOR = 0
-VENV_REV = 2
+VENV_MINOR = 1
+VENV_REV = 0
 FALLBACK_URL = "https://github.com/pypa/virtualenv/archive/{major}.{minor}.{rev}.tar.gz"
 
 import io

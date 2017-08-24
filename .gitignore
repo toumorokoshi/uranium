@@ -81,3 +81,8 @@ lib/
 .pydistutils.cfg
 .coverage*
 VERSION
+
+
+**/site-packages/**
+**/lib-python/**
+**/lib_pypy/**

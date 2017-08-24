@@ -16,13 +16,28 @@ import os
 
 base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+def _get_site_packages():
+    """
+    try a variety of site package directories, finding one that works.
+    """
+    paths_to_try = [
+        # typically win32
+        os.path.join(base, 'Lib', 'site-packages'),
+        # standard
+        os.path.join(base, 'lib', 'python%s' % sys.version[:3], 'site-packages'),
+        # typically pypy
+        os.path.join(base, 'site-packages'),
+    ]
+    for p in paths_to_try:
+        if os.path.isdir(p):
+            return p
+    return os.path.join(base, 'lib', 'python%s' % sys.version[:3], 'site-packages'),
+
+
 old_os_path = os.environ.get('PATH', '')
 os.environ['PATH'] = os.path.dirname(os.path.abspath(__file__)) + os.pathsep + old_os_path
-if sys.platform == 'win32':
-    site_packages = os.path.join(base, 'Lib', 'site-packages')
-else:
-    site_packages = os.path.join(base, 'lib', 'python%s' % sys.version[:3], 'site-packages')
 prev_sys_path = list(sys.path)
+site_packages = _get_site_packages()
 import site
 site.addsitedir(site_packages)
 if not hasattr(sys, "real_prefix"):
