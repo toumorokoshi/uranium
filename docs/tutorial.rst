@@ -26,7 +26,7 @@ python wrapper around the uranium library that handles the following:
 
 You can get the uranium script here:
 
-https://raw.githubusercontent.com/toumorokoshi/uranium/master/scripts/uranium
+https://raw.githubusercontent.com/toumorokoshi/uranium/master/uranium/scripts/uranium
 
 You should download a copy and add the script into the root directory:
 
