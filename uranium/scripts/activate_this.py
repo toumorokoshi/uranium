@@ -31,7 +31,7 @@ def _get_site_packages():
     for p in paths_to_try:
         if os.path.isdir(p):
             return p
-    return os.path.join(base, 'lib', 'python%s' % sys.version[:3], 'site-packages'),
+    return os.path.join(base, 'lib', 'python%s' % sys.version[:3], 'site-packages')
 
 
 old_os_path = os.environ.get('PATH', '')
