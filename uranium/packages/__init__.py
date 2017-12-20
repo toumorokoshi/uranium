@@ -97,7 +97,11 @@ class Packages(object):
         # uranium via build.executables.run
         if self._virtualenv_dir:
             virtualenv.make_environment_relocatable(self._virtualenv_dir)
-
+        if develop:
+            # there's a caveat that requires the site packages to be reloaded,
+            # if the package is a develop package. This is to enable
+            # immediately consuming the package after install.
+            self._reimport_site_packages()
 
     def uninstall(self, package_name):
         """
@@ -108,6 +112,12 @@ class Packages(object):
             "package {package} doesn't exist".format(package=package_name)
         )
         uninstall(package_name)
+
+    @staticmethod
+    def _reimport_site_packages():
+        import site, sys
+        for path in (p for p in sys.path if "site-packages" in p):
+            site.addsitedir(path)
 
     @staticmethod
     def _is_package_already_installed(name, version):
