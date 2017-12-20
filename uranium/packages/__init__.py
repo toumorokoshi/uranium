@@ -97,11 +97,10 @@ class Packages(object):
         # uranium via build.executables.run
         if self._virtualenv_dir:
             virtualenv.make_environment_relocatable(self._virtualenv_dir)
-        if develop:
-            # there's a caveat that requires the site packages to be reloaded,
-            # if the package is a develop package. This is to enable
-            # immediately consuming the package after install.
-            self._reimport_site_packages()
+        # there's a caveat that requires the site packages to be reloaded,
+        # if the package is a develop package. This is to enable
+        # immediately consuming the package after install.
+        self._reimport_site_packages()
 
     def uninstall(self, package_name):
         """
