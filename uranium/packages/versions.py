@@ -1,4 +1,5 @@
 from collections import MutableMapping
+from packaging.specifiers import SpecifierSet
 
 
 class Versions(MutableMapping):
@@ -28,3 +29,14 @@ class Versions(MutableMapping):
     @staticmethod
     def _clean_key(key):
         return str(key).lower()
+
+    def __and__(self, other):
+        """
+        join version specifiers, consuming a mapping object.
+        """
+        for k, v in other.items():
+            if k in self._values:
+                self._values[k] = str(SpecifierSet(self._values[k]) & v)
+            else:
+                self._values[k] = v
+        return self

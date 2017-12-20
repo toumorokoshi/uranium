@@ -1,5 +1,6 @@
 import pytest
 from uranium.packages.versions import Versions
+from packaging.specifiers import SpecifierSet
 
 
 @pytest.fixture
@@ -43,3 +44,12 @@ def test_delete_coerce_lowercase(versions):
         "SQLAlchemy": "==1.0.11"
     })
     del versions["SQLAlchemy"]
+
+
+def test_and_operator(versions):
+    """
+    the and operator should work for dictionaries
+    """
+    versions["foo"] = ">1.0"
+    versions &= {"foo": "<1.1"}
+    assert SpecifierSet(versions["foo"]) == SpecifierSet(">1.0,<1.1")
