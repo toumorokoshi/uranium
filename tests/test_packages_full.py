@@ -33,8 +33,13 @@ def main(build):
     assert exist == False
 """.strip()
 
+import os
 from uranium.scripts import execute_script
 from .conftest import URANIUM_SOURCE_ROOT
+
+EXAMPLE_PACKAGE_PATH = os.path.join(
+    os.path.dirname(__file__), "example_package"
+)
 
 
 def test_install(tmpdir):
@@ -142,6 +147,31 @@ def main(build):
     print(contents)
     assert build.root not in contents
 """.strip()
+
+    # we need to create a virtualenv
+    tmpdir.join("ubuild.py").write(UBUILD)
+    code, out, err = execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
+        cwd=tmpdir.strpath
+    )
+    print("stdout:\n" + str(out))
+    print("stderr:\n" + str(err))
+    assert code == 0
+
+
+def test_develop_package_imports(tmpdir):
+    """
+    a develop package should be importable immediately after installation
+    """
+
+    UBUILD = """
+import os
+
+def main(build):
+
+    build.packages.install("{package}", develop=True)
+    import example
+""".format(package=EXAMPLE_PACKAGE_PATH).strip()
 
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(UBUILD)
