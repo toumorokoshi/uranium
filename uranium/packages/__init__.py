@@ -21,6 +21,7 @@ class Packages(object):
         self._virtualenv_dir = virtualenv_dir
         self._versions = Versions()
         self._index_urls = list(DEFAULT_INDEX_URLS)
+        self.config = {}
 
     @property
     def versions(self):
@@ -86,6 +87,7 @@ class Packages(object):
         req_set = install(
             name, upgrade=upgrade, develop=develop, version=version,
             index_urls=self.index_urls, constraint_dict=self.versions,
+            packages_config=self.config,
             install_options=install_options
         )
         if req_set:

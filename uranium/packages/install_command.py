@@ -1,8 +1,21 @@
+import functools
 import pkg_resources
+import types
 from pip.commands import InstallCommand, UninstallCommand
+from pip.req.req_install import InstallRequirement
 from pip.req.req_file import process_line
 from ..exceptions import PackageException
 from ..lib.compat import urlparse
+
+
+def requirement_install(self, config, install_options, *args, **kwargs):
+    '''
+    Package installation method wrapper that applies custom install options if
+    provided
+    '''
+    if config:
+        install_options = config.get('install_options', install_options)
+    return InstallRequirement.install(self, install_options, *args, **kwargs)
 
 
 class UraniumInstallCommand(InstallCommand):
@@ -18,6 +31,7 @@ class UraniumInstallCommand(InstallCommand):
         InstallCommand.populate_requirement_set(
             requirement_set, args, options, finder, session, name, wheel_cache
         )
+        packages_config = getattr(self, "packages_config", {})
         # add our constraints.
         if hasattr(self, "constraint_dict"):
             for package_name, specifier in self.constraint_dict.items():
@@ -29,6 +43,12 @@ class UraniumInstallCommand(InstallCommand):
                         options=options, session=session,
                         wheel_cache=wheel_cache, constraint=True
                 ):
+                    if packages_config and req.name in packages_config:
+                        # Wrap the requirement's install method so we can
+                        # apply custom install options if provided
+                        req.install = functools.partial(
+                            types.MethodType(requirement_install, req),
+                            packages_config.get(req.name))
                     try:
                         existing_req = requirement_set.get_requirement(
                             package_name)
@@ -44,7 +64,8 @@ class UraniumInstallCommand(InstallCommand):
                     requirement_set.requirements._keys.remove(name)
 
 
-def install(package_name, constraint_dict=None, **kwargs):
+def install(package_name, constraint_dict=None, packages_config=None,
+            **kwargs):
     """
     a convenience function to create and use an
     install command to install a package.
@@ -54,6 +75,8 @@ def install(package_name, constraint_dict=None, **kwargs):
     command = UraniumInstallCommand()
     if constraint_dict:
         command.constraint_dict = constraint_dict
+    if packages_config:
+        command.packages_config = packages_config
     options, args = command.parse_args(args)
     return command.run(options, args)
 
