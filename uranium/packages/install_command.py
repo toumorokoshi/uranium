@@ -12,10 +12,6 @@ class UraniumInstallCommand(InstallCommand):
 
     * constraints
     """
-    def parse_and_run(self, args):
-        options, args = self.parse_args(args)
-        self.run(options, args)
-
     def populate_requirement_set(self, requirement_set, args, options,
                                  finder, session, name, wheel_cache):
         # add all of the standard reqs first.
