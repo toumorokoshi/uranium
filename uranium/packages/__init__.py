@@ -92,8 +92,19 @@ class Packages(object):
         )
         if req_set:
             for req in req_set.requirements.values():
-                if req.installed_version:
-                    self.versions[req.name] = ("==" + req.installed_version)
+                # Don't examine packages that weren't modified
+                if not req.install_succeeded:
+                    continue
+                # Retrieving a package's installed version is time consuming.
+                # Prefer the calculated package specifier if available, and use
+                # the installed version if not.
+                new_constraint = str(req.specifier) if req.specifier else None
+                if not new_constraint:
+                    installed_version = req.installed_version
+                    if installed_version:
+                        new_constraint = '=={}'.format(installed_version)
+                if new_constraint:
+                    self.versions[req.name] = new_constraint
         # if virtualenv dir is set, we should make the environment relocatable.
         # this will fix issues with commands not being usable by the
         # uranium via build.executables.run
