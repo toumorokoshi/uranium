@@ -15,9 +15,9 @@ install_requires = [
     "deepmerge==0.0.3",
     "docopt==0.6.2",
     "pip==9.0.1",
-    "requests==2.13.0",
-    "setuptools==35.0.1",
     "virtualenv==15.1.0",
+    "pipenv==9.1.0",
+    "pex==1.3.1"
 ]
 
 tests_require = [
@@ -46,7 +46,8 @@ setup(name='uranium',
       ],
       entry_points={
           'console_scripts': [
-              'uranium=uranium.main:main'
+              'uranium=uranium.pipenv:main',
+              'uranium_classic=uranium.main:main'
           ],
       },
       tests_require=tests_require
