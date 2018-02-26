@@ -1,4 +1,5 @@
 from ..lib.asserts import get_assert_function
+from ..lib.compat import invalidate_cache
 from ..exceptions import PackageException
 from .install_command import install, uninstall
 from .versions import Versions
@@ -114,6 +115,10 @@ class Packages(object):
         # if the package is a develop package. This is to enable
         # immediately consuming the package after install.
         self._reimport_site_packages()
+        # invalidate the finder's cache, to ensure new modules are
+        # picked up
+        invalidate_cache()
+
 
     def uninstall(self, package_name):
         """

@@ -4,6 +4,7 @@ A bunch of compat mappings.
 This helps catalog python 2 and 3 differences,
 so they can be removed if at some point in 2050.
 """
+import importlib
 import sys
 
 is_py3 = sys.version_info[0:2] >= (3, 0)
@@ -29,3 +30,12 @@ if is_py3:
     str_type = str
 else:
     str_type = basestring
+
+
+if is_py3:
+    import importlib
+    def invalidate_cache():
+        importlib.invalidate_cache()
+else:
+    def invalidate_cache():
+        pass # functionality does not exist in python 2
