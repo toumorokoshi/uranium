@@ -1,5 +1,5 @@
 from ..lib.asserts import get_assert_function
-from ..lib.compat import invalidate_cache
+from ..lib.compat import invalidate_caches
 from ..exceptions import PackageException
 from .install_command import install, uninstall
 from .versions import Versions
@@ -117,7 +117,7 @@ class Packages(object):
         self._reimport_site_packages()
         # invalidate the finder's cache, to ensure new modules are
         # picked up
-        invalidate_cache()
+        invalidate_caches()
 
 
     def uninstall(self, package_name):

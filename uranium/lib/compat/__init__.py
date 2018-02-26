@@ -34,8 +34,8 @@ else:
 
 if is_py3:
     import importlib
-    def invalidate_cache():
-        importlib.invalidate_cache()
+    def invalidate_caches():
+        importlib.invalidate_caches()
 else:
-    def invalidate_cache():
+    def invalidate_caches():
         pass # functionality does not exist in python 2
