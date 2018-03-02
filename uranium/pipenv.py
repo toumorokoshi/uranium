@@ -3,6 +3,9 @@ For this to work, I'll need:
 
 * a way to pass constraints into pipenv. As pipenv resolves dependencies,
 it needs to match concrete's platform_versions. No easy way to hook that ATM.
+
+* a way to satisfy install arguments for specific binaries.
+* a way to install binaries... seriously?
 """
 
 
