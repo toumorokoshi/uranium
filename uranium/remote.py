@@ -21,7 +21,10 @@ def get_remote_script(url, local_vars=None, cache_dir=None,
             refresh_cache=refresh_cache
         )
     else:
-        body = requests.get(url).text
+        if os.path.isfile(url):
+            body = open(url, 'r').read()
+        else:
+            body = requests.get(url).text
     script_locals = {}
     script_locals.update(local_vars)
     exec(body, script_locals)
