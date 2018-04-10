@@ -20,6 +20,22 @@ def main(build):
     assert "test_value" in out.decode("UTF-8")
 
 
+def test_config_nested_dict_parameters(tmpdir):
+    """
+    configuration parameters passed into the command line should
+    become available in the build.config object.
+    """
+    tmpdir.join("ubuild.py").write("""
+def main(build):
+    print(build.config)
+    """.strip())
+    status, out, err = execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, "-c", "test_key_out.test_key_in:test_value",
+        cwd=tmpdir.strpath
+    )
+    assert "{'test_key_out': {'test_key_in': 'test_value'}}" in out.decode("UTF-8")
+
+
 def test_set_defaults():
     """
     ensure set_defaults writes values under.
