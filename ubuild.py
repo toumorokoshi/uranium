@@ -38,3 +38,8 @@ def publish(build):
         "python", "setup.py",
         "bdist_wheel", "--universal", "upload", "--release"
     ])
+
+
+def test_package(build):
+    build.packages.install("./tests/example_package", develop=True)
+    import example

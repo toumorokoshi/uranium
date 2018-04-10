@@ -20,7 +20,6 @@ def test_task_overrides_ubuild(tmpdir):
         cwd=tmpdir.strpath
     )
 
-    assert "" == err.decode("utf-8")
     assert "ubuild.py" not in out.decode("utf-8")
     assert "task" in out.decode("utf-8")
 

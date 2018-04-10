@@ -1,4 +1,5 @@
 from ..lib.asserts import get_assert_function
+from ..lib.compat import invalidate_caches
 from ..exceptions import PackageException
 from .install_command import install, uninstall
 from .versions import Versions
@@ -21,6 +22,7 @@ class Packages(object):
         self._virtualenv_dir = virtualenv_dir
         self._versions = Versions()
         self._index_urls = list(DEFAULT_INDEX_URLS)
+        self.config = {}
 
     @property
     def versions(self):
@@ -86,17 +88,36 @@ class Packages(object):
         req_set = install(
             name, upgrade=upgrade, develop=develop, version=version,
             index_urls=self.index_urls, constraint_dict=self.versions,
+            packages_config=self.config,
             install_options=install_options
         )
         if req_set:
             for req in req_set.requirements.values():
-                if req.installed_version:
-                    self.versions[req.name] = ("==" + req.installed_version)
+                # Don't examine packages that weren't modified
+                if not req.install_succeeded:
+                    continue
+                # Retrieving a package's installed version is time consuming.
+                # Prefer the calculated package specifier if available, and use
+                # the installed version if not.
+                new_constraint = str(req.specifier) if req.specifier else None
+                if not new_constraint:
+                    installed_version = req.installed_version
+                    if installed_version:
+                        new_constraint = '=={}'.format(installed_version)
+                if new_constraint:
+                    self.versions[req.name] = new_constraint
         # if virtualenv dir is set, we should make the environment relocatable.
         # this will fix issues with commands not being usable by the
         # uranium via build.executables.run
         if self._virtualenv_dir:
             virtualenv.make_environment_relocatable(self._virtualenv_dir)
+        # there's a caveat that requires the site packages to be reloaded,
+        # if the package is a develop package. This is to enable
+        # immediately consuming the package after install.
+        self._reimport_site_packages()
+        # invalidate the finder's cache, to ensure new modules are
+        # picked up
+        invalidate_caches()
 
 
     def uninstall(self, package_name):
@@ -108,6 +129,12 @@ class Packages(object):
             "package {package} doesn't exist".format(package=package_name)
         )
         uninstall(package_name)
+
+    @staticmethod
+    def _reimport_site_packages():
+        import site, sys
+        for path in (p for p in sys.path if "site-packages" in p):
+            site.addsitedir(path)
 
     @staticmethod
     def _is_package_already_installed(name, version):
