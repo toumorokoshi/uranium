@@ -8,6 +8,14 @@ class Config(dict):
     values passed into the Uranium build.
 
     config acts as a dictionary, and should be accessed as such.
+
+    The current configuration is serialized to and from yaml, during
+    the start and stop of uranium, respectively. As such, only primitive
+    types such as arrays, dictionaries, strings, float, int, bool are supported.
+
+    The command line of uranium supports a dotted notation to modify
+    nested values of the config object. To ensure that there is no ambiguity,
+    it's best to keep all key names without any periods.
     """
 
     def set_defaults(self, default_dict):
