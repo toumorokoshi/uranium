@@ -28,6 +28,7 @@ PROPER_FORMAT = """
 a properly formatted config argument has at least one colon. the first colon will split the key and the value.
 
 e.g. a:b -> a == key, b == value
+     a.b:c -> {'a': {'b': 'c'}}
 """.strip()
 
 
@@ -43,9 +44,19 @@ def parse_confargs(config_arguments):
                 arg, PROPER_FORMAT
             ))
         key, value = arg.split(":", 1)
-        config[key] = value
+        _set_config(config, key, value)
 
     return config
+
+
+def _set_config(config, key, value):
+    keys = key.split(".")
+    if len(keys) == 1:
+        config[key] = value
+    else:
+        config[keys[0]] = {}
+        _set_config(config[keys[0]], key[len(keys[0])+1:], value)
+
 
 _merger = Merger(
     [
