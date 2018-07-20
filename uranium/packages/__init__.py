@@ -3,6 +3,7 @@ from ..lib.compat import invalidate_caches
 from ..exceptions import PackageException
 from .install_command import install, uninstall
 from .versions import Versions
+import os
 import virtualenv
 
 p_assert = get_assert_function(PackageException)
@@ -134,7 +135,8 @@ class Packages(object):
     def _reimport_site_packages():
         import site, sys
         for path in (p for p in sys.path if "site-packages" in p):
-            site.addsitedir(path)
+            if os.path.isdir(path):
+                site.addsitedir(path)
 
     @staticmethod
     def _is_package_already_installed(name, version):

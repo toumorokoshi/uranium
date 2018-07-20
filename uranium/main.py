@@ -10,7 +10,7 @@ Options:
   -h, --help        show this usage guide
   -v, --verbose     show verbose output
   -p <build_file>, --path <build_file>  the build file to use.
-  -c <confarg>,  --confarg <confarg> a configuration value to set.
+  -c <confarg>,  --confarg <confarg> a configuration value to set. The syntax is <config_key>:<value>
   --tasks           list all the tasks available in a build file.
   <task>       the task to execute (defaults to "main")
 
