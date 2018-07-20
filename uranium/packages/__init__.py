@@ -76,8 +76,6 @@ class Packages(object):
         if install_options is provided, it should be a list of options, like
         ["--prefix=/opt/srv", "--install-lib=/opt/srv/lib"]
         """
-        if self._is_package_already_installed(name, version):
-            return
         p_assert(
             not (develop and version),
             "unable to set both version and develop flags when installing packages"
@@ -86,6 +84,8 @@ class Packages(object):
             if version is None:
                 version = self.versions[name]
             del self.versions[name]
+        if self._is_package_already_installed(name, version):
+            return
         req_set = install(
             name, upgrade=upgrade, develop=develop, version=version,
             index_urls=self.index_urls, constraint_dict=self.versions,
