@@ -54,6 +54,29 @@ def test_install(tmpdir):
     assert code == 0
 
 
+def test_install_with_version_dict_updated(tmpdir):
+    UBUILD = """
+def main(build):
+
+    build.packages.install("requests", version="==2.15.1")
+    build.packages.versions["requests"] = "==2.18.0"
+    build.packages.install("requests")
+    print(build.packages.versions["requests"])
+
+    import pkg_resources
+    pkg_resources.get_distribution("requests==2.18.0")
+""".strip()
+
+    tmpdir.join("ubuild.py").write(UBUILD)
+    code, out, err = execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
+        cwd=tmpdir.strpath
+    )
+
+    assert code == 0
+    assert "2.18.0" in out.decode("utf-8")
+
+
 def test_uninstall(tmpdir):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(URANIUM_PY_UNINSTALL)
