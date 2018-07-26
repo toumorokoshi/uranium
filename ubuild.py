@@ -34,9 +34,13 @@ def build_docs(build):
 def publish(build):
     """ distribute the uranium package """
     build.packages.install("wheel")
+    build.packages.install("twine")
     build.executables.run([
         "python", "setup.py",
-        "bdist_wheel", "--universal", "upload", "--release"
+        "bdist_wheel", "--universal", "--release"
+    ])
+    build.executables.run([
+        "twine", "upload", "dist/*"
     ])
 
 
