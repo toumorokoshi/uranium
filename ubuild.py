@@ -9,7 +9,7 @@ def main(build):
 @task_requires("main")
 def test(build):
     """ execute tests """
-    build.packages.install("pytest", version="==2.9.2")
+    build.packages.install("pytest", version="==4.6.3")
     build.packages.install("pytest-cov")
     build.packages.install("httpretty", version="==0.8.10")
     build.executables.run([
@@ -37,7 +37,7 @@ def publish(build):
     build.packages.install("twine")
     build.executables.run([
         "python", "setup.py",
-        "bdist_wheel", "--universal", "--release"
+        "sdist", "bdist_wheel", "--universal", "--release"
     ])
     build.executables.run([
         "twine", "upload", "dist/*"

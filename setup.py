@@ -18,37 +18,39 @@ install_requires = [
     "pip==9.0.1",
     "requests==2.19.0",
     "setuptools==40.0.0",
+    # install for vscode
     "virtualenv==16.0.0",
+    'black; python_version>="3.6"',
+    "pylint",
 ]
 
-tests_require = [
-    'httpretty',
-]
+tests_require = ["httpretty"]
 
-setup(name='uranium',
-      setup_requires=["vcver==0.0.8"],
-      vcver={"is_release": is_release, "path": base},
-      description='a build system for python',
-      long_description=open('README.rst').read(),
-      author='Yusuke Tsutsumi',
-      author_email='yusuke@tsutsumi.io',
-      url='http://uranium.readthedocs.org',
-      packages=find_packages(),
-      install_requires=install_requires,
-      classifiers=[
-          'Development Status :: 4 - Beta',
-          'Operating System :: MacOS',
-          'Operating System :: POSIX :: Linux',
-          'Topic :: System :: Software Distribution',
-          'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python',
-          'Programming Language :: Python :: 2',
-          'Programming Language :: Python :: 3',
-      ],
-      entry_points={
-          'console_scripts': [
-              'uranium=uranium.main:main'
-          ],
-      },
-      tests_require=tests_require
+setup(
+    name="uranium",
+    setup_requires=["vcver==0.0.8"],
+    vcver={"is_release": is_release, "path": base},
+    description="a build system for python",
+    long_description=open("README.rst").read(),
+    author="Yusuke Tsutsumi",
+    author_email="yusuke@tsutsumi.io",
+    url="http://uranium.readthedocs.org",
+    packages=find_packages(),
+    install_requires=install_requires,
+    extras_require={
+        # install packages to be used by vscode for autoformatting
+        "vscode": ['black; python_version>="3.6"', "pylint"]
+    },
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Operating System :: MacOS",
+        "Operating System :: POSIX :: Linux",
+        "Topic :: System :: Software Distribution",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3",
+    ],
+    entry_points={"console_scripts": ["uranium=uranium.main:main"]},
+    tests_require=tests_require,
 )
