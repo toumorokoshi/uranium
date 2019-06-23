@@ -37,11 +37,13 @@ def bootstrap(build):
                 "publish": {
                     "distribution_types": ["sdist", "bdist_wheel", "--universal"],
                     "additional_args": [],
-                }
+                },
+                "test": {"packages": []},
             }
         }
     )
     build.tasks.add(main)
+    build.tasks.add(build_docs)
     build.tasks.add(publish)
     build.tasks.add(test)
 
@@ -82,8 +84,11 @@ def test(build):
     """ 
     execute tests using pytest.
     """
+    config = build.config["uranium-plus"]["test"]
     build.packages.install("pytest")
     build.packages.install("pytest-cov")
+    for package in config["packages"]:
+        build.packages.install(package)
     build.executables.run(
         [
             "py.test",
@@ -96,3 +101,13 @@ def test(build):
         + build.options.args
     )
 
+
+@task_requires("main")
+def build_docs(build):
+    """ build documentation """
+    build.packages.install("Babel")
+    build.packages.install("Sphinx")
+    build.packages.install("sphinx_rtd_theme")
+    return build.executables.run(
+        ["sphinx-build", "docs", os.path.join("docs", "_build")] + build.options.args
+    )[0]
