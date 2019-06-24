@@ -86,3 +86,4 @@ VERSION
 **/site-packages/**
 **/lib-python/**
 **/lib_pypy/**
+bin

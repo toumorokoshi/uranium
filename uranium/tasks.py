@@ -13,6 +13,7 @@ class Tasks(dict):
     - storage of tasks added
     - ensuring no reexecution of existing tasks.
     """
+
     def __init__(self, *args, **kwargs):
         super(Tasks, self).__init__(*args, **kwargs)
         self._prepends = defaultdict(list)
@@ -63,16 +64,12 @@ class Tasks(dict):
     def append(self, source, task_to_append):
         self.add(source)
         self.add(task_to_append)
-        self._appends[_extract_name(source)].append(
-            _extract_name(task_to_append)
-        )
+        self._appends[_extract_name(source)].append(_extract_name(task_to_append))
 
     def prepend(self, source, task_to_prepend):
         self.add(source)
         self.add(task_to_prepend)
-        self._prepends[_extract_name(source)].append(
-            _extract_name(task_to_prepend)
-        )
+        self._prepends[_extract_name(source)].append(_extract_name(task_to_prepend))
 
     def clear_cache(self):
         self._executed_tasks = set()
@@ -90,9 +87,9 @@ def _coerce_to_int(task_name, maybe_int):
     try:
         maybe_int = int(maybe_int)
     except ValueError:
-        LOGGER.warn(
-            "non-integer or none result received from task '{0}'".format(task_name) +
-            ". Non-integer results are not valid and default to passing."
+        LOGGER.warning(
+            "non-integer or none result received from task '{0}'".format(task_name)
+            + ". Non-integer results are not valid and default to passing."
         )
         maybe_int = 0
     return maybe_int

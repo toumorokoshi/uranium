@@ -37,17 +37,14 @@ import os
 from uranium.scripts import execute_script
 from .conftest import URANIUM_SOURCE_ROOT
 
-EXAMPLE_PACKAGE_PATH = os.path.join(
-    os.path.dirname(__file__), "example_package"
-)
+EXAMPLE_PACKAGE_PATH = os.path.join(os.path.dirname(__file__), "example_package")
 
 
 def test_install(tmpdir):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(URANIUM_PY)
     code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     print("stdout:\n" + str(out))
     print("stderr:\n" + str(err))
@@ -69,8 +66,7 @@ def main(build):
 
     tmpdir.join("ubuild.py").write(UBUILD)
     code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
 
     assert code == 0
@@ -81,8 +77,7 @@ def test_uninstall(tmpdir):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(URANIUM_PY_UNINSTALL)
     code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     print("stdout:\n" + str(out))
     print("stderr:\n" + str(err))
@@ -93,12 +88,10 @@ def test_package_cache(tmpdir):
     """ don't event attempt to call pip, if a package already exists. """
     tmpdir.join("ubuild.py").write(URANIUM_PY)
     execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     print(out)
     print(err)
@@ -110,22 +103,25 @@ def test_update(tmpdir):
     """ update should update versions to the latest. """
     hard_version = URANIUM_PY_UPDATE.format(',version="==1.3.1"')
     tmpdir.join("ubuild.py").write(hard_version)
-    status, out, err = execute_script("uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-                                      cwd=tmpdir.strpath)
+    status, out, err = execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
+    )
 
     assert "1.3.1" in out.decode("utf-8")
 
-    no_version = URANIUM_PY_UPDATE.format('')
+    no_version = URANIUM_PY_UPDATE.format("")
     tmpdir.join("ubuild.py").write(no_version)
-    status, out, err = execute_script("uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-                                      cwd=tmpdir.strpath)
+    status, out, err = execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
+    )
 
     assert "1.3.1" in out.decode("utf-8")
 
-    update_version = URANIUM_PY_UPDATE.format(',upgrade=True')
+    update_version = URANIUM_PY_UPDATE.format(",upgrade=True")
     tmpdir.join("ubuild.py").write(update_version)
-    status, out, err = execute_script("uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-                                      cwd=tmpdir.strpath)
+    status, out, err = execute_script(
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
+    )
 
     assert "1.3.1" in out.decode("utf-8")
 
@@ -144,8 +140,7 @@ def main(build):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(UBUILD)
     code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     print("stdout:\n" + str(out))
     print("stderr:\n" + str(err))
@@ -164,7 +159,7 @@ import os
 def main(build):
 
     build.packages.install("tox")
-    nose_path = os.path.join(build.root, "bin", "tox")
+    nose_path = os.path.join(build.sandbox_root, "bin", "tox")
     with open(nose_path) as fh:
         contents = fh.read()
     print(contents)
@@ -174,8 +169,7 @@ def main(build):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(UBUILD)
     code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     print("stdout:\n" + str(out))
     print("stderr:\n" + str(err))
@@ -194,14 +188,16 @@ def main(build):
 
     build.packages.install("{package}", develop=True)
     import example
-""".format(package=EXAMPLE_PACKAGE_PATH).strip()
+""".format(
+        package=EXAMPLE_PACKAGE_PATH
+    ).strip()
 
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(UBUILD)
     code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     print("stdout:\n" + str(out))
     print("stderr:\n" + str(err))
     assert code == 0
+

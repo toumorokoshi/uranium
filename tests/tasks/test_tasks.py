@@ -16,8 +16,7 @@ def test_task_overrides_ubuild(tmpdir):
     """ update should update versions to the latest. """
     tmpdir.join("ubuild.py").write(URANIUM_PY)
     status, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
 
     assert "ubuild.py" not in out.decode("utf-8")

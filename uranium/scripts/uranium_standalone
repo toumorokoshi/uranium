@@ -18,7 +18,7 @@ import subprocess
 import sys
 import tarfile
 import tempfile
-from optparse import (OptionParser, BadOptionError, AmbiguousOptionError)
+from optparse import OptionParser, BadOptionError, AmbiguousOptionError
 
 try:
     from urllib2 import urlopen as urlopen
@@ -45,6 +45,7 @@ class PassThroughOptionParser(OptionParser):
 
     credit to justind: http://stackoverflow.com/questions/1885161/how-can-i-get-optparses-optionparser-to-ignore-invalid-options
     """
+
     def _process_args(self, largs, rargs, values):
         while rargs:
             try:
@@ -59,7 +60,7 @@ class PassThroughOptionParser(OptionParser):
         for ch in arg[1:]:
             opt = "-" + ch
             option = self._short_opt.get(opt)
-            i += 1                      # we have consumed a character
+            i += 1  # we have consumed a character
 
             if not option:
                 raise BadOptionError(arg)
@@ -75,15 +76,14 @@ class PassThroughOptionParser(OptionParser):
                     if nargs == 1:
                         self.error(_("%s option requires an argument") % opt)
                     else:
-                        self.error(_("%s option requires %d arguments")
-                                   % (opt, nargs))
+                        self.error(_("%s option requires %d arguments") % (opt, nargs))
                 elif nargs == 1:
                     value = rargs.pop(0)
                 else:
                     value = tuple(rargs[0:nargs])
                     del rargs[0:nargs]
 
-            else:                       # option doesn't take a value
+            else:  # option doesn't take a value
                 value = None
 
             option.process(opt, value, values, self)
@@ -92,17 +92,20 @@ class PassThroughOptionParser(OptionParser):
                 break
 
 
-
-
 parser = PassThroughOptionParser(add_help_option=False)
-parser.add_option("--no-uranium", help="don't install uranium.",
-                  default=True, action="store_false", dest="with_uranium")
-parser.add_option("--uranium-dir",
-                  help="specify a directory containing uranium source.")
-parser.add_option("--version",
-                  help="specify the version of uranium to install.")
+parser.add_option(
+    "--no-uranium",
+    help="don't install uranium.",
+    default=True,
+    action="store_false",
+    dest="with_uranium",
+)
+parser.add_option(
+    "--uranium-dir", help="specify a directory containing uranium source."
+)
+parser.add_option("--version", help="specify the version of uranium to install.")
 
-URANIUM_TARGET = ".uranium"
+URANIUM_TARGET = os.path.join(".env", ".uranium")
 
 
 def main(argv):
@@ -130,8 +133,7 @@ def main(argv):
 
     os.chdir(current_dir)
 
-    _install_uranium(install_dir, uranium_dir=uranium_dir,
-                     version=options.version)
+    _install_uranium(install_dir, uranium_dir=uranium_dir, version=options.version)
 
     LOGGER.debug("running uranium...")
     return _run_uranium(install_dir, remaining_args)
@@ -140,7 +142,12 @@ def main(argv):
 def retrieve_system_uranium():
     """ if uranium already exists on the system path, use that instead. """
     try:
-        from pkg_resources import load_entry_point, DistributionNotFound, VersionConflict
+        from pkg_resources import (
+            load_entry_point,
+            DistributionNotFound,
+            VersionConflict,
+        )
+
         try:
             return load_entry_point("uranium", "console_scripts", "uranium")
         except (ImportError, DistributionNotFound, VersionConflict):
@@ -158,15 +165,23 @@ def _install_virtualenv(install_dir):
     temp_dir = tempfile.mkdtemp()
     try:
         _download_virtualenv(temp_dir)
-        virtualenv_dir = os.path.join(temp_dir, "virtualenv-{major}.{minor}.{rev}".format(
-            major=VENV_MAJOR, minor=VENV_MINOR, rev=VENV_REV
-        ))
-        virtualenv_executable = os.path.join(virtualenv_dir, 'virtualenv.py')
+        virtualenv_dir = os.path.join(
+            temp_dir,
+            "virtualenv-{major}.{minor}.{rev}".format(
+                major=VENV_MAJOR, minor=VENV_MINOR, rev=VENV_REV
+            ),
+        )
+        virtualenv_executable = os.path.join(virtualenv_dir, "virtualenv.py")
         os.chdir(virtualenv_dir)  # virtualenv only works in the cwd it is installed in
-        subprocess.call([sys.executable, virtualenv_executable,
-                         '--no-site-packages',
-                         '--always-copy',
-                         install_dir])
+        subprocess.call(
+            [
+                sys.executable,
+                virtualenv_executable,
+                "--no-site-packages",
+                "--always-copy",
+                install_dir,
+            ]
+        )
         site_py_file = _get_site_file_path(install_dir)
         _inject_to_site_py(site_py_file)
     finally:
@@ -174,31 +189,38 @@ def _install_virtualenv(install_dir):
 
 
 def _get_site_file_path(venv_directory):
-    executable = os.path.join(venv_directory, 'bin', 'python')
-    return subprocess.Popen(
-        [executable, "-c", "import site; print(site.__file__)"],
-        stdout=subprocess.PIPE
-    # we strip the last character 'c' in case it's a .pyc file
-    # want the .py
-    ).communicate()[0].decode('utf-8').rstrip('c\n')
+    executable = os.path.join(venv_directory, "bin", "python")
+    return (
+        subprocess.Popen(
+            [executable, "-c", "import site; print(site.__file__)"],
+            stdout=subprocess.PIPE
+            # we strip the last character 'c' in case it's a .pyc file
+            # want the .py
+        )
+        .communicate()[0]
+        .decode("utf-8")
+        .rstrip("c\n")
+    )
 
 
 def _inject_to_site_py(site_py_file):
     """
     we inject modifications to the site.py
     """
-    with open(site_py_file, 'a') as fh:
-        fh.write("""
+    with open(site_py_file, "a") as fh:
+        fh.write(
+            """
 # reshuffling the paths to ensure that distributions in the sandbox
 # always come first
 paths_to_append = [p for p in sys.path if p.startswith(sys.real_prefix)]
 sys.path = [p for p in sys.path if not p.startswith(sys.real_prefix)]
 sys.path += paths_to_append
-        """.strip())
+        """.strip()
+        )
 
 
 def _install_uranium(virtualenv_dir, uranium_dir=None, version=None):
-    uranium_executable = os.path.join(virtualenv_dir, 'bin', 'uranium')
+    uranium_executable = os.path.join(virtualenv_dir, "bin", "uranium")
     if os.path.exists(uranium_executable):
         return
 
@@ -206,50 +228,53 @@ def _install_uranium(virtualenv_dir, uranium_dir=None, version=None):
     if uranium_dir:
         uranium_dir = os.path.expanduser(uranium_dir)
 
-    log_file = os.path.join(virtualenv_dir, 'uranium_install_log.txt')
-    pip_executable = os.path.join(virtualenv_dir, 'bin', 'pip')
-    uranium_name = (uranium_dir or 'uranium') + "[vscode]"
+    log_file = os.path.join(virtualenv_dir, "uranium_install_log.txt")
+    pip_executable = os.path.join(virtualenv_dir, "bin", "pip")
+    uranium_name = (uranium_dir or "uranium") + "[vscode]"
 
     if version and not uranium_dir:
-        uranium_name += '=={0}'.format(version)
+        uranium_name += "=={0}".format(version)
 
-    with open(log_file, 'w+') as fh:
+    with open(log_file, "w+") as fh:
         # we specify the python path explicitely, because
         # in some cases, a long absolute path will not be properly
         # executable.
-        python = os.path.join(virtualenv_dir, 'bin', 'python')
-        status = subprocess.call([python, pip_executable, 'install', uranium_name,
-                                  '--upgrade'], stdout=fh, stderr=fh)
+        python = os.path.join(virtualenv_dir, "bin", "python")
+        status = subprocess.call(
+            [python, pip_executable, "install", uranium_name, "--upgrade"],
+            stdout=fh,
+            stderr=fh,
+        )
         if status:
-            LOGGER.error("Unable to install uranium. please look at {0} for more info".format(
-                log_file
-            ))
+            LOGGER.error(
+                "Unable to install uranium. please look at {0} for more info".format(
+                    log_file
+                )
+            )
             exit(1)
     LOGGER.info("done!")
 
 
 def _run_uranium(virtualenv_dir, args):
-    python = os.path.join(virtualenv_dir, 'bin', 'python')
-    uranium_executable = os.path.join(virtualenv_dir, 'bin', 'uranium')
+    python = os.path.join(virtualenv_dir, "bin", "python")
+    uranium_executable = os.path.join(virtualenv_dir, "bin", "uranium")
     os.execl(python, python, *([uranium_executable] + args))
-    return subprocess.call([python, uranium_executable] + args,
-                           stdin=sys.stdin,
-                           stdout=sys.stdout,
-                           stderr=sys.stderr)
+    return subprocess.call(
+        [python, uranium_executable] + args,
+        stdin=sys.stdin,
+        stdout=sys.stdout,
+        stderr=sys.stderr,
+    )
 
 
 def _download_virtualenv(target_dir=None):
     target_dir = target_dir or os.path.abspath(os.curdir)
     try:
-        venv_url = VENV_URL.format(
-            major=VENV_MAJOR, minor=VENV_MINOR, rev=VENV_REV
-        )
+        venv_url = VENV_URL.format(major=VENV_MAJOR, minor=VENV_MINOR, rev=VENV_REV)
         _extract_tar(venv_url, target_dir)
     except:
         LOGGER.info("url {} failed. Attempting fallback...".format(venv_url))
-        venv_url = FALLBACK_URL.format(
-            major=VENV_MAJOR, minor=VENV_MINOR, rev=VENV_REV
-                )
+        venv_url = FALLBACK_URL.format(major=VENV_MAJOR, minor=VENV_MINOR, rev=VENV_REV)
         _extract_tar(venv_url, target_dir)
 
 
@@ -267,17 +292,15 @@ def _activate_virtualenv(install_dir):
     # to be that directory.
     # we want the virtualenv directory to be the one we just created, so we remove
     # this variable
-    if '__PYVENV_LAUNCHER__' in os.environ:
-        del os.environ['__PYVENV_LAUNCHER__']
+    if "__PYVENV_LAUNCHER__" in os.environ:
+        del os.environ["__PYVENV_LAUNCHER__"]
 
     # We don't need to do this... yet.
     # venv_activate_file = os.path.join(install_dir, 'bin', 'activate_this.py')
     # _execute_file(venv_activate_file)
 
 
-VIRTUALENV_FILES = {
-    'activate file': os.path.join('bin', 'activate')
-}
+VIRTUALENV_FILES = {"activate file": os.path.join("bin", "activate")}
 
 
 def _is_virtualenv(path):
@@ -291,7 +314,7 @@ def _is_virtualenv(path):
 
 def _execute_file(path):
     with open(path) as f:
-        code = compile(f.read(), path, 'exec')
+        code = compile(f.read(), path, "exec")
         exec(code, dict(__file__=path), {})
 
 
@@ -299,7 +322,7 @@ def _create_stdout_logger():
     """ create a logger to stdout """
     log = logging.getLogger(__name__)
     out_hdlr = logging.StreamHandler(sys.stdout)
-    out_hdlr.setFormatter(logging.Formatter('%(message)s'))
+    out_hdlr.setFormatter(logging.Formatter("%(message)s"))
     out_hdlr.setLevel(logging.INFO)
     log.addHandler(out_hdlr)
     log.setLevel(logging.INFO)

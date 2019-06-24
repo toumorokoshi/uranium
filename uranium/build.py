@@ -11,14 +11,10 @@ from .tasks import Tasks
 from .environment_variables import EnvironmentVariables
 from .lib.script_runner import build_script, get_public_functions
 from .lib.asserts import get_assert_function
-from .exceptions import (
-    UraniumException, ScriptException, ExitCodeException
-)
+from .exceptions import UraniumException, ScriptException, ExitCodeException
 from .lib.sandbox.venv.activate_this import write_activate_this
 from .lib.sandbox import Sandbox
-from .lib.log_templates import (
-    STARTING_URANIUM, ENDING_URANIUM, ERRORED_URANIUM
-)
+from .lib.log_templates import STARTING_URANIUM, ENDING_URANIUM, ERRORED_URANIUM
 from .lib.utils import log_multiline
 from .remote import get_remote_script
 from .app_globals import _build_proxy
@@ -41,15 +37,16 @@ class Build(object):
     itself. Attempting to execute this outside of the sandbox could
     lead to corruption of the python environment.
     """
+
     URANIUM_CACHE_DIR = ".uranium"
     HISTORY_NAME = "history.json"
 
     def __init__(self, root, config=None, with_sandbox=True, cache_requests=True):
+        virtualenv_dir = os.path.join(root, ".env") if with_sandbox else None
         self._config = config or Config()
         self._root = root
         self._executables = Executables(root)
         self._hooks = Hooks()
-        virtualenv_dir = root if with_sandbox else None
         self._packages = Packages(virtualenv_dir=virtualenv_dir)
         self._tasks = Tasks()
         self._envvars = EnvironmentVariables()
@@ -58,7 +55,7 @@ class Build(object):
         self._history = History(
             os.path.join(self._root, self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
         )
-        self._sandbox = Sandbox(root) if with_sandbox else None
+        self._sandbox = Sandbox(virtualenv_dir) if virtualenv_dir else None
 
     @property
     def config(self):
@@ -140,6 +137,19 @@ class Build(object):
         return self._root
 
     @property
+    def sandbox_root(self):
+        """
+        :return: str
+
+        return the sandbox root directory, or the
+        main root directory if a sandbox is not 
+        being used.
+        """
+        if not self._sandbox:
+            return self._root
+        return self._sandbox.root
+
+    @property
     def tasks(self):
         """
         :return: uranium.tasks.Tasks
@@ -177,8 +187,7 @@ class Build(object):
             cache_dir = os.path.join(self.URANIUM_CACHE_DIR, "include_cache")
         else:
             cache_dir = None
-        get_remote_script(script_path, local_vars={"build": self},
-                          cache_dir=cache_dir)
+        get_remote_script(script_path, local_vars={"build": self}, cache_dir=cache_dir)
 
     def run(self, options):
         self._warmup()
@@ -195,12 +204,14 @@ class Build(object):
         code = 1
         try:
             path = os.path.join(self.root, options.build_file)
-            u_assert(os.path.exists(path),
-                     "build file at {0} does not exist".format(path))
+            u_assert(
+                os.path.exists(path), "build file at {0} does not exist".format(path)
+            )
             try:
                 log_multiline(LOGGER, logging.INFO, STARTING_URANIUM)
-                code = self._run_script(path, options.directive,
-                                        override_func=options.override_func)
+                code = self._run_script(
+                    path, options.directive, override_func=options.override_func
+                )
             except ScriptException as e:
                 log_multiline(LOGGER, logging.INFO, str(e))
             except Exception as e:
@@ -209,14 +220,18 @@ class Build(object):
                 try:
                     self._finalize()
                 except Exception as e:
-                    log_multiline(LOGGER, logging.ERROR,
-                                  "exception occurred on finalization:")
+                    log_multiline(
+                        LOGGER, logging.ERROR, "exception occurred on finalization:"
+                    )
                     LOGGER.debug("", exc_info=True)
                     log_multiline(LOGGER, logging.ERROR, str(e))
                     code = 1
                 if code:
-                    log_multiline(LOGGER, logging.ERROR,
-                                  "task returned error code {0}".format(code))
+                    log_multiline(
+                        LOGGER,
+                        logging.ERROR,
+                        "task returned error code {0}".format(code),
+                    )
                     log_multiline(LOGGER, logging.ERROR, ERRORED_URANIUM)
                 else:
                     log_multiline(LOGGER, logging.INFO, ENDING_URANIUM)
@@ -241,9 +256,11 @@ class Build(object):
             return override_func(self, script)
 
         if task_name not in self._tasks:
-            raise ScriptException("{0} does not have a {1} function. available public task_names: \n{2}".format(
-                path, task_name, _get_formatted_public_tasks(script)
-            ))
+            raise ScriptException(
+                "{0} does not have a {1} function. available public task_names: \n{2}".format(
+                    path, task_name, _get_formatted_public_tasks(script)
+                )
+            )
         self.hooks.run("initialize", self)
         output = self.run_task(task_name)
         self.hooks.run("finalize", self)
@@ -252,17 +269,20 @@ class Build(object):
     def _warmup(self):
         self.history.load()
         current_version = "{0}.{1}".format(*sys.version_info[:2])
-        ran_version = self.history.get(HISTORY_KEY, {}).get("python_version", current_version)
+        ran_version = self.history.get(HISTORY_KEY, {}).get(
+            "python_version", current_version
+        )
         if ran_version != current_version:
-            raise UraniumException("current version of python ({0}) is not the same version that was used before ({1}). Please use {1} to execute uranium, or clean the project.".format(
-                current_version, ran_version
-            ))
+            raise UraniumException(
+                "current version of python ({0}) is not the same version that was used before ({1}). Please use {1} to execute uranium, or clean the project.".format(
+                    current_version, ran_version
+                )
+            )
 
     def _finalize(self):
-        virtualenv.make_environment_relocatable(self._root)
-        activate_content = ""
-        activate_content += self.envvars.generate_activate_content()
-        write_activate_this(self._root, additional_content=activate_content)
+        if self._sandbox is not None:
+            self._sandbox.finalize(self.envvars.generate_activate_content())
+            self._sandbox.symlink_targets(self.root)
         self.history[HISTORY_KEY] = {
             "python_version": "{0}.{1}".format(*sys.version_info[:2])
         }
