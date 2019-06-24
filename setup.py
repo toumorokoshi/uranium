@@ -16,7 +16,7 @@ install_requires = [
     "docopt==0.6.2",
     "packaging==17.1",
     "pip==9.0.1",
-    "requests==2.19.0",
+    "requests==2.22.0",
     "setuptools==40.0.0",
     # install for vscode
     "virtualenv==16.0.0",
