@@ -4,6 +4,7 @@ A bunch of compat mappings.
 This helps catalog python 2 and 3 differences,
 so they can be removed if at some point in 2050.
 """
+import os
 import importlib
 import sys
 
@@ -28,8 +29,12 @@ except:
 
 if is_py3:
     str_type = str
+    from os import symlink
 else:
     str_type = basestring
+
+    def symlink(src, dest, *args, **kwargs):
+        os.symlink(src, dest)
 
 
 if is_py3:

@@ -5,6 +5,7 @@ import sys
 import virtualenv
 from .venv import install_virtualenv, activate_virtualenv
 from .venv.activate_this import write_activate_this
+from ..compat import symlink
 
 
 class Sandbox(object):
@@ -55,9 +56,7 @@ class Sandbox(object):
     def symlink_targets(self, target):
         """ symlink relevant targets into a standard directory """
         if not os.path.exists(os.path.join(target, "bin")):
-            os.symlink(
-                os.path.join(self.root, "bin"), os.path.join(target, "bin"), True
-            )
+            symlink(os.path.join(self.root, "bin"), os.path.join(target, "bin"), True)
 
     @property
     def root(self):

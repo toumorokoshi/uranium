@@ -96,7 +96,7 @@ def test(build):
             "--cov",
             build.config["uranium-plus"]["module"],
             "--cov-config",
-            "coverage.cfg",
+            os.path.join(build.root, "coverage.cfg"),
         ]
         + build.options.args
     )

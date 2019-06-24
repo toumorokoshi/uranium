@@ -42,20 +42,20 @@ class Build(object):
     HISTORY_NAME = "history.json"
 
     def __init__(self, root, config=None, with_sandbox=True, cache_requests=True):
-        virtualenv_dir = os.path.join(root, ".env") if with_sandbox else None
-        self._config = config or Config()
         self._root = root
-        self._executables = Executables(root)
+        self._sandbox_root = os.path.join(root, ".env") if with_sandbox else None
+        self._config = config or Config()
+        self._executables = Executables(self.sandbox_root)
         self._hooks = Hooks()
-        self._packages = Packages(virtualenv_dir=virtualenv_dir)
+        self._packages = Packages(virtualenv_dir=self._sandbox_root)
         self._tasks = Tasks()
         self._envvars = EnvironmentVariables()
         self._options = None
         self._cache_requests = cache_requests
         self._history = History(
-            os.path.join(self._root, self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
+            os.path.join(self.sandbox_root, self.URANIUM_CACHE_DIR, self.HISTORY_NAME)
         )
-        self._sandbox = Sandbox(virtualenv_dir) if virtualenv_dir else None
+        self._sandbox = Sandbox(self._sandbox_root) if with_sandbox else None
 
     @property
     def config(self):
@@ -145,9 +145,9 @@ class Build(object):
         main root directory if a sandbox is not 
         being used.
         """
-        if not self._sandbox:
-            return self._root
-        return self._sandbox.root
+        if self._sandbox_root:
+            return self._sandbox_root
+        return self._root
 
     @property
     def tasks(self):
@@ -184,7 +184,7 @@ class Build(object):
     def include(self, script_path, cache=False):
         """ executes the script at the specified path. """
         if cache and self._cache_requests:
-            cache_dir = os.path.join(self.URANIUM_CACHE_DIR, "include_cache")
+            cache_dir = os.path.join(self.sandbox_root, self.URANIUM_CACHE_DIR, "include_cache")
         else:
             cache_dir = None
         get_remote_script(script_path, local_vars={"build": self}, cache_dir=cache_dir)
