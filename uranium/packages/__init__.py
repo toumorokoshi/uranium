@@ -8,7 +8,7 @@ import virtualenv
 
 p_assert = get_assert_function(PackageException)
 
-DEFAULT_INDEX_URLS = ['https://pypi.python.org/simple/']
+DEFAULT_INDEX_URLS = ["https://pypi.python.org/simple/"]
 
 
 class Packages(object):
@@ -57,11 +57,14 @@ class Packages(object):
 
     @index_urls.setter
     def index_urls(self, value):
-        p_assert(isinstance(value, list),
-                 "only lists can be set as a value for indexes")
+        p_assert(
+            isinstance(value, list), "only lists can be set as a value for indexes"
+        )
         self._index_urls = value
 
-    def install(self, name, version=None, develop=False, upgrade=False, install_options=None):
+    def install(
+        self, name, version=None, develop=False, upgrade=False, install_options=None
+    ):
         """
         install is used when installing a python package into the environment.
 
@@ -78,7 +81,7 @@ class Packages(object):
         """
         p_assert(
             not (develop and version),
-            "unable to set both version and develop flags when installing packages"
+            "unable to set both version and develop flags when installing packages",
         )
         if name in self.versions:
             if version is None:
@@ -87,10 +90,14 @@ class Packages(object):
         if self._is_package_already_installed(name, version):
             return
         req_set = install(
-            name, upgrade=upgrade, develop=develop, version=version,
-            index_urls=self.index_urls, constraint_dict=self.versions,
+            name,
+            upgrade=upgrade,
+            develop=develop,
+            version=version,
+            index_urls=self.index_urls,
+            constraint_dict=self.versions,
             packages_config=self.config,
-            install_options=install_options
+            install_options=install_options,
         )
         if req_set:
             for req in req_set.requirements.values():
@@ -104,7 +111,7 @@ class Packages(object):
                 if not new_constraint:
                     installed_version = req.installed_version
                     if installed_version:
-                        new_constraint = '=={}'.format(installed_version)
+                        new_constraint = "=={}".format(installed_version)
                 if new_constraint:
                     self.versions[req.name] = new_constraint
         # if virtualenv dir is set, we should make the environment relocatable.
@@ -120,20 +127,20 @@ class Packages(object):
         # picked up
         invalidate_caches()
 
-
     def uninstall(self, package_name):
         """
         uninstall is used when uninstalling a python package from a environment.
         """
         p_assert(
             self._is_package_already_installed(package_name, None),
-            "package {package} doesn't exist".format(package=package_name)
+            "package {package} doesn't exist".format(package=package_name),
         )
         uninstall(package_name)
 
     @staticmethod
     def _reimport_site_packages():
         import site, sys
+
         for path in (p for p in sys.path if "site-packages" in p):
             if os.path.isdir(path):
                 site.addsitedir(path)
@@ -141,6 +148,7 @@ class Packages(object):
     @staticmethod
     def _is_package_already_installed(name, version):
         import pkg_resources
+
         try:
             package_name = name
             if version:

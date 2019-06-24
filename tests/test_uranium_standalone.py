@@ -12,7 +12,6 @@ def main(build):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(ubuild)
     code, _, _ = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     assert code != 0

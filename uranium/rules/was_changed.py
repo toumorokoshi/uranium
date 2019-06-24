@@ -1,6 +1,7 @@
 import os
 import time
 from .base import RuleBase
+
 KEY = "_uranium.rules.was_changed"
 
 
@@ -41,9 +42,7 @@ class WasChanged(RuleBase):
 
     @property
     def key(self):
-        return "{0}.{1}.{2}".format(
-            KEY, self._path, self.func.__name__
-        )
+        return "{0}.{1}.{2}".format(KEY, self._path, self.func.__name__)
 
     @classmethod
     def _get_timestamp(cls, path):

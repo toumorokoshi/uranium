@@ -7,6 +7,7 @@ class RuleBase(object):
 
     * func gets set during the initialization process.
     """
+
     func = None
 
     __metaclass__ = ABCMeta

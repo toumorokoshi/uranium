@@ -32,6 +32,7 @@ class Config(dict):
         _merger.merge(default_dict, self)
         self.update(default_dict)
 
+
 PROPER_FORMAT = """
 a properly formatted config argument has at least one colon. the first colon will split the key and the value.
 
@@ -48,9 +49,11 @@ def parse_confargs(config_arguments):
     config = Config()
     for arg in config_arguments:
         if ":" not in arg:
-            raise ConfigException("configuration argument {0} is not properly formatted! {1}".format(
-                arg, PROPER_FORMAT
-            ))
+            raise ConfigException(
+                "configuration argument {0} is not properly formatted! {1}".format(
+                    arg, PROPER_FORMAT
+                )
+            )
         key, value = arg.split(":", 1)
         _set_config(config, key, value)
 
@@ -63,14 +66,7 @@ def _set_config(config, key, value):
         config[key] = value
     else:
         config[keys[0]] = {}
-        _set_config(config[keys[0]], key[len(keys[0])+1:], value)
+        _set_config(config[keys[0]], key[len(keys[0]) + 1 :], value)
 
 
-_merger = Merger(
-    [
-        (list, ["override"]),
-        (dict, ["merge"])
-    ],
-    ["override"],
-    ["override"]
-)
+_merger = Merger([(list, ["override"]), (dict, ["merge"])], ["override"], ["override"])

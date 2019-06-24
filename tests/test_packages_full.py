@@ -200,4 +200,3 @@ def main(build):
     print("stdout:\n" + str(out))
     print("stderr:\n" + str(err))
     assert code == 0
-

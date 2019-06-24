@@ -56,10 +56,8 @@ class Sandbox(object):
         """ symlink relevant targets into a standard directory """
         if not os.path.exists(os.path.join(target, "bin")):
             os.symlink(
-                os.path.join(self.root, "bin"),
-                os.path.join(target, "bin"),
-                True
-        )
+                os.path.join(self.root, "bin"), os.path.join(target, "bin"), True
+            )
 
     @property
     def root(self):

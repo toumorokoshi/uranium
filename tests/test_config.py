@@ -8,13 +8,19 @@ def test_config_parameters(tmpdir):
     configuration parameters passed into the command line should
     become available in the build.config object.
     """
-    tmpdir.join("ubuild.py").write("""
+    tmpdir.join("ubuild.py").write(
+        """
 def main(build):
     print(build.config)
-    """.strip())
+    """.strip()
+    )
     status, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, "-c", "test_key:test_value",
-        cwd=tmpdir.strpath
+        "uranium_standalone",
+        "--uranium-dir",
+        URANIUM_SOURCE_ROOT,
+        "-c",
+        "test_key:test_value",
+        cwd=tmpdir.strpath,
     )
     assert "test_key" in out.decode("UTF-8")
     assert "test_value" in out.decode("UTF-8")
@@ -25,13 +31,19 @@ def test_config_nested_dict_parameters(tmpdir):
     configuration parameters passed into the command line should
     become available in the build.config object.
     """
-    tmpdir.join("ubuild.py").write("""
+    tmpdir.join("ubuild.py").write(
+        """
 def main(build):
     print(build.config)
-    """.strip())
+    """.strip()
+    )
     status, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, "-c", "test_key_out.test_key_in:test_value",
-        cwd=tmpdir.strpath
+        "uranium_standalone",
+        "--uranium-dir",
+        URANIUM_SOURCE_ROOT,
+        "-c",
+        "test_key_out.test_key_in:test_value",
+        cwd=tmpdir.strpath,
     )
     assert "{'test_key_out': {'test_key_in': 'test_value'}}" in out.decode("UTF-8")
 

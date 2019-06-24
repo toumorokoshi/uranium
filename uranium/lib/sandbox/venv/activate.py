@@ -15,7 +15,7 @@ def activate_virtualenv(root):
     site_package_dirs = ["site-packages"]
     sys.path = [p for p in sys.path if "site-packages" not in p]
 
-    activate_this_path = os.path.join(root, 'bin', 'activate_this.py')
+    activate_this_path = os.path.join(root, "bin", "activate_this.py")
     with open(activate_this_path) as fh:
         l = {"__file__": activate_this_path}
         bytecode = compile(fh.read(), activate_this_path, "exec")
@@ -29,7 +29,7 @@ def activate_virtualenv(root):
 
     # we modify the executable directly
     # because pip invokes this to install packages.
-    sys.executable = os.path.join(root, 'bin', 'python')
+    sys.executable = os.path.join(root, "bin", "python")
 
     for _pkg_resources in [pkg_resources, pip_pkg_resources]:
         for site_package_dir in site_package_dirs:
@@ -63,13 +63,14 @@ def _clean_package_resources(_pkg_resources, old_prefix):
 
 def _load_distutils(root):
     distutils_path_candidates = [
-        os.path.join(root, 'lib', 'python%s' % sys.version[:3], 'distutils', '__init__.py'),
-        os.path.join(root, 'lib64', 'python%s' % sys.version[:3], 'distutils', '__init__.py')
+        os.path.join(
+            root, "lib", "python%s" % sys.version[:3], "distutils", "__init__.py"
+        ),
+        os.path.join(
+            root, "lib64", "python%s" % sys.version[:3], "distutils", "__init__.py"
+        ),
     ]
     for p in distutils_path_candidates:
         if os.path.exists(p):
             with open(p) as f:
-                exec(f.read(), {
-                    "__file__": p,
-                    "__path__": []
-                })
+                exec(f.read(), {"__file__": p, "__path__": []})

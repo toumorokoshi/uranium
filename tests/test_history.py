@@ -26,6 +26,7 @@ def test_no_fail_on_load_no_file(history):
 
 def test_not_able_to_serialize(history):
     import re
+
     history["unserializable"] = re.compile("foo")
     with pytest.raises(HistoryException):
         history.save()
@@ -33,6 +34,7 @@ def test_not_able_to_serialize(history):
 
 def test_not_able_to_serialize_subattribute(history):
     import re
+
     history["unserializable"] = [re.compile("foo")]
     with pytest.raises(HistoryException):
         history.save()
@@ -43,7 +45,6 @@ def test_not_able_to_serialize_subattribute(history):
 
 
 def test_history_with_build(tmpdir, build):
-
     @build.task
     def main(build):
         was_set = build.history.get("set", False)

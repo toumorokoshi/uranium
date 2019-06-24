@@ -43,11 +43,13 @@ class ContextStack(object):
         create a contextmanager which will add the
         object as the current object for this contextstack.
         """
+
         @contextmanager
         def with_obj_as_context():
             self.push(obj)
             yield
             self.pop()
+
         return with_obj_as_context()
 
     def push(self, obj):

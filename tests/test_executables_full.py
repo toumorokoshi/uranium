@@ -13,8 +13,7 @@ def main(build):
 
     tmpdir.join("ubuild.py").write(UBUILD)
     code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     print("stdout:\n" + str(out))
     print("stderr:\n" + str(err))
@@ -32,8 +31,7 @@ def main(build):
 
     tmpdir.join("ubuild.py").write(UBUILD)
     code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     print("stdout:\n" + str(out))
     print("stderr:\n" + str(err))

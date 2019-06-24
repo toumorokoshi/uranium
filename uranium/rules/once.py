@@ -1,4 +1,5 @@
 from .base import RuleBase
+
 KEY = "_uranium.rules.once"
 
 

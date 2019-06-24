@@ -26,7 +26,7 @@ def ensure_file(path):
         os.makedirs(parent_dir)
 
     if not os.path.exists(path):
-        open(path, 'w+').close()
+        open(path, "w+").close()
 
 
 def is_callable(maybe_func):

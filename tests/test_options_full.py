@@ -17,18 +17,24 @@ def test(build):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(ubuild)
     _, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        "main", "foo",
-        cwd=tmpdir.strpath
+        "uranium_standalone",
+        "--uranium-dir",
+        URANIUM_SOURCE_ROOT,
+        "main",
+        "foo",
+        cwd=tmpdir.strpath,
     )
 
     assert "main" in out.decode("UTF-8")
     assert "foo" in out.decode("UTF-8")
 
     _, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        "main", "foo",
-        cwd=tmpdir.strpath
+        "uranium_standalone",
+        "--uranium-dir",
+        URANIUM_SOURCE_ROOT,
+        "main",
+        "foo",
+        cwd=tmpdir.strpath,
     )
 
     assert "test" in out.decode("UTF-8")

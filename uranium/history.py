@@ -6,7 +6,6 @@ from .exceptions import HistoryException
 
 
 class History(dict):
-
     def __init__(self, path):
         self._path = path
 
@@ -36,7 +35,11 @@ def assert_is_serializable(obj):
     if isinstance(obj, dict):
         for k, v in obj.items():
             if not isinstance(k, str_type):
-                raise HistoryException("unable to serialize dictionary with non-string key {0}".format(str(k)))
+                raise HistoryException(
+                    "unable to serialize dictionary with non-string key {0}".format(
+                        str(k)
+                    )
+                )
             assert_is_serializable(v)
     elif isinstance(obj, list):
         for o in obj:

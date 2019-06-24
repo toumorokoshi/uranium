@@ -16,16 +16,15 @@ def test_history_full(tmpdir):
     tmpdir.join("ubuild.py").write(URANIUM_PY)
 
     status, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     assert "false" in out.decode("utf-8")
 
     status, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     assert "true" in out.decode("utf-8")
+
 
 URANIUM_PY_INVALID_HISTORY = """
 def main(build):
@@ -39,7 +38,6 @@ def test_history_full_invalid_history(tmpdir):
     tmpdir.join("ubuild.py").write(URANIUM_PY_INVALID_HISTORY)
 
     status, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     assert status != 0

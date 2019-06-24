@@ -11,8 +11,7 @@ def test_error(tmpdir):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(URANIUM_PY)
     code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     assert "URANIUM FAILED" in str(out)
     assert code == 1

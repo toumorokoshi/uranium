@@ -2,7 +2,6 @@ from uranium.rules import rule, RuleBase
 
 
 class AlwaysPass(RuleBase):
-
     def before(self, build):
         return True
 
@@ -11,7 +10,6 @@ class AlwaysPass(RuleBase):
 
 
 class AlwaysFail(RuleBase):
-
     def before(self, build):
         return False
 

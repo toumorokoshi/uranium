@@ -21,9 +21,9 @@ def run_script(path, method_name, **params):
     script_locals = build_script(path, {})
 
     if method_name not in script_locals:
-        raise ScriptException("{0} does not have a {1} function".format(
-            path, method_name
-        ))
+        raise ScriptException(
+            "{0} does not have a {1} function".format(path, method_name)
+        )
     script_locals[method_name](**params)
 
 

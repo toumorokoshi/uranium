@@ -29,9 +29,11 @@ class Hooks(dict):
 
     def __setitem__(self, key, item):
         if key not in self.VALID_KEYS:
-            raise HooksException("{0} is not a valid phase. Allowed phases are: {1}".format(
-                key, self.VALID_KEYS
-            ))
+            raise HooksException(
+                "{0} is not a valid phase. Allowed phases are: {1}".format(
+                    key, self.VALID_KEYS
+                )
+            )
         if not isinstance(item, list):
             raise HooksException("value must be a list. found {0}".format(type(item)))
 

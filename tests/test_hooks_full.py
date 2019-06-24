@@ -16,8 +16,7 @@ def main(build):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(UBUILD)
     _, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     hello_index = out.decode("utf-8").index("hello")
     goodbye_index = out.decode("utf-8").index("goodbye")
@@ -40,8 +39,7 @@ def main(build):
     # we need to create a virtualenv
     tmpdir.join("ubuild.py").write(UBUILD)
     _, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT,
-        cwd=tmpdir.strpath
+        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
     )
     hello_index = out.decode("utf-8").index("hello")
     goodbye_index = out.decode("utf-8").index("goodbye")

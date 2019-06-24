@@ -2,8 +2,7 @@ import os
 import requests
 
 
-def get_remote_script(url, local_vars=None, cache_dir=None,
-                      refresh_cache=False):
+def get_remote_script(url, local_vars=None, cache_dir=None, refresh_cache=False):
     """
     download a remote script, evaluate it, and return a dictionary
     containing all of the globals instantiated.
@@ -16,13 +15,10 @@ def get_remote_script(url, local_vars=None, cache_dir=None,
     body = None
     local_vars = local_vars or {}
     if cache_dir:
-        body = _retrieve_script_from_cache(
-            url, cache_dir,
-            refresh_cache=refresh_cache
-        )
+        body = _retrieve_script_from_cache(url, cache_dir, refresh_cache=refresh_cache)
     else:
         if os.path.isfile(url):
-            with open(url, 'r') as f:
+            with open(url, "r") as f:
                 body = f.read()
         else:
             body = requests.get(url).text

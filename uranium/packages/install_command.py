@@ -9,12 +9,12 @@ from ..lib.compat import urlparse
 
 
 def requirement_install(self, config, install_options, *args, **kwargs):
-    '''
+    """
     Package installation method wrapper that applies custom install options if
     provided
-    '''
+    """
     if config:
-        install_options = config.get('install_options', install_options)
+        install_options = config.get("install_options", install_options)
     return InstallRequirement.install(self, install_options, *args, **kwargs)
 
 
@@ -25,8 +25,10 @@ class UraniumInstallCommand(InstallCommand):
 
     * constraints
     """
-    def populate_requirement_set(self, requirement_set, args, options,
-                                 finder, session, name, wheel_cache):
+
+    def populate_requirement_set(
+        self, requirement_set, args, options, finder, session, name, wheel_cache
+    ):
         # add all of the standard reqs first.
         InstallCommand.populate_requirement_set(
             requirement_set, args, options, finder, session, name, wheel_cache
@@ -39,19 +41,24 @@ class UraniumInstallCommand(InstallCommand):
                 if specifier:
                     requirement += specifier
                 for req in process_line(
-                        requirement, "", 0, finder=finder,
-                        options=options, session=session,
-                        wheel_cache=wheel_cache, constraint=True
+                    requirement,
+                    "",
+                    0,
+                    finder=finder,
+                    options=options,
+                    session=session,
+                    wheel_cache=wheel_cache,
+                    constraint=True,
                 ):
                     if packages_config and req.name in packages_config:
                         # Wrap the requirement's install method so we can
                         # apply custom install options if provided
                         req.install = functools.partial(
                             types.MethodType(requirement_install, req),
-                            packages_config.get(req.name))
+                            packages_config.get(req.name),
+                        )
                     try:
-                        existing_req = requirement_set.get_requirement(
-                            package_name)
+                        existing_req = requirement_set.get_requirement(package_name)
                         existing_req.req.specifier &= req.specifier
                     except KeyError:
                         requirement_set.add_requirement(req)
@@ -64,8 +71,7 @@ class UraniumInstallCommand(InstallCommand):
                     requirement_set.requirements._keys.remove(name)
 
 
-def install(package_name, constraint_dict=None, packages_config=None,
-            **kwargs):
+def install(package_name, constraint_dict=None, packages_config=None, **kwargs):
     """
     a convenience function to create and use an
     install command to install a package.
@@ -96,9 +102,14 @@ def _get_netloc(url):
     return parsed_url.netloc
 
 
-def _create_args(package_name, upgrade=False, develop=False,
-                 version=None, index_urls=None,
-                 install_options=None):
+def _create_args(
+    package_name,
+    upgrade=False,
+    develop=False,
+    version=None,
+    index_urls=None,
+    install_options=None,
+):
     args = []
     install_options = install_options or []
 
@@ -124,8 +135,8 @@ def _create_args(package_name, upgrade=False, develop=False,
         versioned_requirement = requirement + version
         if not pkg_resources.Requirement.parse(versioned_requirement).specs:
             raise PackageException(
-                "Cannot parse requirement for package %s. " % requirement +
-                "Invalid version specifier: %s." % version
+                "Cannot parse requirement for package %s. " % requirement
+                + "Invalid version specifier: %s." % version
             )
         requirement = versioned_requirement
     args.append(requirement)

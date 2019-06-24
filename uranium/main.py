@@ -43,20 +43,20 @@ LOGGER = logging.getLogger(__name__)
 
 
 def main(argv=sys.argv[1:]):
-    options = docopt.docopt(__doc__,  argv=argv, options_first=True)
+    options = docopt.docopt(__doc__, argv=argv, options_first=True)
     level = logging.DEBUG if options["--verbose"] else logging.INFO
     _create_stdout_logger(level)
     root = os.path.abspath(os.curdir)
     LOGGER.info("executing uranium in {0}...".format(root))
-    build_file = options['--path'] or DEFAULT_BUILD_FILE
-    task = options['<task>'] or DEFAULT_TASK
+    build_file = options["--path"] or DEFAULT_BUILD_FILE
+    task = options["<task>"] or DEFAULT_TASK
     args = options["TASK_ARGS"] or []
 
     build_options = BuildOptions(task, args, build_file)
     if options["--tasks"]:
         build_options.override_func = _print_tasks
 
-    config = parse_confargs(options['-c'])
+    config = parse_confargs(options["-c"])
     build = Build(root, config=config, with_sandbox=True)
     try:
         return build.run(build_options)
@@ -72,15 +72,16 @@ def _create_stdout_logger(level):
     """
     for name in LOGGING_NAMES:
         log = logging.getLogger(name)
-        coloredlogs.install(level=level, logger=log,
-                            fmt="[%(asctime)s] %(message)s",
-                            datefmt="%H:%M:%S",
-                            stream=sys.stdout)
+        coloredlogs.install(
+            level=level,
+            logger=log,
+            fmt="[%(asctime)s] %(message)s",
+            datefmt="%H:%M:%S",
+            stream=sys.stdout,
+        )
 
 
 def _print_tasks(build, script):
     LOGGER.info("the following tasks are available: ")
     for task, func in build.tasks.items():
-        LOGGER.info("  {0}: {1}".format(
-            task, getattr(func, "__doc__", "") or ""
-        ))
+        LOGGER.info("  {0}: {1}".format(task, getattr(func, "__doc__", "") or ""))

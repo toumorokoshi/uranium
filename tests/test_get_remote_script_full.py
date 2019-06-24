@@ -13,8 +13,7 @@ def setup(build):
 
 def test_get_remote_script(tmpdir):
     httpretty.enable()
-    httpretty.register_uri(httpretty.GET, SCRIPT_URL,
-                           body=REMOTE_SCRIPT)
+    httpretty.register_uri(httpretty.GET, SCRIPT_URL, body=REMOTE_SCRIPT)
     script = get_remote_script(SCRIPT_URL)
     build = Build(tmpdir.strpath)
     script["setup"](build)
@@ -24,8 +23,7 @@ def test_get_remote_script(tmpdir):
 
 def test_get_remote_script_with_cache(tmpdir):
     httpretty.enable()
-    httpretty.register_uri(httpretty.GET, SCRIPT_URL,
-                           body=REMOTE_SCRIPT)
+    httpretty.register_uri(httpretty.GET, SCRIPT_URL, body=REMOTE_SCRIPT)
     get_remote_script(SCRIPT_URL, cache_dir=tmpdir.strpath)
     httpretty.disable()
     httpretty.reset()
@@ -34,8 +32,7 @@ def test_get_remote_script_with_cache(tmpdir):
 
 def test_build_include_cache(tmpdir):
     httpretty.enable()
-    httpretty.register_uri(httpretty.GET, SCRIPT_URL,
-                           body=REMOTE_SCRIPT)
+    httpretty.register_uri(httpretty.GET, SCRIPT_URL, body=REMOTE_SCRIPT)
     build = Build(tmpdir.strpath)
     build.URANIUM_CACHE_DIR = tmpdir.strpath
     build.include(SCRIPT_URL, cache=True)
@@ -46,8 +43,7 @@ def test_build_include_cache(tmpdir):
 
 def test_build_include_without_cache(tmpdir):
     httpretty.enable()
-    httpretty.register_uri(httpretty.GET, SCRIPT_URL,
-                           body=REMOTE_SCRIPT)
+    httpretty.register_uri(httpretty.GET, SCRIPT_URL, body=REMOTE_SCRIPT)
     build = Build(tmpdir.strpath)
     build.URANIUM_CACHE_DIR = tmpdir.strpath
     build.include(SCRIPT_URL, cache=False)

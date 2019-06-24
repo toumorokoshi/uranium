@@ -38,7 +38,6 @@ def test_context_stack(context_stack):
 
 
 def test_context_proxy(context_stack, proxy):
-
     class TestObj(object):
         pass
 

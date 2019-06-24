@@ -59,11 +59,9 @@ class Executables(object):
         """
         kwargs = {"cwd": self.root}
         if link_streams:
-            kwargs.update({
-                "stdin": sys.stdin,
-                "stdout": sys.stdout,
-                "stderr": sys.stderr
-            })
+            kwargs.update(
+                {"stdin": sys.stdin, "stdout": sys.stdout, "stderr": sys.stderr}
+            )
         if subprocess_args:
             kwargs.update(subprocess_args)
         popen = subprocess.Popen(args, **kwargs)
@@ -75,9 +73,7 @@ class Executables(object):
 
         if exit_code != 0 and fail_on_error:
             raise NonZeroExitCodeException(
-                "{0} returned non-zero exit code: {1}".format(
-                    args[0], exit_code
-                )
+                "{0} returned non-zero exit code: {1}".format(args[0], exit_code)
             )
         return exit_code, out, err
 
@@ -90,22 +86,19 @@ class Executables(object):
             extras += "os.chdir({0})".format(execution_dir)
 
         bin_script = BIN_SCRIPT_TEMPLATE.format(
-            body=body,
-            extras=extras,
-            python_version=self._get_python_version()
+            body=body, extras=extras, python_version=self._get_python_version()
         )
 
         target_path = os.path.join(self.root, name)
 
-        with open(target_path, 'w+') as fh:
+        with open(target_path, "w+") as fh:
             fh.write(bin_script)
 
         _make_executable(target_path)
 
     def _get_python_version(self):
         return "python{major}.{minor}".format(
-            major=sys.version_info[0],
-            minor=sys.version_info[1]
+            major=sys.version_info[0], minor=sys.version_info[1]
         )
 
 
