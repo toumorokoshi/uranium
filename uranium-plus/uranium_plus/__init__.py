@@ -97,9 +97,7 @@ def test(build):
         [
             "py.test",
             tests_root,
-            "--cov=" + module,
-            "--cov-config",
-            os.path.join(build.root, "coverage.cfg"),
+            "--cov=" + module
         ]
         + build.options.args
     )
