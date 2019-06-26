@@ -72,11 +72,12 @@ def publish(build):
     build.packages.install("wheel")
     build.packages.install("twine")
     build.executables.run(
-        ["python", "setup.py"]
+        ["python", os.path.join(build.root, "setup.py")]
         + config["distribution_types"]
-        + config["additional_args"]
+        + config["additional_args"],
+        subprocess_args={"cwd": build.root},
     )
-    build.executables.run(["twine", "upload", "dist/*"])
+    build.executables.run(["twine", "upload", "../dist/*"])
 
 
 @task_requires("main")
@@ -86,9 +87,6 @@ def test(build):
     """
     config = build.config["uranium-plus"]["test"]
     module = build.config["uranium-plus"]["module"]
-    tests_root = config.get(
-        "tests_directory", os.path.join(build.root, module, "tests")
-    )
     build.packages.install("pytest")
     build.packages.install("pytest-cov")
     for package in config["packages"]:
@@ -96,8 +94,11 @@ def test(build):
     build.executables.run(
         [
             "py.test",
-            tests_root,
-            "--cov=" + module
+            os.path.join(build.root, "tests"),
+            "--cov",
+            module,
+            "--cov-config",
+            os.path.join(build.root, "coverage.cfg"),
         ]
         + build.options.args
     )

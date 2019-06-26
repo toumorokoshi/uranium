@@ -18,7 +18,6 @@ class Sandbox(object):
     def initialize(self):
         install_virtualenv(self._root)
         self._initialized = True
-        # self.execute("easy_install", ["pip"])
 
     def execute(self, executable_name, args=None, link_pipes=False):
         executable = os.path.join(self._root, "bin", executable_name)
@@ -50,7 +49,6 @@ class Sandbox(object):
         pass
 
     def finalize(self, activate_content=""):
-        virtualenv.make_environment_relocatable(self._root)
         write_activate_this(self._root, additional_content=activate_content)
 
     def symlink_targets(self, target):

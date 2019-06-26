@@ -1,9 +1,10 @@
+import os
+import pkg_resources
 from ..lib.asserts import get_assert_function
 from ..lib.compat import invalidate_caches
 from ..exceptions import PackageException
-from .install_command import install, uninstall
 from .versions import Versions
-import os
+from .pippuppet import PipPuppet
 import virtualenv
 
 p_assert = get_assert_function(PackageException)
@@ -20,8 +21,11 @@ class Packages(object):
     """
 
     def __init__(self, virtualenv_dir=None):
-        self._virtualenv_dir = virtualenv_dir
+        self._virtualenv_dir = virtualenv_dir or os.curdir
+        pip_executable = os.path.join(self._virtualenv_dir, "bin", "pip")
+        self._pip = PipPuppet(pip_executable, virtualenv_dir=virtualenv_dir)
         self._versions = Versions()
+        self._constraints = Versions()
         self._index_urls = list(DEFAULT_INDEX_URLS)
         self.config = {}
 
@@ -29,11 +33,8 @@ class Packages(object):
     def versions(self):
         """versions is a dictionary object of <package_name, version_spec> pairs.
 
-        when a request is made to install a package, it will use the
-        version specified in this dictionary.
-
-        * if the package installation specifies a version, it will override
-        the version specified here.
+        this will be a live record of versions as they are installed, and
+        will be updated immediately after modifications to the packages set.
 
         .. code:: python
 
@@ -46,6 +47,19 @@ class Packages(object):
         # TODO: create a version dictionary,
         # to assert version specs.
         return self._versions
+
+    @property
+    def constraints(self):
+        """constraints is a dictionary object of <package_name, version_spec> pairs.
+
+        constraints is used to specify versions that must be used if a package is referenced.
+        """
+        return self._constraints
+
+    @property
+    def constraints_as_list(self):
+        """ constraints, specified as a list of constraint syntax. """
+        return ["{0}{1}".format(k, v) for k, v in self.constraints.items()]
 
     @property
     def index_urls(self):
@@ -61,6 +75,20 @@ class Packages(object):
             isinstance(value, list), "only lists can be set as a value for indexes"
         )
         self._index_urls = value
+
+    def install_list(self, requirement_list, upgrade=False, install_options=None):
+        """ install a list of requirements """
+        self._pip.install(
+            requirements=requirement_list,
+            constraints=self.constraints_as_list,
+            upgrade=upgrade,
+            install_options=install_options,
+        )
+        for package, details in self._pip.installed_packages.items():
+            # this ensures that the package is available for
+            # import immediately afterward
+            pkg_resources.get_distribution(package)
+            self.versions[package] = "==" + details["version"]
 
     def install(
         self, name, version=None, develop=False, upgrade=False, install_options=None
@@ -83,49 +111,18 @@ class Packages(object):
             not (develop and version),
             "unable to set both version and develop flags when installing packages",
         )
-        if name in self.versions:
-            if version is None:
-                version = self.versions[name]
-            del self.versions[name]
-        if self._is_package_already_installed(name, version):
-            return
-        req_set = install(
-            name,
-            upgrade=upgrade,
-            develop=develop,
-            version=version,
-            index_urls=self.index_urls,
-            constraint_dict=self.versions,
-            packages_config=self.config,
-            install_options=install_options,
+        if version is not None:
+            self.constraints[name] = version
+
+        if develop:
+            requirement = "-e " + name
+        elif version:
+            requirement = name + version
+        else:
+            requirement = name
+        self.install_list(
+            [requirement], upgrade=upgrade, install_options=install_options
         )
-        if req_set:
-            for req in req_set.requirements.values():
-                # Don't examine packages that weren't modified
-                if not req.install_succeeded:
-                    continue
-                # Retrieving a package's installed version is time consuming.
-                # Prefer the calculated package specifier if available, and use
-                # the installed version if not.
-                new_constraint = str(req.specifier) if req.specifier else None
-                if not new_constraint:
-                    installed_version = req.installed_version
-                    if installed_version:
-                        new_constraint = "=={}".format(installed_version)
-                if new_constraint:
-                    self.versions[req.name] = new_constraint
-        # if virtualenv dir is set, we should make the environment relocatable.
-        # this will fix issues with commands not being usable by the
-        # uranium via build.executables.run
-        if self._virtualenv_dir:
-            virtualenv.make_environment_relocatable(self._virtualenv_dir)
-        # there's a caveat that requires the site packages to be reloaded,
-        # if the package is a develop package. This is to enable
-        # immediately consuming the package after install.
-        self._reimport_site_packages()
-        # invalidate the finder's cache, to ensure new modules are
-        # picked up
-        invalidate_caches()
 
     def uninstall(self, package_name):
         """
@@ -135,7 +132,11 @@ class Packages(object):
             self._is_package_already_installed(package_name, None),
             "package {package} doesn't exist".format(package=package_name),
         )
-        uninstall(package_name)
+        self._pip.uninstall(package_name)
+        # clear the package from pkg_resources,
+        # which ensures that the correct version / package
+        # is resolved when imported again
+        del pkg_resources.working_set.by_key[package_name]
 
     @staticmethod
     def _reimport_site_packages():
