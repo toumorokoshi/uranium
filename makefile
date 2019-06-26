@@ -9,3 +9,6 @@ publish:
 
 docs:
 	./uranium/scripts/uranium_standalone --uranium-dir=. build_docs
+
+foo:
+	./uranium/scripts/uranium_standalone --uranium-dir=. foo

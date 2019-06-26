@@ -9,6 +9,12 @@ relying on standardization to provide functionality out of the box:
 * a `uranium publish` directive, to publish packages
 * a `uranium main` directive, 
 
+## standard conventions
+
+* your tests live in either a "tests" directory in the root, or in a "tests" directory under your main module.
+* a setup.py file is used to declare your package
+
+
 ## using uranium-plus in your ubuild.py
 
 You can install uranium-plus, then call the provided boostrap function to bootstrap your repo. from that point on,

@@ -13,7 +13,12 @@ base = os.path.dirname(os.path.abspath(__file__))
 with open("README.md") as f:
     long_description = f.read()
 
-install_requires = ["uranium"]
+# uranium is not included as an explicit
+# dependency because it can cause
+# uranium to be re-downloaded publicly at the non-dev
+# version, which occurs when uranium is attempted to be
+# installed as a develop egg
+install_requires = []
 
 setup(
     name="uranium-plus",

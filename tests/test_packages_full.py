@@ -30,7 +30,7 @@ def main(build):
     except Exception:
         exist = False
 
-    assert exist == False
+    assert not exist
 """.strip()
 
 import os
@@ -51,17 +51,14 @@ def test_install(tmpdir):
     assert code == 0
 
 
-def test_install_with_version_dict_updated(tmpdir):
+def test_install_with_constraints_dict_updated(tmpdir):
     UBUILD = """
 def main(build):
 
     build.packages.install("requests", version="==2.15.1")
-    build.packages.versions["requests"] = "==2.18.0"
+    build.packages.constraints["requests"] = "==2.18.0"
     build.packages.install("requests")
-    print(build.packages.versions["requests"])
-
-    import pkg_resources
-    pkg_resources.get_distribution("requests==2.18.0")
+    assert build.packages.versions["requests"] == "==2.18.0"
 """.strip()
 
     tmpdir.join("ubuild.py").write(UBUILD)
@@ -135,35 +132,6 @@ def main(build):
     build.packages.install("nose")
     print(build.packages.versions["nose"])
     print("fooo")
-""".strip()
-
-    # we need to create a virtualenv
-    tmpdir.join("ubuild.py").write(UBUILD)
-    code, out, err = execute_script(
-        "uranium_standalone", "--uranium-dir", URANIUM_SOURCE_ROOT, cwd=tmpdir.strpath
-    )
-    print("stdout:\n" + str(out))
-    print("stderr:\n" + str(err))
-    assert code == 0
-
-
-def test_executable_relocatable_after_install(tmpdir):
-    """
-    an executable installed from a package should be
-    using the virtualenv relocatable version.
-    """
-
-    UBUILD = """
-import os
-
-def main(build):
-
-    build.packages.install("tox")
-    nose_path = os.path.join(build.sandbox_root, "bin", "tox")
-    with open(nose_path) as fh:
-        contents = fh.read()
-    print(contents)
-    assert build.root not in contents
 """.strip()
 
     # we need to create a virtualenv
