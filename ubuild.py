@@ -9,7 +9,10 @@ current_build.config.update(
         "uranium-plus": {
             "module": "uranium",
             "publish": {"additional_args": ["--release"]},
-            "test": {"packages": ["httpretty"]},
+            "test": {
+                "packages": ["httpretty"],
+                "tests_directory": os.path.join(build.root, "tests"),
+            },
         }
     }
 )

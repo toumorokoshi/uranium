@@ -85,6 +85,10 @@ def test(build):
     execute tests using pytest.
     """
     config = build.config["uranium-plus"]["test"]
+    module = build.config["uranium-plus"]["module"]
+    tests_root = config.get(
+        "tests_directory", os.path.join(build.root, module, "tests")
+    )
     build.packages.install("pytest")
     build.packages.install("pytest-cov")
     for package in config["packages"]:
@@ -92,9 +96,8 @@ def test(build):
     build.executables.run(
         [
             "py.test",
-            os.path.join(build.root, "tests"),
-            "--cov",
-            build.config["uranium-plus"]["module"],
+            tests_root,
+            "--cov=" + module,
             "--cov-config",
             os.path.join(build.root, "coverage.cfg"),
         ]
