@@ -184,7 +184,9 @@ class Build(object):
     def include(self, script_path, cache=False):
         """ executes the script at the specified path. """
         if cache and self._cache_requests:
-            cache_dir = os.path.join(self.sandbox_root, self.URANIUM_CACHE_DIR, "include_cache")
+            cache_dir = os.path.join(
+                self.sandbox_root, self.URANIUM_CACHE_DIR, "include_cache"
+            )
         else:
             cache_dir = None
         get_remote_script(script_path, local_vars={"build": self}, cache_dir=cache_dir)

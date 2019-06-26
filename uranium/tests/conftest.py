@@ -6,7 +6,7 @@ from uranium.history import History
 from uranium.build import Build
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-URANIUM_SOURCE_ROOT = os.path.dirname(BASE)
+URANIUM_SOURCE_ROOT = os.path.dirname(os.path.dirname(BASE))
 
 
 @pytest.fixture

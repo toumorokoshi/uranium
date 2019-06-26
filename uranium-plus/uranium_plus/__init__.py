@@ -53,6 +53,8 @@ def main(build):
     common build provided by uranium-main
     """
     build.packages.install(build.root, develop=True)
+    for package in build.config["uranium-plus"]["test"]["packages"]:
+        build.packages.install(package)
 
 
 def publish(build):
@@ -69,8 +71,6 @@ def publish(build):
         at the end of the setup.py call.
     """
     config = build.config["uranium-plus"]["publish"]
-    build.packages.install("wheel")
-    build.packages.install("twine")
     build.executables.run(
         ["python", os.path.join(build.root, "setup.py")]
         + config["distribution_types"]
@@ -87,19 +87,8 @@ def test(build):
     """
     config = build.config["uranium-plus"]["test"]
     module = build.config["uranium-plus"]["module"]
-    build.packages.install("pytest")
-    build.packages.install("pytest-cov")
-    for package in config["packages"]:
-        build.packages.install(package)
     build.executables.run(
-        [
-            "py.test",
-            os.path.join(build.root, "tests"),
-            "--cov",
-            module,
-            "--cov-config",
-            os.path.join(build.root, "coverage.cfg"),
-        ]
+        ["py.test", os.path.join(build.root, module, "tests"), "--cov", module]
         + build.options.args
     )
 
@@ -107,9 +96,6 @@ def test(build):
 @task_requires("main")
 def build_docs(build):
     """ build documentation """
-    build.packages.install("Babel")
-    build.packages.install("Sphinx")
-    build.packages.install("sphinx_rtd_theme")
     return build.executables.run(
         ["sphinx-build", "docs", os.path.join("docs", "_build")] + build.options.args
     )[0]

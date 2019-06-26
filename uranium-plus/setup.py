@@ -18,7 +18,18 @@ with open("README.md") as f:
 # uranium to be re-downloaded publicly at the non-dev
 # version, which occurs when uranium is attempted to be
 # installed as a develop egg
-install_requires = []
+install_requires = [
+    # docs
+    "Babel",
+    "Sphinx",
+    "sphinx_rtd_theme",
+    # test
+    "pytest",
+    "pytest-cov",
+    # publish
+    "wheel",
+    "twine",
+]
 
 setup(
     name="uranium-plus",
