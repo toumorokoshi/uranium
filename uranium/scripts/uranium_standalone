@@ -3,6 +3,12 @@
 # * download and set up a virtualenv
 # * install uranium
 # * run uranium
+#
+# Configuration is available via command line (./uranium --help will print those results), as well as the following
+# environment variables:
+# URANIUM_VERSION: the version of uranium to install
+#
+# command line arguments take priority over environment variables
 
 VENV_URL = "https://pypi.python.org/packages/source/v/virtualenv/virtualenv-{major}.{minor}.{rev}.tar.gz"
 VENV_MAJOR = 16
@@ -133,7 +139,11 @@ def main(argv):
 
     os.chdir(current_dir)
 
-    _install_uranium(install_dir, uranium_dir=uranium_dir, version=options.version)
+    _install_uranium(
+        install_dir,
+        uranium_dir=uranium_dir,
+        version=(options.version or os.environ.get("URANIUM_VERSION")),
+    )
 
     LOGGER.debug("running uranium...")
     return _run_uranium(install_dir, remaining_args)

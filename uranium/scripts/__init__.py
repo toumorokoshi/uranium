@@ -9,9 +9,9 @@ def execute_script(script_name, *args, **kwargs):
     script_path = os.path.join(BASE, script_name)
     proc = subprocess.Popen(
         [script_path] + list(args),
-        cwd=cwd,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
+        **kwargs
     )
     output, error = proc.communicate()
     status = proc.returncode
