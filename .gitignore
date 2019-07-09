@@ -7,5 +7,5 @@ dist
 VERSION
 .eggs
 # standard egg installation
-**/**.egg-info/**
+**/*.egg-info/**
 **/__pycache__/**
