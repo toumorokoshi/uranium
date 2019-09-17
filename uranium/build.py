@@ -43,7 +43,7 @@ class Build(object):
 
     def __init__(self, root, config=None, with_sandbox=True, cache_requests=True):
         self._root = root
-        self._sandbox_root = os.path.join(root, ".env") if with_sandbox else None
+        self._sandbox_root = os.path.join(root, ".virtualenv") if with_sandbox else None
         self._config = config or Config()
         self._executables = Executables(self.sandbox_root)
         self._hooks = Hooks()

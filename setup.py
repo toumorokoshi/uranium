@@ -14,10 +14,10 @@ install_requires = [
     "coloredlogs==10.0",
     "deepmerge==0.0.4",
     "docopt==0.6.2",
-    "packaging==19.0",
-    "pip==19.1.1",
+    "packaging>=19.0",
+    "pip>=19.2.3",
     "requests==2.22.0",
-    "setuptools==41.0.1",
+    "setuptools>=41.2.0",
     "virtualenv==16.6.0",
 ]
 

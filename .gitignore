@@ -1,5 +1,5 @@
 # uranium
-.env
+.virtualenv
 bin
 build
 dist
