@@ -62,7 +62,7 @@ class PipPuppet(object):
         if install_options:
             for option in install_options:
                 # TODO: reconcile global and install options
-                args += ["--global-option=\"{}\"".format(option)]
+                args += ['--install-option="{}"'.format(option)]
 
         if index_urls:
             args += ["-i", index_urls[0]]
@@ -103,7 +103,9 @@ class PipPuppet(object):
             }
         """
         # requires pip9+
-        package_list = json.loads(self._exec("list", "--format=json").decode("utf-8"))
+        package_list = json.loads(
+            self._exec("list", "--format=json").decode("utf-8")
+        )
         result = {}
         for package_details in package_list:
             name = package_details.pop("name")
