@@ -62,7 +62,7 @@ class PipPuppet(object):
         if install_options:
             for option in install_options:
                 # TODO: reconcile global and install options
-                args += ['--install-option="{}"'.format(option)]
+                args += ["--install-option={}".format(option)]
 
         if index_urls:
             args += ["-i", index_urls[0]]
