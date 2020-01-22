@@ -75,9 +75,16 @@ def publish(build):
         at the end of the setup.py call.
     """
     config = build.config["uranium-plus"]["publish"]
+    distribution_types = []
+    for distribution in config["distribution_types"]:
+        distribution_types += [
+            distribution,
+            "-d",
+            os.path.join(build.sandbox_root, "dist"),
+        ]
     build.executables.run(
         ["python", os.path.join(build.root, "setup.py")]
-        + config["distribution_types"]
+        + distribution_types
         + config["additional_args"],
         subprocess_args={"cwd": build.root},
     )

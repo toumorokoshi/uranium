@@ -2,7 +2,6 @@
 .virtualenv
 bin
 build
-dist
 # vcver
 VERSION
 .eggs

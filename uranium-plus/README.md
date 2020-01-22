@@ -52,7 +52,7 @@ itself, this inclues:
 ### Installing all dependencies and requirements during the main() call.
 
 Developers may go offline at inopportune times. As a result, there should not
-be suprise dependencies that are discovered only when the task is invoked for the 
+be surprise dependencies that are discovered only when the task is invoked for the 
 first time.
 
 uranium-plus moves almost all dependencies to the setup.py, and moves dependencies
