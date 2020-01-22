@@ -1,4 +1,5 @@
 import os
+import shutil
 from uranium import task_requires
 
 
@@ -75,14 +76,17 @@ def publish(build):
     * additional_args: additional arguments to pass to setup.py, appended
         at the end of the setup.py call.
     """
+    dist_path = os.path.join(build.sandbox_root, "dist")
+    # clearing dist_path before the build, to ensure that
+    # older or incorrect packages are not published.
+    if os.path.exists(dist_path):
+        shutil.rmtree(dist_path)
+
     config = build.config["uranium-plus"]["publish"]
     distribution_types = []
+
     for distribution in config["distribution_types"]:
-        distribution_types += [
-            distribution,
-            "-d",
-            os.path.join(build.sandbox_root, "dist"),
-        ]
+        distribution_types += [distribution, "-d", dist_path]
     build.executables.run(
         ["python", os.path.join(build.root, "setup.py")]
         + distribution_types
