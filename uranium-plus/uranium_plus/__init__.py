@@ -46,8 +46,9 @@ def bootstrap(build):
             }
         }
     )
-    build.tasks.add(main)
     build.tasks.add(build_docs)
+    build.tasks.add(deps)
+    build.tasks.add(main)
     build.tasks.add(publish)
     build.tasks.add(test)
 
@@ -111,3 +112,11 @@ def build_docs(build):
         ["sphinx-build", "docs", os.path.join("docs", "_build")]
         + build.options.args
     )[0]
+
+
+@task_requires("main")
+def deps(build):
+    """ Print all installed packages and their relationship
+    with their dependencies, using pipdeptree """
+    build.packages.install("pipdeptree")
+    build.executables.run(["pipedeptree"])
