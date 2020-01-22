@@ -35,7 +35,11 @@ def bootstrap(build):
         {
             "uranium-plus": {
                 "publish": {
-                    "distribution_types": ["sdist", "bdist_wheel", "--universal"],
+                    "distribution_types": [
+                        "sdist",
+                        "bdist_wheel",
+                        "--universal",
+                    ],
                     "additional_args": [],
                 },
                 "test": {"packages": []},
@@ -77,7 +81,7 @@ def publish(build):
         + config["additional_args"],
         subprocess_args={"cwd": build.root},
     )
-    build.executables.run(["twine", "upload", "../dist/*"])
+    build.executables.run(["twine", "upload", "./dist/*"])
 
 
 @task_requires("main")
@@ -97,5 +101,6 @@ def test(build):
 def build_docs(build):
     """ build documentation """
     return build.executables.run(
-        ["sphinx-build", "docs", os.path.join("docs", "_build")] + build.options.args
+        ["sphinx-build", "docs", os.path.join("docs", "_build")]
+        + build.options.args
     )[0]

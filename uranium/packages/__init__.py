@@ -83,7 +83,7 @@ class Packages(object):
             constraints=self.constraints_as_list,
             upgrade=upgrade,
             install_options=install_options,
-            index_urls=self.index_urls
+            index_urls=self.index_urls,
         )
         for package, details in self._pip.installed_packages.items():
             # this ensures that the package is available for

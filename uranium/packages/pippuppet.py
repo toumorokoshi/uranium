@@ -103,9 +103,7 @@ class PipPuppet(object):
             }
         """
         # requires pip9+
-        package_list = json.loads(
-            self._exec("list", "--format=json").decode("utf-8")
-        )
+        package_list = json.loads(self._exec("list", "--format=json").decode("utf-8"))
         result = {}
         for package_details in package_list:
             name = package_details.pop("name")
