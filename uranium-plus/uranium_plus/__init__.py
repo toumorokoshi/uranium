@@ -63,6 +63,7 @@ def main(build):
         build.packages.install(package)
 
 
+@task_requires("main")
 def publish(build):
     """ 
     Distribute the package. This assumes the use

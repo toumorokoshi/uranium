@@ -13,6 +13,7 @@ relying on standardization to provide functionality out of the box:
 
 * your tests live in either in a "tests" directory under your main module.
 * a setup.py file is used to declare your package
+* the main task can be overriden with any setup required to publish the application.
 
 
 ## using uranium-plus in your ubuild.py
