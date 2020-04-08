@@ -15,18 +15,20 @@ def install_virtualenv(install_dir):
     if is_virtualenv(install_dir):
         return
 
-    subprocess.call([
-        sys.executable,
-        virtualenv.__file__.rstrip("c"),
-        "--no-site-packages",
-        "--always-copy",
-        install_dir
-    ])
+    subprocess.call(
+        [
+            sys.executable,
+            virtualenv.__file__.rstrip("c"),
+            "--no-site-packages",
+            "--always-copy",
+            "--never-download",
+            install_dir,
+        ]
+    )
     write_activate_this(install_dir)
 
-VIRTUALENV_FILES = {
-    'activate file': os.path.join('bin', 'activate')
-}
+
+VIRTUALENV_FILES = {"activate file": os.path.join("bin", "activate")}
 
 
 def is_virtualenv(path):
