@@ -111,7 +111,7 @@ parser.add_option(
 )
 parser.add_option("--version", help="specify the version of uranium to install.")
 
-URANIUM_TARGET = os.path.join(".virtualenv", ".uranium")
+URANIUM_TARGET = os.path.join(".venv", ".uranium")
 
 
 def main(argv):

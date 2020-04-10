@@ -1,5 +1,5 @@
 # uranium
-.virtualenv
+.venv
 bin
 build
 # vcver
