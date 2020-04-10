@@ -6,7 +6,7 @@ from uranium import task_requires
 def bootstrap(build):
     """
     bootstrap the uranium build file
-    with tasks, based on configuration exposed in the 
+    with tasks, based on configuration exposed in the
     build.config.
 
     all configuration for uranium-plus is namespaced
@@ -65,7 +65,7 @@ def main(build):
 
 @task_requires("main")
 def publish(build):
-    """ 
+    """
     Distribute the package. This assumes the use
     of setuptools and the setup.py file.
 
@@ -99,7 +99,7 @@ def publish(build):
 
 @task_requires("main")
 def test(build):
-    """ 
+    """
     execute tests using pytest.
     """
     config = build.config["uranium-plus"]["test"]
@@ -114,7 +114,7 @@ def test(build):
 def build_docs(build):
     """ build documentation """
     return build.executables.run(
-        ["sphinx-build", "docs", os.path.join("docs", "_build")]
+        ["sphinx-build", os.path.join(build.root, "docs"), os.path.join(build.sandbox_root, "build", "docs")]
         + build.options.args
     )[0]
 

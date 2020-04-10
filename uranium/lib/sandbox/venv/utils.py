@@ -21,6 +21,7 @@ def install_virtualenv(install_dir):
             virtualenv.__file__.rstrip("c"),
             "--no-site-packages",
             "--always-copy",
+            "--no-download",
             install_dir,
         ]
     )
