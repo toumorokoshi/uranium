@@ -8,3 +8,4 @@ VERSION
 # standard egg installation
 **/*.egg-info/**
 **/__pycache__/**
+*.pyc
