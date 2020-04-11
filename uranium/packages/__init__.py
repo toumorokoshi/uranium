@@ -88,6 +88,8 @@ class Packages(object):
         for package, details in self._pip.installed_packages.items():
             # this ensures that the package is available for
             # import immediately afterward
+            if package in pkg_resources.working_set.by_key:
+                del pkg_resources.working_set.by_key[package]
             pkg_resources.get_distribution(package)
             self.versions[package] = "==" + details["version"]
 
