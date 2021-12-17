@@ -1,6 +1,11 @@
 uranium
 =======
 
+*note*: this project is now deprecated. Please use the new suite of tools to help manage the development flow,
+such as Poetry: https://python-poetry.org/.
+
+See `why-uranium-was-deprecated <>`_
+
 .. image:: https://travis-ci.org/toumorokoshi/uranium.svg?branch=master
     :alt: build status
     :target: https://travis-ci.org/toumorokoshi/uranium
