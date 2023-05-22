@@ -16,7 +16,7 @@ install_requires = [
     "docopt==0.6.2",
     "packaging>=19.0",
     "pip>=19.2.3",
-    "requests==2.22.0",
+    "requests==2.31.0",
     "setuptools>=41.2.0",
     "virtualenv==16.6.0",
 ]
